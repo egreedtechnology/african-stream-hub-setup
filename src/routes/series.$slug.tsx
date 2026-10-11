@@ -11,7 +11,7 @@ export const Route = createFileRoute("/series/$slug")({
     return { video: v };
   },
   head: ({ loaderData, params }) => buildTitleHead(loaderData?.video, "series", params.slug),
-  errorComponent: ({ error }) => <AppLayout><div className="py-20 text-center text-muted-foreground">{error.message}</div></AppLayout>,
+  errorComponent: ({ error }) => <AppLayout><div className="py-20 text-center text-muted-foreground">{(error as Error).message}</div></AppLayout>,
   notFoundComponent: () => (
     <AppLayout>
       <div className="py-20 text-center">
