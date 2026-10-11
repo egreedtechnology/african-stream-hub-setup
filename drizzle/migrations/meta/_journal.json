@@ -36,6 +36,34 @@
       "when": 1791738999945,
       "tag": "0004_media_type_and_follows",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791739031251,
+      "tag": "0005_table_grants",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791739035178,
+      "tag": "0006_tighten_table_grants",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791739039478,
+      "tag": "0007_profile_foreign_keys",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1791739043466,
+      "tag": "0008_restrict_likes_follows_add_follower_count",
+      "breakpoints": true
     }
   ]
 }
