@@ -14,6 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_jobs: {
+        Row: {
+          created_at: string
+          error: string | null
+          finished_at: string | null
+          id: string
+          kind: string
+          started_at: string | null
+          status: string
+          updated_at: string
+          video_id: string
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          kind: string
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+          video_id: string
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          kind?: string
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+          video_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_jobs_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comments: {
         Row: {
           body: string
@@ -155,6 +199,150 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      video_ai_metadata: {
+        Row: {
+          audience: string | null
+          category_suggested: string | null
+          created_at: string
+          detected_language: string | null
+          hashtags: string[] | null
+          industry: string | null
+          key_takeaways: Json | null
+          seo_description: string | null
+          seo_title: string | null
+          social_posts: Json | null
+          summary_long: string | null
+          summary_short: string | null
+          tags: string[] | null
+          topic: string | null
+          transcript_text: string | null
+          updated_at: string
+          video_id: string
+        }
+        Insert: {
+          audience?: string | null
+          category_suggested?: string | null
+          created_at?: string
+          detected_language?: string | null
+          hashtags?: string[] | null
+          industry?: string | null
+          key_takeaways?: Json | null
+          seo_description?: string | null
+          seo_title?: string | null
+          social_posts?: Json | null
+          summary_long?: string | null
+          summary_short?: string | null
+          tags?: string[] | null
+          topic?: string | null
+          transcript_text?: string | null
+          updated_at?: string
+          video_id: string
+        }
+        Update: {
+          audience?: string | null
+          category_suggested?: string | null
+          created_at?: string
+          detected_language?: string | null
+          hashtags?: string[] | null
+          industry?: string | null
+          key_takeaways?: Json | null
+          seo_description?: string | null
+          seo_title?: string | null
+          social_posts?: Json | null
+          summary_long?: string | null
+          summary_short?: string | null
+          tags?: string[] | null
+          topic?: string | null
+          transcript_text?: string | null
+          updated_at?: string
+          video_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "video_ai_metadata_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: true
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      video_captions: {
+        Row: {
+          created_at: string
+          id: string
+          is_default: boolean
+          language: string
+          source: string
+          updated_at: string
+          video_id: string
+          vtt_url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          language: string
+          source?: string
+          updated_at?: string
+          video_id: string
+          vtt_url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          language?: string
+          source?: string
+          updated_at?: string
+          video_id?: string
+          vtt_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "video_captions_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      video_embeddings: {
+        Row: {
+          created_at: string
+          embedding: string
+          model: string
+          source_text: string | null
+          updated_at: string
+          video_id: string
+        }
+        Insert: {
+          created_at?: string
+          embedding: string
+          model?: string
+          source_text?: string | null
+          updated_at?: string
+          video_id: string
+        }
+        Update: {
+          created_at?: string
+          embedding?: string
+          model?: string
+          source_text?: string | null
+          updated_at?: string
+          video_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "video_embeddings_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: true
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       video_likes: {
         Row: {

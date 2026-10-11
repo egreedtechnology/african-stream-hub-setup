@@ -64,6 +64,27 @@
       "when": 1791739043466,
       "tag": "0008_restrict_likes_follows_add_follower_count",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1791739080242,
+      "tag": "0009_captions_ai_metadata_embeddings_jobs",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1791739085159,
+      "tag": "0010_move_vector_to_extensions_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1791739089214,
+      "tag": "0011_captions_storage_policies",
+      "breakpoints": true
     }
   ]
 }
