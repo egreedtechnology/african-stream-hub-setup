@@ -14,6 +14,119 @@ export type Database = {
   }
   public: {
     Tables: {
+      comments: {
+        Row: {
+          body: string
+          created_at: string
+          edited: boolean
+          id: string
+          updated_at: string
+          user_id: string
+          video_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          edited?: boolean
+          id?: string
+          updated_at?: string
+          user_id: string
+          video_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          edited?: boolean
+          id?: string
+          updated_at?: string
+          user_id?: string
+          video_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      follows: {
+        Row: {
+          created_at: string
+          follower_id: string
+          following_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          follower_id: string
+          following_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          follower_id?: string
+          following_id?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          banner_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          banner_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+          updated_at?: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          banner_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       video_likes: {
         Row: {
           created_at: string
@@ -32,15 +145,118 @@ export type Database = {
         }
         Relationships: []
       }
+      video_progress: {
+        Row: {
+          muted: boolean
+          position_seconds: number
+          subtitle_lang: string | null
+          updated_at: string
+          user_id: string
+          video_id: string
+        }
+        Insert: {
+          muted?: boolean
+          position_seconds?: number
+          subtitle_lang?: string | null
+          updated_at?: string
+          user_id: string
+          video_id: string
+        }
+        Update: {
+          muted?: boolean
+          position_seconds?: number
+          subtitle_lang?: string | null
+          updated_at?: string
+          user_id?: string
+          video_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "video_progress_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      videos: {
+        Row: {
+          category: Database["public"]["Enums"]["video_category"]
+          created_at: string
+          description: string | null
+          duration_seconds: number | null
+          id: string
+          language: Database["public"]["Enums"]["video_language"]
+          likes: number
+          media_type: Database["public"]["Enums"]["media_type"]
+          owner_id: string
+          status: Database["public"]["Enums"]["video_status"]
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          video_url: string
+          views: number
+          visibility: Database["public"]["Enums"]["video_visibility"]
+        }
+        Insert: {
+          category?: Database["public"]["Enums"]["video_category"]
+          created_at?: string
+          description?: string | null
+          duration_seconds?: number | null
+          id?: string
+          language?: Database["public"]["Enums"]["video_language"]
+          likes?: number
+          media_type?: Database["public"]["Enums"]["media_type"]
+          owner_id: string
+          status?: Database["public"]["Enums"]["video_status"]
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          video_url: string
+          views?: number
+          visibility?: Database["public"]["Enums"]["video_visibility"]
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["video_category"]
+          created_at?: string
+          description?: string | null
+          duration_seconds?: number | null
+          id?: string
+          language?: Database["public"]["Enums"]["video_language"]
+          likes?: number
+          media_type?: Database["public"]["Enums"]["media_type"]
+          owner_id?: string
+          status?: Database["public"]["Enums"]["video_status"]
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          video_url?: string
+          views?: number
+          visibility?: Database["public"]["Enums"]["video_visibility"]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "creator" | "user"
+      media_type: "video" | "audio"
+      video_category: "Music" | "Comedy" | "Films" | "Agasobanuye"
+      video_language: "Kinyarwanda" | "Swahili" | "English"
+      video_status: "processing" | "ready" | "failed"
+      video_visibility: "public" | "unlisted" | "private"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -167,6 +383,13 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "creator", "user"],
+      media_type: ["video", "audio"],
+      video_category: ["Music", "Comedy", "Films", "Agasobanuye"],
+      video_language: ["Kinyarwanda", "Swahili", "English"],
+      video_status: ["processing", "ready", "failed"],
+      video_visibility: ["public", "unlisted", "private"],
+    },
   },
 } as const
