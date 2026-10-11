@@ -10,33 +10,479 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as MoviesRouteImport } from './routes/movies'
+import { Route as MusicRouteImport } from './routes/music'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ShortsRouteImport } from './routes/shorts'
+import { Route as SitemapCountriesDotxmlRouteImport } from './routes/sitemap-countries[.]xml'
+import { Route as SitemapCreatorsDotxmlRouteImport } from './routes/sitemap-creators[.]xml'
+import { Route as SitemapGenresDotxmlRouteImport } from './routes/sitemap-genres[.]xml'
+import { Route as SitemapImagesDotxmlRouteImport } from './routes/sitemap-images[.]xml'
+import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
+import { Route as SitemapTitlesDotxmlRouteImport } from './routes/sitemap-titles[.]xml'
+import { Route as SitemapVideosDotxmlRouteImport } from './routes/sitemap-videos[.]xml'
+import { Route as SitemapYearsDotxmlRouteImport } from './routes/sitemap-years[.]xml'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as StudioRouteImport } from './routes/studio'
+import { Route as TrendingRouteImport } from './routes/trending'
+import { Route as UploadRouteImport } from './routes/upload'
+import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
+import { Route as CUsernameRouteImport } from './routes/c.$username'
+import { Route as CountryCountryRouteImport } from './routes/country.$country'
+import { Route as DocumentarySlugRouteImport } from './routes/documentary.$slug'
+import { Route as DramaSlugRouteImport } from './routes/drama.$slug'
+import { Route as GenreGenreRouteImport } from './routes/genre.$genre'
+import { Route as ImgSplatRouteImport } from './routes/img.$'
+import { Route as MovieSlugRouteImport } from './routes/movie.$slug'
+import { Route as SeriesSlugRouteImport } from './routes/series.$slug'
+import { Route as TvSlugRouteImport } from './routes/tv.$slug'
+import { Route as WatchVideoIdRouteImport } from './routes/watch.$videoId'
+import { Route as YearYearRouteImport } from './routes/year.$year'
+import { Route as ApiPublicSitemapPingRouteImport } from './routes/api/public/sitemap-ping'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MoviesRoute = MoviesRouteImport.update({
+  id: '/movies',
+  path: '/movies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MusicRoute = MusicRouteImport.update({
+  id: '/music',
+  path: '/music',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShortsRoute = ShortsRouteImport.update({
+  id: '/shorts',
+  path: '/shorts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapCountriesDotxmlRoute = SitemapCountriesDotxmlRouteImport.update({
+  id: '/sitemap-countries.xml',
+  path: '/sitemap-countries.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapCreatorsDotxmlRoute = SitemapCreatorsDotxmlRouteImport.update({
+  id: '/sitemap-creators.xml',
+  path: '/sitemap-creators.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapGenresDotxmlRoute = SitemapGenresDotxmlRouteImport.update({
+  id: '/sitemap-genres.xml',
+  path: '/sitemap-genres.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapImagesDotxmlRoute = SitemapImagesDotxmlRouteImport.update({
+  id: '/sitemap-images.xml',
+  path: '/sitemap-images.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapPagesDotxmlRoute = SitemapPagesDotxmlRouteImport.update({
+  id: '/sitemap-pages.xml',
+  path: '/sitemap-pages.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapTitlesDotxmlRoute = SitemapTitlesDotxmlRouteImport.update({
+  id: '/sitemap-titles.xml',
+  path: '/sitemap-titles.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapVideosDotxmlRoute = SitemapVideosDotxmlRouteImport.update({
+  id: '/sitemap-videos.xml',
+  path: '/sitemap-videos.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapYearsDotxmlRoute = SitemapYearsDotxmlRouteImport.update({
+  id: '/sitemap-years.xml',
+  path: '/sitemap-years.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrendingRoute = TrendingRouteImport.update({
+  id: '/trending',
+  path: '/trending',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UploadRoute = UploadRouteImport.update({
+  id: '/upload',
+  path: '/upload',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnimeSlugRoute = AnimeSlugRouteImport.update({
+  id: '/anime/$slug',
+  path: '/anime/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CUsernameRoute = CUsernameRouteImport.update({
+  id: '/c/$username',
+  path: '/c/$username',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CountryCountryRoute = CountryCountryRouteImport.update({
+  id: '/country/$country',
+  path: '/country/$country',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentarySlugRoute = DocumentarySlugRouteImport.update({
+  id: '/documentary/$slug',
+  path: '/documentary/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DramaSlugRoute = DramaSlugRouteImport.update({
+  id: '/drama/$slug',
+  path: '/drama/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GenreGenreRoute = GenreGenreRouteImport.update({
+  id: '/genre/$genre',
+  path: '/genre/$genre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImgSplatRoute = ImgSplatRouteImport.update({
+  id: '/img/$',
+  path: '/img/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MovieSlugRoute = MovieSlugRouteImport.update({
+  id: '/movie/$slug',
+  path: '/movie/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SeriesSlugRoute = SeriesSlugRouteImport.update({
+  id: '/series/$slug',
+  path: '/series/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TvSlugRoute = TvSlugRouteImport.update({
+  id: '/tv/$slug',
+  path: '/tv/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WatchVideoIdRoute = WatchVideoIdRouteImport.update({
+  id: '/watch/$videoId',
+  path: '/watch/$videoId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YearYearRoute = YearYearRouteImport.update({
+  id: '/year/$year',
+  path: '/year/$year',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicSitemapPingRoute = ApiPublicSitemapPingRouteImport.update({
+  id: '/api/public/sitemap-ping',
+  path: '/api/public/sitemap-ping',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/movies': typeof MoviesRoute
+  '/music': typeof MusicRoute
+  '/profile': typeof ProfileRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/search': typeof SearchRoute
+  '/settings': typeof SettingsRoute
+  '/shorts': typeof ShortsRoute
+  '/sitemap-countries.xml': typeof SitemapCountriesDotxmlRoute
+  '/sitemap-creators.xml': typeof SitemapCreatorsDotxmlRoute
+  '/sitemap-genres.xml': typeof SitemapGenresDotxmlRoute
+  '/sitemap-images.xml': typeof SitemapImagesDotxmlRoute
+  '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
+  '/sitemap-titles.xml': typeof SitemapTitlesDotxmlRoute
+  '/sitemap-videos.xml': typeof SitemapVideosDotxmlRoute
+  '/sitemap-years.xml': typeof SitemapYearsDotxmlRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/studio': typeof StudioRoute
+  '/trending': typeof TrendingRoute
+  '/upload': typeof UploadRoute
+  '/anime/$slug': typeof AnimeSlugRoute
+  '/c/$username': typeof CUsernameRoute
+  '/country/$country': typeof CountryCountryRoute
+  '/documentary/$slug': typeof DocumentarySlugRoute
+  '/drama/$slug': typeof DramaSlugRoute
+  '/genre/$genre': typeof GenreGenreRoute
+  '/img/$': typeof ImgSplatRoute
+  '/movie/$slug': typeof MovieSlugRoute
+  '/series/$slug': typeof SeriesSlugRoute
+  '/tv/$slug': typeof TvSlugRoute
+  '/watch/$videoId': typeof WatchVideoIdRoute
+  '/year/$year': typeof YearYearRoute
+  '/api/public/sitemap-ping': typeof ApiPublicSitemapPingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/movies': typeof MoviesRoute
+  '/music': typeof MusicRoute
+  '/profile': typeof ProfileRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/search': typeof SearchRoute
+  '/settings': typeof SettingsRoute
+  '/shorts': typeof ShortsRoute
+  '/sitemap-countries.xml': typeof SitemapCountriesDotxmlRoute
+  '/sitemap-creators.xml': typeof SitemapCreatorsDotxmlRoute
+  '/sitemap-genres.xml': typeof SitemapGenresDotxmlRoute
+  '/sitemap-images.xml': typeof SitemapImagesDotxmlRoute
+  '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
+  '/sitemap-titles.xml': typeof SitemapTitlesDotxmlRoute
+  '/sitemap-videos.xml': typeof SitemapVideosDotxmlRoute
+  '/sitemap-years.xml': typeof SitemapYearsDotxmlRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/studio': typeof StudioRoute
+  '/trending': typeof TrendingRoute
+  '/upload': typeof UploadRoute
+  '/anime/$slug': typeof AnimeSlugRoute
+  '/c/$username': typeof CUsernameRoute
+  '/country/$country': typeof CountryCountryRoute
+  '/documentary/$slug': typeof DocumentarySlugRoute
+  '/drama/$slug': typeof DramaSlugRoute
+  '/genre/$genre': typeof GenreGenreRoute
+  '/img/$': typeof ImgSplatRoute
+  '/movie/$slug': typeof MovieSlugRoute
+  '/series/$slug': typeof SeriesSlugRoute
+  '/tv/$slug': typeof TvSlugRoute
+  '/watch/$videoId': typeof WatchVideoIdRoute
+  '/year/$year': typeof YearYearRoute
+  '/api/public/sitemap-ping': typeof ApiPublicSitemapPingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/movies': typeof MoviesRoute
+  '/music': typeof MusicRoute
+  '/profile': typeof ProfileRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/search': typeof SearchRoute
+  '/settings': typeof SettingsRoute
+  '/shorts': typeof ShortsRoute
+  '/sitemap-countries.xml': typeof SitemapCountriesDotxmlRoute
+  '/sitemap-creators.xml': typeof SitemapCreatorsDotxmlRoute
+  '/sitemap-genres.xml': typeof SitemapGenresDotxmlRoute
+  '/sitemap-images.xml': typeof SitemapImagesDotxmlRoute
+  '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
+  '/sitemap-titles.xml': typeof SitemapTitlesDotxmlRoute
+  '/sitemap-videos.xml': typeof SitemapVideosDotxmlRoute
+  '/sitemap-years.xml': typeof SitemapYearsDotxmlRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/studio': typeof StudioRoute
+  '/trending': typeof TrendingRoute
+  '/upload': typeof UploadRoute
+  '/anime/$slug': typeof AnimeSlugRoute
+  '/c/$username': typeof CUsernameRoute
+  '/country/$country': typeof CountryCountryRoute
+  '/documentary/$slug': typeof DocumentarySlugRoute
+  '/drama/$slug': typeof DramaSlugRoute
+  '/genre/$genre': typeof GenreGenreRoute
+  '/img/$': typeof ImgSplatRoute
+  '/movie/$slug': typeof MovieSlugRoute
+  '/series/$slug': typeof SeriesSlugRoute
+  '/tv/$slug': typeof TvSlugRoute
+  '/watch/$videoId': typeof WatchVideoIdRoute
+  '/year/$year': typeof YearYearRoute
+  '/api/public/sitemap-ping': typeof ApiPublicSitemapPingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/llms.txt'
+    | '/movies'
+    | '/music'
+    | '/profile'
+    | '/robots.txt'
+    | '/search'
+    | '/settings'
+    | '/shorts'
+    | '/sitemap-countries.xml'
+    | '/sitemap-creators.xml'
+    | '/sitemap-genres.xml'
+    | '/sitemap-images.xml'
+    | '/sitemap-pages.xml'
+    | '/sitemap-titles.xml'
+    | '/sitemap-videos.xml'
+    | '/sitemap-years.xml'
+    | '/sitemap.xml'
+    | '/studio'
+    | '/trending'
+    | '/upload'
+    | '/anime/$slug'
+    | '/c/$username'
+    | '/country/$country'
+    | '/documentary/$slug'
+    | '/drama/$slug'
+    | '/genre/$genre'
+    | '/img/$'
+    | '/movie/$slug'
+    | '/series/$slug'
+    | '/tv/$slug'
+    | '/watch/$videoId'
+    | '/year/$year'
+    | '/api/public/sitemap-ping'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/llms.txt'
+    | '/movies'
+    | '/music'
+    | '/profile'
+    | '/robots.txt'
+    | '/search'
+    | '/settings'
+    | '/shorts'
+    | '/sitemap-countries.xml'
+    | '/sitemap-creators.xml'
+    | '/sitemap-genres.xml'
+    | '/sitemap-images.xml'
+    | '/sitemap-pages.xml'
+    | '/sitemap-titles.xml'
+    | '/sitemap-videos.xml'
+    | '/sitemap-years.xml'
+    | '/sitemap.xml'
+    | '/studio'
+    | '/trending'
+    | '/upload'
+    | '/anime/$slug'
+    | '/c/$username'
+    | '/country/$country'
+    | '/documentary/$slug'
+    | '/drama/$slug'
+    | '/genre/$genre'
+    | '/img/$'
+    | '/movie/$slug'
+    | '/series/$slug'
+    | '/tv/$slug'
+    | '/watch/$videoId'
+    | '/year/$year'
+    | '/api/public/sitemap-ping'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/llms.txt'
+    | '/movies'
+    | '/music'
+    | '/profile'
+    | '/robots.txt'
+    | '/search'
+    | '/settings'
+    | '/shorts'
+    | '/sitemap-countries.xml'
+    | '/sitemap-creators.xml'
+    | '/sitemap-genres.xml'
+    | '/sitemap-images.xml'
+    | '/sitemap-pages.xml'
+    | '/sitemap-titles.xml'
+    | '/sitemap-videos.xml'
+    | '/sitemap-years.xml'
+    | '/sitemap.xml'
+    | '/studio'
+    | '/trending'
+    | '/upload'
+    | '/anime/$slug'
+    | '/c/$username'
+    | '/country/$country'
+    | '/documentary/$slug'
+    | '/drama/$slug'
+    | '/genre/$genre'
+    | '/img/$'
+    | '/movie/$slug'
+    | '/series/$slug'
+    | '/tv/$slug'
+    | '/watch/$videoId'
+    | '/year/$year'
+    | '/api/public/sitemap-ping'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
+  MoviesRoute: typeof MoviesRoute
+  MusicRoute: typeof MusicRoute
+  ProfileRoute: typeof ProfileRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SearchRoute: typeof SearchRoute
+  SettingsRoute: typeof SettingsRoute
+  ShortsRoute: typeof ShortsRoute
+  SitemapCountriesDotxmlRoute: typeof SitemapCountriesDotxmlRoute
+  SitemapCreatorsDotxmlRoute: typeof SitemapCreatorsDotxmlRoute
+  SitemapGenresDotxmlRoute: typeof SitemapGenresDotxmlRoute
+  SitemapImagesDotxmlRoute: typeof SitemapImagesDotxmlRoute
+  SitemapPagesDotxmlRoute: typeof SitemapPagesDotxmlRoute
+  SitemapTitlesDotxmlRoute: typeof SitemapTitlesDotxmlRoute
+  SitemapVideosDotxmlRoute: typeof SitemapVideosDotxmlRoute
+  SitemapYearsDotxmlRoute: typeof SitemapYearsDotxmlRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StudioRoute: typeof StudioRoute
+  TrendingRoute: typeof TrendingRoute
+  UploadRoute: typeof UploadRoute
+  AnimeSlugRoute: typeof AnimeSlugRoute
+  CUsernameRoute: typeof CUsernameRoute
+  CountryCountryRoute: typeof CountryCountryRoute
+  DocumentarySlugRoute: typeof DocumentarySlugRoute
+  DramaSlugRoute: typeof DramaSlugRoute
+  GenreGenreRoute: typeof GenreGenreRoute
+  ImgSplatRoute: typeof ImgSplatRoute
+  MovieSlugRoute: typeof MovieSlugRoute
+  SeriesSlugRoute: typeof SeriesSlugRoute
+  TvSlugRoute: typeof TvSlugRoute
+  WatchVideoIdRoute: typeof WatchVideoIdRoute
+  YearYearRoute: typeof YearYearRoute
+  ApiPublicSitemapPingRoute: typeof ApiPublicSitemapPingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +494,283 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/movies': {
+      id: '/movies'
+      path: '/movies'
+      fullPath: '/movies'
+      preLoaderRoute: typeof MoviesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/music': {
+      id: '/music'
+      path: '/music'
+      fullPath: '/music'
+      preLoaderRoute: typeof MusicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shorts': {
+      id: '/shorts'
+      path: '/shorts'
+      fullPath: '/shorts'
+      preLoaderRoute: typeof ShortsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-countries.xml': {
+      id: '/sitemap-countries.xml'
+      path: '/sitemap-countries.xml'
+      fullPath: '/sitemap-countries.xml'
+      preLoaderRoute: typeof SitemapCountriesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-creators.xml': {
+      id: '/sitemap-creators.xml'
+      path: '/sitemap-creators.xml'
+      fullPath: '/sitemap-creators.xml'
+      preLoaderRoute: typeof SitemapCreatorsDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-genres.xml': {
+      id: '/sitemap-genres.xml'
+      path: '/sitemap-genres.xml'
+      fullPath: '/sitemap-genres.xml'
+      preLoaderRoute: typeof SitemapGenresDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-images.xml': {
+      id: '/sitemap-images.xml'
+      path: '/sitemap-images.xml'
+      fullPath: '/sitemap-images.xml'
+      preLoaderRoute: typeof SitemapImagesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-pages.xml': {
+      id: '/sitemap-pages.xml'
+      path: '/sitemap-pages.xml'
+      fullPath: '/sitemap-pages.xml'
+      preLoaderRoute: typeof SitemapPagesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-titles.xml': {
+      id: '/sitemap-titles.xml'
+      path: '/sitemap-titles.xml'
+      fullPath: '/sitemap-titles.xml'
+      preLoaderRoute: typeof SitemapTitlesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-videos.xml': {
+      id: '/sitemap-videos.xml'
+      path: '/sitemap-videos.xml'
+      fullPath: '/sitemap-videos.xml'
+      preLoaderRoute: typeof SitemapVideosDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-years.xml': {
+      id: '/sitemap-years.xml'
+      path: '/sitemap-years.xml'
+      fullPath: '/sitemap-years.xml'
+      preLoaderRoute: typeof SitemapYearsDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trending': {
+      id: '/trending'
+      path: '/trending'
+      fullPath: '/trending'
+      preLoaderRoute: typeof TrendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/upload': {
+      id: '/upload'
+      path: '/upload'
+      fullPath: '/upload'
+      preLoaderRoute: typeof UploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anime/$slug': {
+      id: '/anime/$slug'
+      path: '/anime/$slug'
+      fullPath: '/anime/$slug'
+      preLoaderRoute: typeof AnimeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/c/$username': {
+      id: '/c/$username'
+      path: '/c/$username'
+      fullPath: '/c/$username'
+      preLoaderRoute: typeof CUsernameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/country/$country': {
+      id: '/country/$country'
+      path: '/country/$country'
+      fullPath: '/country/$country'
+      preLoaderRoute: typeof CountryCountryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documentary/$slug': {
+      id: '/documentary/$slug'
+      path: '/documentary/$slug'
+      fullPath: '/documentary/$slug'
+      preLoaderRoute: typeof DocumentarySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/drama/$slug': {
+      id: '/drama/$slug'
+      path: '/drama/$slug'
+      fullPath: '/drama/$slug'
+      preLoaderRoute: typeof DramaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/genre/$genre': {
+      id: '/genre/$genre'
+      path: '/genre/$genre'
+      fullPath: '/genre/$genre'
+      preLoaderRoute: typeof GenreGenreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/img/$': {
+      id: '/img/$'
+      path: '/img/$'
+      fullPath: '/img/$'
+      preLoaderRoute: typeof ImgSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/movie/$slug': {
+      id: '/movie/$slug'
+      path: '/movie/$slug'
+      fullPath: '/movie/$slug'
+      preLoaderRoute: typeof MovieSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/series/$slug': {
+      id: '/series/$slug'
+      path: '/series/$slug'
+      fullPath: '/series/$slug'
+      preLoaderRoute: typeof SeriesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tv/$slug': {
+      id: '/tv/$slug'
+      path: '/tv/$slug'
+      fullPath: '/tv/$slug'
+      preLoaderRoute: typeof TvSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/watch/$videoId': {
+      id: '/watch/$videoId'
+      path: '/watch/$videoId'
+      fullPath: '/watch/$videoId'
+      preLoaderRoute: typeof WatchVideoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/year/$year': {
+      id: '/year/$year'
+      path: '/year/$year'
+      fullPath: '/year/$year'
+      preLoaderRoute: typeof YearYearRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/sitemap-ping': {
+      id: '/api/public/sitemap-ping'
+      path: '/api/public/sitemap-ping'
+      fullPath: '/api/public/sitemap-ping'
+      preLoaderRoute: typeof ApiPublicSitemapPingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
+  MoviesRoute: MoviesRoute,
+  MusicRoute: MusicRoute,
+  ProfileRoute: ProfileRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SearchRoute: SearchRoute,
+  SettingsRoute: SettingsRoute,
+  ShortsRoute: ShortsRoute,
+  SitemapCountriesDotxmlRoute: SitemapCountriesDotxmlRoute,
+  SitemapCreatorsDotxmlRoute: SitemapCreatorsDotxmlRoute,
+  SitemapGenresDotxmlRoute: SitemapGenresDotxmlRoute,
+  SitemapImagesDotxmlRoute: SitemapImagesDotxmlRoute,
+  SitemapPagesDotxmlRoute: SitemapPagesDotxmlRoute,
+  SitemapTitlesDotxmlRoute: SitemapTitlesDotxmlRoute,
+  SitemapVideosDotxmlRoute: SitemapVideosDotxmlRoute,
+  SitemapYearsDotxmlRoute: SitemapYearsDotxmlRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StudioRoute: StudioRoute,
+  TrendingRoute: TrendingRoute,
+  UploadRoute: UploadRoute,
+  AnimeSlugRoute: AnimeSlugRoute,
+  CUsernameRoute: CUsernameRoute,
+  CountryCountryRoute: CountryCountryRoute,
+  DocumentarySlugRoute: DocumentarySlugRoute,
+  DramaSlugRoute: DramaSlugRoute,
+  GenreGenreRoute: GenreGenreRoute,
+  ImgSplatRoute: ImgSplatRoute,
+  MovieSlugRoute: MovieSlugRoute,
+  SeriesSlugRoute: SeriesSlugRoute,
+  TvSlugRoute: TvSlugRoute,
+  WatchVideoIdRoute: WatchVideoIdRoute,
+  YearYearRoute: YearYearRoute,
+  ApiPublicSitemapPingRoute: ApiPublicSitemapPingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

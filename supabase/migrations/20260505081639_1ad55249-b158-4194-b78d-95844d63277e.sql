@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.bump_video_like_count() FROM PUBLIC, anon, authenticated;

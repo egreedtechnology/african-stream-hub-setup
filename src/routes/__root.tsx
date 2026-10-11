@@ -1,17 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  Outlet,
-  Link,
-  createRootRouteWithContext,
-  useRouter,
-  HeadContent,
-  Scripts,
-  type ErrorComponentProps,
-} from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Toaster } from "sonner";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { SettingsProvider } from "@/contexts/SettingsContext";
+import { IBONA_KEYWORDS } from "@/lib/ibona-keywords";
 
 function NotFoundComponent() {
   return (
@@ -35,78 +28,81 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: ErrorComponentProps) {
-  console.error(error);
-  const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
+const SITE_ORIGIN = "https://rebalive.egreedtech.org";
 
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "African Stream Hub" },
-      {
-        name: "description",
-        content: "African Stream Hub — Nollywood hits, African cinema, music and documentaries in one streaming home.",
-      },
-      { name: "author", content: "African Stream Hub" },
-      { property: "og:title", content: "African Stream Hub" },
-      {
-        property: "og:description",
-        content: "African Stream Hub — Nollywood hits, African cinema, music and documentaries in one streaming home.",
-      },
+      { title: "IBONA — Agasobanuye, Film Nyarwanda, Amakuru & African Music" },
+      { name: "description", content: "IBONA (formerly Rebalive) — the #1 African-first streaming platform for agasobanuye, film nyarwanda, news shorts, comedy, and African music. Watch in Kinyarwanda, English, Swahili, and French. Free to stream and upload." },
+      { name: "keywords", content: IBONA_KEYWORDS },
+      { name: "author", content: "IBONA" },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+      { name: "google-site-verification", content: "" },
+      { property: "og:site_name", content: "IBONA" },
+      { property: "og:title", content: "IBONA — Agasobanuye, Film Nyarwanda & African Music" },
+      { property: "og:description", content: "Stream agasobanuye, film nyarwanda, amakuru, comedy, and African music. The African-first streaming platform — IBONA (Rebalive)." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: SITE_ORIGIN },
+      { property: "og:locale", content: "rw_RW" },
+      { property: "og:locale:alternate", content: "en_US" },
+      { property: "og:locale:alternate", content: "sw_KE" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "IBONA — African-First Streaming" },
+      { name: "twitter:description", content: "Agasobanuye, film nyarwanda, comedy, music and news shorts in Kinyarwanda, Swahili & English." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/RZm7FI59fgbiqTq2M1TcARRKFye2/social-images/social-1777395773732-c3f0a703-0aac-47c4-9249-ebd4e1322db3.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/RZm7FI59fgbiqTq2M1TcARRKFye2/social-images/social-1777395773732-c3f0a703-0aac-47c4-9249-ebd4e1322db3.webp" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://buxlzcsvnrouezmsvald.supabase.co", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://buxlzcsvnrouezmsvald.supabase.co" },
+      { rel: "preconnect", href: "https://storage.googleapis.com", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://storage.googleapis.com" },
+      { rel: "alternate", hrefLang: "rw", href: SITE_ORIGIN },
+      { rel: "alternate", hrefLang: "en", href: SITE_ORIGIN },
+      { rel: "alternate", hrefLang: "sw", href: SITE_ORIGIN },
+      { rel: "alternate", hrefLang: "x-default", href: SITE_ORIGIN },
+    ],
+    scripts: [
       {
-        rel: "stylesheet",
-        href: appCss,
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "IBONA",
+          alternateName: ["Rebalive", "Ibona Rwanda"],
+          url: SITE_ORIGIN,
+          inLanguage: ["rw", "en", "sw", "fr"],
+          potentialAction: {
+            "@type": "SearchAction",
+            target: `${SITE_ORIGIN}/search?q={search_term_string}`,
+            "query-input": "required name=search_term_string",
+          },
+        }),
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "IBONA",
+          alternateName: "Rebalive",
+          url: SITE_ORIGIN,
+          logo: `${SITE_ORIGIN}/favicon.ico`,
+          sameAs: [],
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent,
 });
 
-function RootShell({ children }: { children: ReactNode }) {
+function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -121,12 +117,12 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-    </QueryClientProvider>
+    <AuthProvider>
+      <SettingsProvider>
+        <Outlet />
+        <Toaster theme="dark" position="top-center" richColors closeButton />
+      </SettingsProvider>
+    </AuthProvider>
   );
 }
