@@ -1,5 +1,20 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1791738924203,
+      "tag": "0000_video_likes",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791738928993,
+      "tag": "0001_revoke_like_count_execute",
+      "breakpoints": true
+    }
+  ]
 }
