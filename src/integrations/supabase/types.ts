@@ -151,9 +151,11 @@ export type Database = {
           avatar_url: string | null
           banner_url: string | null
           bio: string | null
+          country: string | null
           created_at: string
           display_name: string | null
           id: string
+          preferred_language: string | null
           updated_at: string
           username: string | null
         }
@@ -161,9 +163,11 @@ export type Database = {
           avatar_url?: string | null
           banner_url?: string | null
           bio?: string | null
+          country?: string | null
           created_at?: string
           display_name?: string | null
           id: string
+          preferred_language?: string | null
           updated_at?: string
           username?: string | null
         }
@@ -171,13 +175,68 @@ export type Database = {
           avatar_url?: string | null
           banner_url?: string | null
           bio?: string | null
+          country?: string | null
           created_at?: string
           display_name?: string | null
           id?: string
+          preferred_language?: string | null
           updated_at?: string
           username?: string | null
         }
         Relationships: []
+      }
+      thumbnail_candidates: {
+        Row: {
+          created_at: string
+          id: string
+          owner_id: string
+          position: number
+          reason: string | null
+          score: number
+          score_breakdown: Json
+          selected: boolean
+          source: string
+          timestamp_seconds: number | null
+          url: string
+          video_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          owner_id: string
+          position?: number
+          reason?: string | null
+          score?: number
+          score_breakdown?: Json
+          selected?: boolean
+          source: string
+          timestamp_seconds?: number | null
+          url: string
+          video_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          owner_id?: string
+          position?: number
+          reason?: string | null
+          score?: number
+          score_breakdown?: Json
+          selected?: boolean
+          source?: string
+          timestamp_seconds?: number | null
+          url?: string
+          video_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "thumbnail_candidates_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "videos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -204,11 +263,14 @@ export type Database = {
         Row: {
           audience: string | null
           category_suggested: string | null
+          chapters: Json | null
           created_at: string
           detected_language: string | null
           hashtags: string[] | null
           industry: string | null
           key_takeaways: Json | null
+          moderation: Json | null
+          moderation_status: string | null
           seo_description: string | null
           seo_title: string | null
           social_posts: Json | null
@@ -223,11 +285,14 @@ export type Database = {
         Insert: {
           audience?: string | null
           category_suggested?: string | null
+          chapters?: Json | null
           created_at?: string
           detected_language?: string | null
           hashtags?: string[] | null
           industry?: string | null
           key_takeaways?: Json | null
+          moderation?: Json | null
+          moderation_status?: string | null
           seo_description?: string | null
           seo_title?: string | null
           social_posts?: Json | null
@@ -242,11 +307,14 @@ export type Database = {
         Update: {
           audience?: string | null
           category_suggested?: string | null
+          chapters?: Json | null
           created_at?: string
           detected_language?: string | null
           hashtags?: string[] | null
           industry?: string | null
           key_takeaways?: Json | null
+          moderation?: Json | null
+          moderation_status?: string | null
           seo_description?: string | null
           seo_title?: string | null
           social_posts?: Json | null
@@ -428,16 +496,23 @@ export type Database = {
       }
       videos: {
         Row: {
+          ai_thumbnail_url: string | null
           category: Database["public"]["Enums"]["video_category"]
+          country: string | null
           created_at: string
           description: string | null
           duration_seconds: number | null
           id: string
+          keywords: string | null
           language: Database["public"]["Enums"]["video_language"]
           likes: number
           media_type: Database["public"]["Enums"]["media_type"]
           owner_id: string
           status: Database["public"]["Enums"]["video_status"]
+          tags: string[] | null
+          thumbnail_generated_at: string | null
+          thumbnail_generation_status: string
+          thumbnail_options: Json
           thumbnail_url: string | null
           title: string
           updated_at: string
@@ -446,16 +521,23 @@ export type Database = {
           visibility: Database["public"]["Enums"]["video_visibility"]
         }
         Insert: {
+          ai_thumbnail_url?: string | null
           category?: Database["public"]["Enums"]["video_category"]
+          country?: string | null
           created_at?: string
           description?: string | null
           duration_seconds?: number | null
           id?: string
+          keywords?: string | null
           language?: Database["public"]["Enums"]["video_language"]
           likes?: number
           media_type?: Database["public"]["Enums"]["media_type"]
           owner_id: string
           status?: Database["public"]["Enums"]["video_status"]
+          tags?: string[] | null
+          thumbnail_generated_at?: string | null
+          thumbnail_generation_status?: string
+          thumbnail_options?: Json
           thumbnail_url?: string | null
           title: string
           updated_at?: string
@@ -464,16 +546,23 @@ export type Database = {
           visibility?: Database["public"]["Enums"]["video_visibility"]
         }
         Update: {
+          ai_thumbnail_url?: string | null
           category?: Database["public"]["Enums"]["video_category"]
+          country?: string | null
           created_at?: string
           description?: string | null
           duration_seconds?: number | null
           id?: string
+          keywords?: string | null
           language?: Database["public"]["Enums"]["video_language"]
           likes?: number
           media_type?: Database["public"]["Enums"]["media_type"]
           owner_id?: string
           status?: Database["public"]["Enums"]["video_status"]
+          tags?: string[] | null
+          thumbnail_generated_at?: string | null
+          thumbnail_generation_status?: string
+          thumbnail_options?: Json
           thumbnail_url?: string | null
           title?: string
           updated_at?: string
@@ -496,6 +585,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      for_you_feed: {
+        Args: { _limit?: number; _user_id: string }
+        Returns: {
+          score: number
+          video_id: string
+        }[]
+      }
       get_follower_count: { Args: { _creator: string }; Returns: number }
       has_role: {
         Args: {
@@ -503,6 +599,17 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      match_videos: {
+        Args: {
+          match_count?: number
+          min_similarity?: number
+          query_embedding: string
+        }
+        Returns: {
+          similarity: number
+          video_id: string
+        }[]
       }
     }
     Enums: {
