@@ -78,14 +78,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "African Stream Hub" },
+      {
+        name: "description",
+        content: "African Stream Hub — Nollywood hits, African cinema, music and documentaries in one streaming home.",
+      },
+      { name: "author", content: "African Stream Hub" },
+      { property: "og:title", content: "African Stream Hub" },
+      {
+        property: "og:description",
+        content: "African Stream Hub — Nollywood hits, African cinema, music and documentaries in one streaming home.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
