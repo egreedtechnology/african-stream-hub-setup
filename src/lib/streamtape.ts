@@ -67,7 +67,7 @@ export async function uploadToStreamtape(file: File): Promise<string> {
 
 export async function verifyStreamtapeCredentials(credentials: StreamtapeCredentials) {
   requireCredentials(credentials);
-  const params = new URLSearchParams(credentials);
+  const params = new URLSearchParams({ login: credentials.login, key: credentials.key });
   const response = await fetch(`https://api.streamtape.com/account/info?${params}`);
   const body = (await response.json()) as StreamtapeApiResponse;
   return response.status === 200 && body.status === 200 && Boolean(body.result?.signup_at);
