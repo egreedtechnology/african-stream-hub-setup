@@ -261,7 +261,7 @@ function UploadPage() {
       setPublishingIds((s) => new Set(s).add(d.id));
       const { error } = await supabase.from("videos").update({ visibility: "public" }).eq("id", d.videoId!);
       setPublishingIds((s) => { const n = new Set(s); n.delete(d.id); return n; });
-      if (error) { fail++; failures.push(`${d.title}: ${error.message}`); }
+      if (error) { fail++; failures.push(`${d.title}: ${(error as Error).message}`); }
       else { ok++; updateItem(d.id, { visibility: "public" }); }
       setBulkProgress((p) => p ? { ...p, done: p.done + 1 } : p);
     }
