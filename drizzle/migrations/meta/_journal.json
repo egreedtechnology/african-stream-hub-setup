@@ -113,6 +113,34 @@
       "when": 1791739142843,
       "tag": "0015_ai_metadata_chapters_moderation",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1791739191100,
+      "tag": "0016_restrict_rpc_and_captions_policies",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1791739193998,
+      "tag": "0017_movie_series_metadata_favorites_bookmarks",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1791739197210,
+      "tag": "0018_view_events_trending_scores",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1791739202883,
+      "tag": "0019_streamtape_app_settings",
+      "breakpoints": true
     }
   ]
 }
