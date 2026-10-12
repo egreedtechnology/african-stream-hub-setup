@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { transcribeVideo, generateVideoMetadata, generateThumbnails, selectThumbnail, getAiStatus } from "@/lib/ai.functions";
 import { importDaddymFilms } from "@/lib/import-daddym.functions";
+import { StreamtapeSettings } from "@/components/admin/StreamtapeSettings";
 import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/studio")({
@@ -181,6 +182,12 @@ function StudioPage() {
           <Stat icon={Heart} label="Total likes" value={totalLikes} />
           <Stat icon={MessageCircle} label="Comments" value={commentCount} />
         </div>
+
+        {isAdmin && (
+          <div className="mb-6">
+            <StreamtapeSettings />
+          </div>
+        )}
 
         {isAdmin && (
           <div className="mb-6 rounded-3xl border border-primary/30 bg-primary/5 p-5">
