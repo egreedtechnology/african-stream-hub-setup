@@ -45,7 +45,7 @@ export function StreamtapeSettings() {
     const trimmedLogin = login.trim();
     const trimmedKey = key.trim();
     if (!trimmedLogin || !trimmedKey) {
-      setMessage({ ok: false, text: "Enter both the Streamtape Login ID and API Key." });
+      setMessage({ ok: false, text: "Enter both the API/FTP Username and API/FTP Password." });
       return;
     }
     setTesting(true);
@@ -113,17 +113,17 @@ export function StreamtapeSettings() {
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="text-sm font-semibold">
-          Streamtape Login ID
+          API/FTP Username
           <div className="relative mt-1.5">
             <KeyRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input value={login} onChange={(e) => setLogin(e.target.value)} disabled={loading || testing || saving} autoComplete="off" className="w-full rounded-xl border border-border bg-background px-9 py-3 text-sm outline-none focus:border-primary disabled:opacity-60" placeholder="Login ID" />
+            <input value={login} onChange={(e) => setLogin(e.target.value)} disabled={loading || testing || saving} autoComplete="off" className="w-full rounded-xl border border-border bg-background px-9 py-3 text-sm outline-none focus:border-primary disabled:opacity-60" placeholder="e.g. 1f8723557fcb7d81edfd" />
           </div>
         </label>
         <label className="text-sm font-semibold">
-          Streamtape API Key
+          API/FTP Password
           <div className="relative mt-1.5">
             <KeyRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input type="password" value={key} onChange={(e) => setKey(e.target.value)} disabled={loading || testing || saving} autoComplete="new-password" className="w-full rounded-xl border border-border bg-background px-9 py-3 text-sm outline-none focus:border-primary disabled:opacity-60" placeholder="API key" />
+            <input type="password" value={key} onChange={(e) => setKey(e.target.value)} disabled={loading || testing || saving} autoComplete="new-password" className="w-full rounded-xl border border-border bg-background px-9 py-3 text-sm outline-none focus:border-primary disabled:opacity-60" placeholder="API/FTP Password from Streamtape account page" />
           </div>
         </label>
       </div>
