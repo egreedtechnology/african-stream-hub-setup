@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CheckCircle2, KeyRound, Loader2, Save, Server, XCircle } from "lucide-react";
+import { CheckCircle2, DownloadCloud, KeyRound, Loader2, Save, Server, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -73,6 +73,45 @@ export function StreamtapeSettings() {
     }
   };
 
+  const [importing, setImporting] = useState(false);
+  const importAll = async () => {
+    const l = login.trim(), k = key.trim();
+    if (!l || !k) { setMessage({ ok: false, text: "Enter both credentials first." }); return; }
+    setImporting(true); setMessage(null);
+    try {
+      const { data: auth } = await supabase.auth.getUser();
+      const uid = auth.user?.id;
+      if (!uid) throw new Error("Sign in first.");
+      const files: { name: string; linkid: string }[] = [];
+      const queue: string[] = [""];
+      while (queue.length) {
+        const folder = queue.shift()!;
+        const u = new URL("https://api.streamtape.com/file/listfolder");
+        u.searchParams.set("login", l); u.searchParams.set("key", k);
+        if (folder) u.searchParams.set("folder", folder);
+        const b = await (await fetch(u)).json();
+        if (b.status !== 200) throw new Error(b.msg || "Streamtape list failed");
+        for (const f of b.result?.folders ?? []) queue.push(f.id);
+        for (const f of b.result?.files ?? []) if (f.linkid) files.push(f);
+      }
+      const urls = files.map((f) => `https://streamtape.com/e/${f.linkid}/`);
+      const { data: existing } = await supabase.from("videos").select("video_url").in("video_url", urls.length ? urls : ["-"]);
+      const have = new Set((existing ?? []).map((r: any) => r.video_url));
+      const rows = files
+        .map((f, i) => ({ owner_id: uid, title: f.name.replace(/\.[a-z0-9]+$/i, "").replace(/[._]+/g, " ").trim() || f.name, video_url: urls[i], status: "ready" as const, visibility: "public" as const }))
+        .filter((r) => !have.has(r.video_url));
+      for (let i = 0; i < rows.length; i += 100) {
+        const { error } = await supabase.from("videos").insert(rows.slice(i, i + 100));
+        if (error) throw error;
+      }
+      const text = `Found ${files.length} Streamtape videos — imported ${rows.length} new, ${files.length - rows.length} already in the library.`;
+      setMessage({ ok: true, text }); toast.success(text);
+    } catch (e: any) {
+      const text = e?.message || "Import failed";
+      setMessage({ ok: false, text }); toast.error("Streamtape import failed", { description: text });
+    } finally { setImporting(false); }
+  };
+
   const saveConfiguration = async () => {
     const trimmedLogin = login.trim();
     const trimmedKey = key.trim();
@@ -141,6 +180,10 @@ export function StreamtapeSettings() {
         <button type="button" onClick={saveConfiguration} disabled={loading || testing || saving} className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold text-primary-foreground disabled:opacity-50" style={{ background: "var(--gradient-brand)" }}>
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
           {saving ? "Saving…" : "Save Configuration"}
+        </button>
+        <button type="button" onClick={importAll} disabled={loading || testing || saving || importing} className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-background px-4 py-2.5 text-sm font-bold text-primary hover:bg-primary/10 disabled:opacity-50">
+          {importing ? <Loader2 className="h-4 w-4 animate-spin" /> : <DownloadCloud className="h-4 w-4" />}
+          {importing ? "Importing…" : "Import all Streamtape videos"}
         </button>
       </div>
     </section>
