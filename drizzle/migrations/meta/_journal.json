@@ -141,6 +141,13 @@
       "when": 1791739202883,
       "tag": "0019_streamtape_app_settings",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1791786323817,
+      "tag": "0020_grant_admin_to_test_user",
+      "breakpoints": true
     }
   ]
 }

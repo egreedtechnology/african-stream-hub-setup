@@ -1,8 +1,8 @@
 [
-  { "capability": "application code", "source": "code archive (african-stream-hub-main.zip)", "outcome": "restore src/, public/, supabase/ into project", "status": "in_progress", "next_action": "copy source excluding .env, lockfiles, .git" },
-  { "capability": "database schema", "source": "21 supabase migrations", "outcome": "apply to Lovable Cloud", "status": "pending", "next_action": "enable Cloud, run migrations" },
-  { "capability": "records", "source": "none attached", "outcome": "pending user export", "status": "pending", "next_action": "request CSV/JSON exports after preview" },
-  { "capability": "auth", "source": "Lovable Cloud auth in export", "outcome": "recreated by Cloud enable", "status": "pending", "next_action": "verify sign-in flow" },
-  { "capability": "streamtape integration", "source": "src/lib/streamtape.ts + app_settings table", "outcome": "admin panel stores credentials; user re-enters login/key", "status": "pending", "next_action": "verify admin settings panel renders; user adds credentials" },
-  { "capability": "seed media files", "source": "public/seed mp4s, public/subtitles", "outcome": "copied with source", "status": "in_progress", "next_action": "copy" }
+  { "capability": "application code", "source": "code archive (african-stream-hub-main.zip)", "outcome": "restored src/, public/, supabase/ into project", "status": "verified", "next_action": "none" },
+  { "capability": "database schema", "source": "21 supabase migrations", "outcome": "applied to Lovable Cloud (drizzle 0000-0020)", "status": "verified", "next_action": "none" },
+  { "capability": "records", "source": "none attached", "outcome": "pending user export", "status": "pending", "next_action": "request CSV/JSON exports of videos/profiles from previous provider" },
+  { "capability": "auth", "source": "Lovable Cloud auth in export", "outcome": "email/password sign-up verified end-to-end; test account created and signed in", "status": "verified", "next_action": "user signs in with their own account; grant admin role" },
+  { "capability": "streamtape integration", "source": "src/lib/streamtape.ts + app_settings table", "outcome": "admin panel mounted in Creator Studio; verified rendering for admin user", "status": "verified", "next_action": "user enters Streamtape Login ID + API Key and clicks Test & Verify" },
+  { "capability": "seed media files", "source": "public/seed mp4s, public/subtitles", "outcome": "copied with source", "status": "verified", "next_action": "none" }
 ]
