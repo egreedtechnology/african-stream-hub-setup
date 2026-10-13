@@ -22,6 +22,9 @@ export function Hero({ video }: { video: Video }) {
         decoding="async"
         className="absolute inset-0 h-full w-full object-cover"
       />
+
+      {/* Commented out local preview player to keep only the Streamtape player active. */}
+      {/*
       {video.previewSrc && (
         <video
           ref={ref}
@@ -35,6 +38,7 @@ export function Hero({ video }: { video: Video }) {
           className="absolute inset-0 h-full w-full object-cover opacity-90"
         />
       )}
+      */}
 
       {/* Gradient layers */}
       <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
