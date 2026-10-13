@@ -9,7 +9,6 @@ import {
 import { AppLayout } from "@/components/AppLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { uploadToStreamtape } from "@/lib/streamtape";
 
 export const Route = createFileRoute("/upload")({
   ssr: false,
@@ -149,7 +148,7 @@ function UploadPage() {
   const [dragOver, setDragOver] = useState(false);
   const [filter, setFilter] = useState<QueueFilter>("all");
   const [storageProvider, setStorageProvider] =
-    useState<StorageProvider>("supabase");
+    useState<StorageProvider>("streamtape");
 
   // Metadata templates (persist locally)
   interface MetaTemplate { id: string; name: string; language: Language; category: Category; description: string; }
@@ -389,8 +388,30 @@ function UploadPage() {
       let videoUrl: string;
 
       if (item.storageProvider === "streamtape") {
-        videoUrl = await uploadToStreamtape(item.file);
-      updateItem(item.id, { progress: 96 });
+        const { getStreamtapeUploadUrl } = await import("@/lib/streamtape.functions");
+        const { url } = await getStreamtapeUploadUrl();
+        const fileId = await new Promise<string>((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", url);
+          xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable) updateItem(item.id, { progress: Math.round((e.loaded / e.total) * 92) });
+          };
+          xhr.onload = () => {
+            try {
+              const b = JSON.parse(xhr.responseText);
+              const id = b?.result?.id || b?.result?.file_id;
+              if (b?.status === 200 && id) resolve(id);
+              else reject(new Error(`Streamtape upload failed: ${b?.msg || xhr.status}`));
+            } catch { reject(new Error("Streamtape upload failed")); }
+          };
+          xhr.onerror = () => reject(new Error("Network error while uploading to Streamtape"));
+          ac.signal.addEventListener("abort", () => { xhr.abort(); reject(new Error("Upload cancelled")); });
+          const fd = new FormData();
+          fd.append("file1", item.file, item.file.name);
+          xhr.send(fd);
+        });
+        videoUrl = `https://streamtape.com/e/${encodeURIComponent(fileId)}/`;
+        updateItem(item.id, { progress: 96 });
       } else {
         // 1) Media file → videos bucket (works for both audio & video — bucket is public)
         const ext = (item.file.name.split(".").pop() || (item.mediaType === "audio" ? "mp3" : "mp4")).toLowerCase();
