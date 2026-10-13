@@ -11,6 +11,18 @@ export const GENRES = [
 ] as const;
 export type Genre = (typeof GENRES)[number];
 
+export const ABASOBANUZI = [
+  "Rocky Kirabiranya",
+  "Junior Giti",
+  "Yanga",
+  "Sankara",
+  "Chris",
+  "Gasongo",
+  "Savimbi",
+  "Gaheza",
+] as const;
+export type Umusemuzi = (typeof ABASOBANUZI)[number];
+
 export const COUNTRIES: Array<{ code: string; name: string }> = [
   { code: "rw", name: "Rwanda" },
   { code: "ke", name: "Kenya" },
