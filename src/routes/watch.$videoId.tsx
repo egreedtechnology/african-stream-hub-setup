@@ -485,7 +485,7 @@ function WatchPage() {
   }, []);
 
   // ── Player controls ────────────────────────────────────────────────────────
- /* const togglePlay = () => {
+  const togglePlay = () => {
     const v = videoRef.current;
     if (!v) return;
     if (v.paused) { v.play(); setPlaying(true); } else { v.pause(); setPlaying(false); }
@@ -506,7 +506,9 @@ function WatchPage() {
         await navigator.share(shareData);
         return;
       }
-    } catch {  }
+    } catch {
+      /* user cancelled */
+    }
     try {
       await navigator.clipboard.writeText(url);
       toast.success("Link copied to clipboard");
@@ -540,12 +542,13 @@ function WatchPage() {
   const source = classifyVideoSource(video.previewSrc);
   const isIframe = source.kind === "iframe";
   const isUnsupported = source.kind === "unsupported";
+  const forceStreamtapeIframe = source.provider === "Streamtape";
+  const shouldRenderNativeVideo = !isIframe && !isUnsupported && !forceStreamtapeIframe;
 
   return (
     <AppLayout>
       <div className="grid lg:grid-cols-[minmax(0,1fr)_360px] gap-6 animate-fade-in">
         <div className="min-w-0">
-          {}
           <div
             ref={playerRef}
             className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black ring-1 ring-border shadow-[var(--shadow-elegant)] group"
@@ -591,7 +594,7 @@ function WatchPage() {
                     rel="noopener"
                     className="absolute right-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1.5 text-xs font-semibold text-foreground backdrop-blur hover:bg-background"
                   >
-                    <ExternalLink className="h-3.5 w-3.5" /> 
+                    <ExternalLink className="h-3.5 w-3.5" /> Open on Streamtape
                   </a>
                 )}
               </>
@@ -616,7 +619,7 @@ function WatchPage() {
                 </a>
               </div>
             )}
-            {!isIframe && !isUnsupported && (
+            {shouldRenderNativeVideo && (
               <video
                 ref={videoRef}
                 src={source.kind === "html5" ? source.src : video.previewSrc}
@@ -668,7 +671,6 @@ function WatchPage() {
                 <div className="h-full w-1/3" style={{ background: "var(--gradient-brand)" }} />
               </div>
 
-              {}
               <button
                 onClick={() => setSubsOn((p) => !p)}
                 title={subsOn ? "Subtitles on — click to turn off" : "Subtitles off — click to turn on"}
@@ -744,9 +746,8 @@ function WatchPage() {
               >
                 <Maximize2 className="h-4 w-4" />
               </button>
-            </div>*/
+            </div>
 
-            {/* Comments overlay panel */}
             {showComments && (
               <div className="absolute inset-y-0 right-0 w-full sm:w-[360px] bg-background/95 backdrop-blur-xl border-l border-border flex flex-col animate-slide-in-right z-20">
                 <div className="flex items-center justify-between p-4 border-b border-border">
@@ -874,7 +875,6 @@ function WatchPage() {
             )}
           </div>
 
-          {/* Title + meta */}
           <div className="mt-5">
             <div className="flex flex-wrap gap-2 mb-3">
               <Tag>{video.category}</Tag>
@@ -998,8 +998,7 @@ function WatchPage() {
         </aside>
       </div>
 
-      {/* Floating mini player */}
-      {showMini && !isIframe && !isUnsupported && (
+      {showMini && !isIframe && !isUnsupported && !forceStreamtapeIframe && (
         <div className="fixed bottom-20 lg:bottom-6 right-4 z-40 w-72 animate-scale-in rounded-xl overflow-hidden ring-1 ring-border shadow-[var(--shadow-elegant)] bg-black">
           <div className="relative aspect-video group">
             <video
@@ -1040,7 +1039,6 @@ function WatchPage() {
         </div>
       )}
 
-      {/* Agasobanuye language panel */}
       {showAgaPanel && (
         <div
           className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-background/80 backdrop-blur-sm animate-fade-in"
