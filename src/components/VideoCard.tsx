@@ -188,8 +188,14 @@ export function VideoCard({ video, size = "default" }: Props) {
       </div>
 
       <div className="mt-3 flex gap-3">
-        <div className="h-9 w-9 shrink-0 rounded-full ring-2 ring-border bg-cover bg-center" style={video.creatorAvatar ? { backgroundImage: `url(${video.creatorAvatar})` } : { background: "var(-[...]
-        } />
+        <div
+          className="h-9 w-9 shrink-0 rounded-full ring-2 ring-border bg-cover bg-center"
+          style={
+            video.creatorAvatar
+              ? { backgroundImage: `url(${video.creatorAvatar})` }
+              : { background: "var(--gradient-brand)" }
+          }
+        />
         <div className="min-w-0 flex-1">
           <h3 className="line-clamp-2 text-sm font-semibold text-foreground leading-snug group-hover:text-primary transition-colors">
             {video.title}
