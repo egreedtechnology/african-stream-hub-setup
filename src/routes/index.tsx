@@ -12,6 +12,7 @@ import { fetchPrioritizedFeed, fetchContinueWatching, fetchVideoById, fetchTopRa
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { forYouFeed } from "@/lib/recommend.functions";
+import { cdnImage } from "@/lib/cdn-image";
 
 export const Route = createFileRoute("/")({
   head: () => ({
