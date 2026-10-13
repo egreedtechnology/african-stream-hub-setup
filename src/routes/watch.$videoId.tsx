@@ -506,7 +506,7 @@ function WatchPage() {
         await navigator.share(shareData);
         return;
       }
-    } catch { /* user cancelled */ }
+    } catch {  }
     try {
       await navigator.clipboard.writeText(url);
       toast.success("Link copied to clipboard");
@@ -545,7 +545,7 @@ function WatchPage() {
     <AppLayout>
       <div className="grid lg:grid-cols-[minmax(0,1fr)_360px] gap-6 animate-fade-in">
         <div className="min-w-0">
-          {/* Player */}
+          {}
           <div
             ref={playerRef}
             className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black ring-1 ring-border shadow-[var(--shadow-elegant)] group"
@@ -591,7 +591,7 @@ function WatchPage() {
                     rel="noopener"
                     className="absolute right-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1.5 text-xs font-semibold text-foreground backdrop-blur hover:bg-background"
                   >
-                    <ExternalLink className="h-3.5 w-3.5" /> Open on Streamtape
+                    <ExternalLink className="h-3.5 w-3.5" /> 
                   </a>
                 )}
               </>
@@ -668,7 +668,7 @@ function WatchPage() {
                 <div className="h-full w-1/3" style={{ background: "var(--gradient-brand)" }} />
               </div>
 
-              {/* Subtitles On/Off + language switcher */}
+              {}
               <button
                 onClick={() => setSubsOn((p) => !p)}
                 title={subsOn ? "Subtitles on — click to turn off" : "Subtitles off — click to turn on"}
