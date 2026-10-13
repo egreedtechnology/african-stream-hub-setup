@@ -22,6 +22,10 @@ export function toEmbedUrl(url: string): { src: string; provider: string; allow?
   if (m) return { src: `https://drive.google.com/file/d/${m[1]}/preview`, provider: "Google Drive", allow: "autoplay; encrypted-media; fullscreen" };
   if (/drive\.google\.com\/.+\/preview/.test(url)) return { src: url, provider: "Google Drive", allow: "autoplay; encrypted-media; fullscreen" };
 
+  // Streamtape — share (/v/) or embed (/e/) links on any Streamtape domain
+  m = url.match(/(?:streamtape\.(?:com|to|net|xyz|cc)|streamta\.pe|strtape\.\w+|stape\.fun)\/(?:v|e)\/([A-Za-z0-9]+)/i);
+  if (m) return { src: `https://streamtape.com/e/${m[1]}/`, provider: "Streamtape", allow: "autoplay; encrypted-media; fullscreen" };
+
   // YouTube
   m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{6,})/);
   if (m) return { src: `https://www.youtube.com/embed/${m[1]}`, provider: "YouTube", allow: "autoplay; encrypted-media; picture-in-picture; fullscreen" };
