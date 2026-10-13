@@ -12,6 +12,7 @@ import { fetchPrioritizedFeed, fetchContinueWatching, fetchVideoById, fetchTopRa
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { forYouFeed } from "@/lib/recommend.functions";
+import { cdnImage } from "@/lib/cdn-image";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -175,7 +176,7 @@ function FeaturedSlider({ slides }: { slides: Video[] }) {
           >
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${s.thumbnail})` }}
+              style={{ backgroundImage: `url(${cdnImage(s.thumbnail)})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8">

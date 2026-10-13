@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Eye, Play, Star } from "lucide-react";
 import type { Video } from "@/data/videos";
 import { useSettings } from "@/contexts/SettingsContext";
-import { cdnImage } from "@/lib/cdn-image";
+import { cdnImage, fallbackCover } from "@/lib/cdn-image";
 
 interface Props {
   video: Video;
@@ -97,6 +97,10 @@ export function VideoCard({ video, size = "default" }: Props) {
           width={1024}
           height={576}
           onLoad={() => setLoaded(true)}
+          onError={(e) => {
+            if (e.currentTarget.src !== fallbackCover) e.currentTarget.src = fallbackCover;
+            setLoaded(true);
+          }}
           className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${showVideo ? "opacity-0 scale-105" : "opacity-100"}`}
         />
         {mountVideo && (
