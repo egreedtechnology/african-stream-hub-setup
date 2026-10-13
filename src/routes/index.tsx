@@ -175,7 +175,7 @@ function FeaturedSlider({ slides }: { slides: Video[] }) {
           >
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${s.thumbnail})` }}
+              style={{ backgroundImage: `url(${cdnImage(s.thumbnail)})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8">
