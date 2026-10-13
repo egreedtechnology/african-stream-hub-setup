@@ -799,6 +799,13 @@ export type Database = {
         }[]
       }
       get_follower_count: { Args: { _creator: string }; Returns: number }
+      get_streamtape_credentials: {
+        Args: never
+        Returns: {
+          key: string
+          value: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
