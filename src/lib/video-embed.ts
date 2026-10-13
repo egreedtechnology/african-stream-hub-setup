@@ -56,13 +56,14 @@ export function toEmbedUrl(url: string): { src: string; provider: string; allow?
 export function classifyVideoSource(url: string | undefined | null): EmbedKind {
   if (!url) return { kind: "unsupported", provider: "unknown", originalUrl: "" };
 
+  // Known embed hosts first (Streamtape share links often end in .mp4)
+  const embed = toEmbedUrl(url);
+  if (embed) return { kind: "iframe", ...embed };
+
   // Direct file
   if (HTML5_EXT.test(url) || url.startsWith("blob:") || url.startsWith("data:")) {
     return { kind: "html5", src: url };
   }
-
-  const embed = toEmbedUrl(url);
-  if (embed) return { kind: "iframe", ...embed };
 
   // MediaFire and similar file-host share pages — cannot be embedded due to X-Frame-Options.
   if (/mediafire\.com/i.test(url)) return { kind: "unsupported", provider: "MediaFire", originalUrl: url };
