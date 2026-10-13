@@ -87,7 +87,8 @@ export function VideoCard({ video, size = "default" }: Props) {
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
-      <div className="relative aspect-video overflow-hidden rounded-2xl bg-surface ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60 group-hover:scale-[1.03] group-hover:shadow-[var(--shadow-elegant)]">
+      <div className="relative aspect-video overflow-hidden rounded-2xl bg-surface ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60 group-hover:scale-[1.03] group-hover:s[...]"
+      >
         {!loaded && <div className="absolute inset-0 animate-pulse bg-surface-elevated" />}
         <img
           src={cdnImage(video.thumbnail)}
@@ -103,6 +104,9 @@ export function VideoCard({ video, size = "default" }: Props) {
           }}
           className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${showVideo ? "opacity-0 scale-105" : "opacity-100"}`}
         />
+
+        {/* Commented out the local HTML5 <video> preview to avoid duplicate players (keep Streamtape player only). */}
+        {/*
         {mountVideo && (
           <video
             ref={vidRef}
@@ -114,6 +118,8 @@ export function VideoCard({ video, size = "default" }: Props) {
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${showVideo ? "opacity-100" : "opacity-0"}`}
           />
         )}
+        */}
+
         <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--gradient-card)" }} />
 
         {/* Top-left badges: category + language + status */}
@@ -182,7 +188,8 @@ export function VideoCard({ video, size = "default" }: Props) {
       </div>
 
       <div className="mt-3 flex gap-3">
-        <div className="h-9 w-9 shrink-0 rounded-full ring-2 ring-border bg-cover bg-center" style={video.creatorAvatar ? { backgroundImage: `url(${video.creatorAvatar})` } : { background: "var(--gradient-brand)" }} />
+        <div className="h-9 w-9 shrink-0 rounded-full ring-2 ring-border bg-cover bg-center" style={video.creatorAvatar ? { backgroundImage: `url(${video.creatorAvatar})` } : { background: "var(-[...]
+        } />
         <div className="min-w-0 flex-1">
           <h3 className="line-clamp-2 text-sm font-semibold text-foreground leading-snug group-hover:text-primary transition-colors">
             {video.title}
