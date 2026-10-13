@@ -573,15 +573,28 @@ function WatchPage() {
               </>
             )}
             {!isAudio && isIframe && (
-              <iframe
-                src={source.src}
-                title={video.title}
-                className="absolute inset-0 h-full w-full"
-                allow={source.allow ?? "autoplay; encrypted-media; fullscreen"}
-                allowFullScreen
-                referrerPolicy="no-referrer"
-                loading="lazy"
-              />
+              <>
+                <iframe
+                  src={source.src}
+                  title={video.title}
+                  className="absolute inset-0 h-full w-full"
+                  allow={source.allow ?? "autoplay; encrypted-media; fullscreen"}
+                  allowFullScreen
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  scrolling="no"
+                  frameBorder={0}
+                />
+                {source.provider === "Streamtape" && (
+                  <a
+                    href={source.src.replace("/e/", "/v/")}
+                    target="_blank"
+                    rel="noopener"
+                    className="absolute right-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1.5 text-xs font-semibold text-foreground backdrop-blur hover:bg-background"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" /> Open on Streamtape
+                  </a>
+                )}
+              </>
             )}
             {!isAudio && isUnsupported && (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center bg-black/60 backdrop-blur-sm">
