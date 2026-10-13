@@ -1,6 +1,9 @@
 // Cached image helper — wraps thumbnails/avatars through the /img/ proxy
 // which sets long-lived immutable CDN cache headers. Falls back to the
-// original URL when the host isn't on the allow-list.
+// original URL when the host isn't on the allow-list, and to a local
+// placeholder cover when no thumbnail exists (e.g. Streamtape imports).
+
+import fallbackCover from "@/assets/thumb-film.jpg";
 
 const PROXY_HOSTS = new Set<string>([
   "buxlzcsvnrouezmsvald.supabase.co",
@@ -10,7 +13,7 @@ const PROXY_HOSTS = new Set<string>([
 ]);
 
 export function cdnImage(url: string | null | undefined): string {
-  if (!url) return "";
+  if (!url) return fallbackCover;
   try {
     const u = new URL(url);
     if (u.protocol === "https:" && PROXY_HOSTS.has(u.hostname)) {
@@ -21,3 +24,5 @@ export function cdnImage(url: string | null | undefined): string {
   }
   return url;
 }
+
+export { fallbackCover };
