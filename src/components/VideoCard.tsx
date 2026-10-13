@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Eye, Play, Star } from "lucide-react";
 import type { Video } from "@/data/videos";
 import { useSettings } from "@/contexts/SettingsContext";
-import { cdnImage } from "@/lib/cdn-image";
+import { cdnImage, fallbackCover } from "@/lib/cdn-image";
 
 interface Props {
   video: Video;
