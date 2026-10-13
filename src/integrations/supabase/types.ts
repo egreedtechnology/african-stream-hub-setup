@@ -652,17 +652,20 @@ export type Database = {
           id: string
           imdb_id: string | null
           imdb_rating: number | null
+          interpreter: string | null
           is_editors_choice: boolean
           is_featured: boolean
           is_top_rated: boolean
           is_trending: boolean
           keywords: string | null
+          kinyarwanda_synopsis: string | null
           language: Database["public"]["Enums"]["video_language"]
           likes: number
           media_type: Database["public"]["Enums"]["media_type"]
           movie_type: string | null
           original_title: string | null
           owner_id: string
+          part_number: number | null
           poster_url: string | null
           quality: string | null
           release_year: number | null
@@ -676,6 +679,7 @@ export type Database = {
           thumbnail_options: Json
           thumbnail_url: string | null
           title: string
+          total_parts: number | null
           trailer_url: string | null
           updated_at: string
           video_url: string
@@ -699,17 +703,20 @@ export type Database = {
           id?: string
           imdb_id?: string | null
           imdb_rating?: number | null
+          interpreter?: string | null
           is_editors_choice?: boolean
           is_featured?: boolean
           is_top_rated?: boolean
           is_trending?: boolean
           keywords?: string | null
+          kinyarwanda_synopsis?: string | null
           language?: Database["public"]["Enums"]["video_language"]
           likes?: number
           media_type?: Database["public"]["Enums"]["media_type"]
           movie_type?: string | null
           original_title?: string | null
           owner_id: string
+          part_number?: number | null
           poster_url?: string | null
           quality?: string | null
           release_year?: number | null
@@ -723,6 +730,7 @@ export type Database = {
           thumbnail_options?: Json
           thumbnail_url?: string | null
           title: string
+          total_parts?: number | null
           trailer_url?: string | null
           updated_at?: string
           video_url: string
@@ -746,17 +754,20 @@ export type Database = {
           id?: string
           imdb_id?: string | null
           imdb_rating?: number | null
+          interpreter?: string | null
           is_editors_choice?: boolean
           is_featured?: boolean
           is_top_rated?: boolean
           is_trending?: boolean
           keywords?: string | null
+          kinyarwanda_synopsis?: string | null
           language?: Database["public"]["Enums"]["video_language"]
           likes?: number
           media_type?: Database["public"]["Enums"]["media_type"]
           movie_type?: string | null
           original_title?: string | null
           owner_id?: string
+          part_number?: number | null
           poster_url?: string | null
           quality?: string | null
           release_year?: number | null
@@ -770,6 +781,7 @@ export type Database = {
           thumbnail_options?: Json
           thumbnail_url?: string | null
           title?: string
+          total_parts?: number | null
           trailer_url?: string | null
           updated_at?: string
           video_url?: string
