@@ -485,7 +485,7 @@ function WatchPage() {
   }, []);
 
   // ── Player controls ────────────────────────────────────────────────────────
-  const togglePlay = () => {
+ /* const togglePlay = () => {
     const v = videoRef.current;
     if (!v) return;
     if (v.paused) { v.play(); setPlaying(true); } else { v.pause(); setPlaying(false); }
@@ -744,7 +744,7 @@ function WatchPage() {
               >
                 <Maximize2 className="h-4 w-4" />
               </button>
-            </div>
+            </div>*/
 
             {/* Comments overlay panel */}
             {showComments && (
