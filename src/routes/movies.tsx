@@ -14,10 +14,10 @@ export const Route = createFileRoute("/movies")({
       { name: "description", content: MOVIES_DESC },
       { property: "og:title", content: "Movies — Film Nyarwanda & African Cinema | IBONA" },
       { property: "og:description", content: MOVIES_DESC },
-      { property: "og:url", content: "https://rebalive.egreedtech.org/movies" },
+      { property: "og:url", content: "https://ibona.egreedtech.org/movies" },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "canonical", href: "https://rebalive.egreedtech.org/movies" }],
+    links: [{ rel: "canonical", href: "https://ibona.egreedtech.org/movies" }],
     scripts: [{
       type: "application/ld+json",
       children: JSON.stringify({
@@ -25,8 +25,8 @@ export const Route = createFileRoute("/movies")({
         "@type": "CollectionPage",
         name: "Movies on IBONA",
         description: MOVIES_DESC,
-        url: "https://rebalive.egreedtech.org/movies",
-        isPartOf: { "@type": "WebSite", name: "IBONA", url: "https://rebalive.egreedtech.org" },
+        url: "https://ibona.egreedtech.org/movies",
+        isPartOf: { "@type": "WebSite", name: "IBONA", url: "https://ibona.egreedtech.org" },
       }),
     }],
   }),
