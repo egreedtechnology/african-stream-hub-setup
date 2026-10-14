@@ -1,3 +1,4 @@
+import { parseTitle } from "@/lib/title-parser";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { notifySitemapUpdated } from "@/lib/sitemap.functions";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -451,7 +452,16 @@ function UploadPage() {
         .from("videos")
         .insert({
           owner_id: user.id,
-          title: item.title.trim() || item.file.name,
+          ...(() => {
+            const m = parseTitle(item.title.trim() || item.file.name);
+            return {
+              title: item.title.trim() || item.file.name,
+              interpreter: m.interpreter ?? null, part_number: m.partNumber ?? 1, total_parts: m.totalParts ?? null,
+              series_slug: m.seriesSlug, release_year: m.releaseYear ?? null, quality: m.quality ?? null,
+              has_agasobanuye: !!m.interpreter || item.category === "Agasobanuye",
+              ...(item.mediaType === "video" ? { movie_type: "movie" } : {}),
+            };
+          })(),
           description: globalDescription.trim(),
           language: item.language,
           category: item.category,

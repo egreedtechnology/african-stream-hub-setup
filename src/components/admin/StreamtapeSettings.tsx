@@ -1,3 +1,4 @@
+import { parseTitle } from "@/lib/title-parser";
 import { useEffect, useState } from "react";
 import { CheckCircle2, DownloadCloud, KeyRound, Loader2, Save, Server, XCircle } from "lucide-react";
 import { toast } from "sonner";
@@ -98,7 +99,16 @@ export function StreamtapeSettings() {
       const { data: existing } = await supabase.from("videos").select("video_url").in("video_url", urls.length ? urls : ["-"]);
       const have = new Set((existing ?? []).map((r: any) => r.video_url));
       const rows = files
-        .map((f, i) => ({ owner_id: uid, title: f.name.replace(/\.[a-z0-9]+$/i, "").replace(/[._]+/g, " ").trim() || f.name, video_url: urls[i], status: "ready" as const, visibility: "public" as const }))
+        .map((f, i) => {
+          const m = parseTitle(f.name);
+          return {
+            owner_id: uid, title: m.partNumber ? `${m.title} — Part ${m.partNumber}` : m.title, original_title: f.name,
+            video_url: urls[i], status: "ready" as const, visibility: "public" as const,
+            category: "Agasobanuye" as const, movie_type: "movie", has_agasobanuye: !!m.interpreter,
+            interpreter: m.interpreter ?? null, part_number: m.partNumber ?? 1, total_parts: m.totalParts ?? null,
+            series_slug: m.seriesSlug, release_year: m.releaseYear ?? null, quality: m.quality ?? null,
+          };
+        })
         .filter((r) => !have.has(r.video_url));
       for (let i = 0; i < rows.length; i += 100) {
         const { error } = await supabase.from("videos").insert(rows.slice(i, i + 100));
