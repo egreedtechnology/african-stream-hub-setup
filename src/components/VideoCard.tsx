@@ -62,8 +62,9 @@ export function VideoCard({ video, size = "default" }: Props) {
 
   // Route target: prefer typed detail page when we have a slug + movieType
   const typedLink = (() => {
-    if (!video.slug || !video.movieType) return null;
+    if (!video.slug) return null;
     const s = video.slug;
+    if (!video.movieType) return { to: "/movie/$slug" as const, params: { slug: s } };
     switch (video.movieType) {
       case "movie": return { to: "/movie/$slug" as const, params: { slug: s } };
       case "series": return { to: "/series/$slug" as const, params: { slug: s } };

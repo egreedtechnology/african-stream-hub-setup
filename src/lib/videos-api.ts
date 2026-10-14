@@ -42,6 +42,10 @@ export interface DbVideo {
   is_top_rated?: boolean | null;
   is_editors_choice?: boolean | null;
   has_agasobanuye?: boolean | null;
+  interpreter?: string | null;
+  part_number?: number | null;
+  total_parts?: number | null;
+  kinyarwanda_synopsis?: string | null;
   profiles?: { display_name: string | null; username: string | null; avatar_url: string | null } | null;
 }
 
@@ -115,7 +119,25 @@ export function dbToVideo(v: DbVideo): Video {
     isTopRated: v.is_top_rated ?? undefined,
     isEditorsChoice: v.is_editors_choice ?? undefined,
     hasAgasobanuye: v.has_agasobanuye ?? undefined,
+    interpreter: v.interpreter ?? undefined,
+    partNumber: v.part_number ?? undefined,
+    totalParts: v.total_parts ?? undefined,
+    kinyarwandaSynopsis: v.kinyarwanda_synopsis ?? undefined,
   };
+}
+
+export async function fetchVideoParts(seriesSlug: string): Promise<Video[]> {
+  const { data } = await supabase.from("videos").select(SELECT_COLS).eq("series_slug", seriesSlug).eq("visibility", "public").eq("status", "ready").order("part_number", { ascending: true, nullsFirst: false }).limit(50);
+  return (data ?? []).map((d) => dbToVideo(d as unknown as DbVideo));
+}
+
+export async function fetchByInterpreter(interpreter: string, excludeSeries?: string, limit = 12): Promise<Video[]> {
+  let q = supabase.from("videos").select(SELECT_COLS).eq("interpreter", interpreter).eq("visibility", "public").eq("status", "ready").order("created_at", { ascending: false }).limit(limit * 3);
+  if (excludeSeries) q = q.neq("series_slug", excludeSeries);
+  const { data } = await q;
+  const seen = new Set<string>(); const out: Video[] = [];
+  for (const d of data ?? []) { const v = dbToVideo(d as unknown as DbVideo); const k = v.seriesSlug || v.id; if (seen.has(k)) continue; seen.add(k); out.push(v); if (out.length >= limit) break; }
+  return out;
 }
 
 // ---- New filtered fetchers for category landing pages ----
