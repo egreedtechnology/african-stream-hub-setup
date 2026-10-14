@@ -165,7 +165,18 @@ export function VideoCard({ video, size = "default" }: Props) {
               {quality}
             </span>
           )}
+          {video.totalParts && video.totalParts > 1 && (
+            <span className="rounded-md bg-background/85 backdrop-blur-md px-1.5 py-0.5 text-[10px] font-bold text-foreground ring-1 ring-border">
+              {video.totalParts} Ibice
+            </span>
+          )}
         </div>
+
+        {video.interpreter && (
+          <div className="absolute bottom-3 right-3 max-w-[70%] truncate rounded-full bg-primary/90 px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow-sm">
+            🎤 {video.interpreter}
+          </div>
+        )}
 
         {/* Bottom-left: IMDb rating */}
         {typeof video.imdbRating === "number" && video.imdbRating > 0 && (

@@ -5,7 +5,8 @@ import { AppLayout } from "@/components/AppLayout";
 import { VideoCard } from "@/components/VideoCard";
 import { toast } from "sonner";
 import type { Video } from "@/data/videos";
-import { fetchRelatedVideos } from "@/lib/videos-api";
+import { fetchRelatedVideos, fetchVideoParts, fetchByInterpreter } from "@/lib/videos-api";
+import { Mic } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { genreSlug } from "@/lib/taxonomy";
@@ -19,9 +20,13 @@ export function TitleDetail({ video }: Props) {
   const [related, setRelated] = useState<Video[]>([]);
   const [inList, setInList] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
+  const [parts, setParts] = useState<Video[]>([]);
+  const [byInterp, setByInterp] = useState<Video[]>([]);
 
   useEffect(() => {
     fetchRelatedVideos(video, 12).then(setRelated);
+    if (video.seriesSlug) fetchVideoParts(video.seriesSlug).then(setParts); else setParts([]);
+    if (video.interpreter) fetchByInterpreter(video.interpreter, video.seriesSlug, 12).then(setByInterp); else setByInterp([]);
   }, [video]);
 
   useEffect(() => {
@@ -93,6 +98,15 @@ export function TitleDetail({ video }: Props) {
               <p className="mt-1 text-sm text-muted-foreground italic">{video.originalTitle}</p>
             )}
 
+            {video.interpreter && (
+              <Link to="/search" search={{ q: video.interpreter } as never} className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-primary/15 px-3 py-1 text-sm font-semibold text-primary ring-1 ring-primary/30 hover:bg-primary/25">
+                <Mic className="h-4 w-4" /> Umusemuzi: {video.interpreter}
+              </Link>
+            )}
+            {parts.length > 1 && (
+              <span className="ml-2 mt-3 inline-flex rounded-full bg-background/70 px-3 py-1 text-sm font-semibold ring-1 ring-border">{parts.length} Ibice</span>
+            )}
+
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
               {typeof video.imdbRating === "number" && video.imdbRating > 0 && (
                 <span className="inline-flex items-center gap-1 rounded-md bg-yellow-400 px-2 py-0.5 text-xs font-black text-black">
@@ -108,10 +122,10 @@ export function TitleDetail({ video }: Props) {
             <div className="mt-5 flex flex-wrap gap-2">
               <Link
                 to="/watch/$videoId"
-                params={{ videoId: video.id }}
+                params={{ videoId: (parts[0] ?? video).id }}
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground shadow-lg hover:brightness-110 transition-all hover-scale"
               >
-                <Play className="h-5 w-5 fill-current" /> Watch Now
+                <Play className="h-5 w-5 fill-current" /> Reba Filime{parts.length > 1 ? " (Part 1)" : ""}
               </Link>
               <button onClick={toggleFav} className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold backdrop-blur-md transition ${inList ? "bg-primary/20 border-primary text-primary" : "bg-background/50 border-border text-foreground hover:bg-background/80"}`}>
                 <Heart className={`h-4 w-4 ${inList ? "fill-current" : ""}`} /> {inList ? "In My List" : "My List"}
@@ -130,6 +144,29 @@ export function TitleDetail({ video }: Props) {
       {/* Metadata + description grid */}
       <div className="grid gap-8 lg:grid-cols-[1fr_320px] mb-12">
         <div>
+          {video.kinyarwandaSynopsis && (
+            <div className="mb-6">
+              <h2 className="text-lg font-bold mb-2">Incamake (Kinyarwanda)</h2>
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed whitespace-pre-line">{video.kinyarwandaSynopsis}</p>
+            </div>
+          )}
+          {parts.length > 1 && (
+            <div className="mb-6">
+              <h2 className="text-lg font-bold mb-3">Ibice ({parts.length})</h2>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {parts.map((p, i) => (
+                  <Link key={p.id} to="/watch/$videoId" params={{ videoId: p.id }} className="flex items-center gap-3 rounded-xl bg-surface p-2 ring-1 ring-border hover:ring-primary/50 transition">
+                    <img src={p.thumbnail} alt={p.title} loading="lazy" className="h-14 w-24 rounded-lg object-cover" />
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold">Igice cya {p.partNumber ?? i + 1}{parts.length ? ` kuri ${parts.length}` : ""}</div>
+                      <div className="text-xs text-muted-foreground truncate">{p.title}</div>
+                    </div>
+                    <Play className="ml-auto h-4 w-4 text-primary" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
           <h2 className="text-lg font-bold mb-2">Storyline</h2>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed whitespace-pre-line">
             {video.description || "No description available yet."}
