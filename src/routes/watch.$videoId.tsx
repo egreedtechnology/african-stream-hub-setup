@@ -545,7 +545,7 @@ function WatchPage() {
   const source = classifyVideoSource(video.previewSrc);
   const isIframe = source.kind === "iframe";
   const isUnsupported = source.kind === "unsupported";
-  const forceStreamtapeIframe = source.provider === "Streamtape";
+  const forceStreamtapeIframe = source.kind !== "html5" && source.provider === "Streamtape";
   const shouldRenderNativeVideo = !isIframe && !isUnsupported && !forceStreamtapeIframe;
 
   return (
