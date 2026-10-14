@@ -21,9 +21,9 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "IBONA is the #1 African-first streaming platform for agasobanuye, film nyarwanda, amakuru, news shorts, comedy and African music in Kinyarwanda, Swahili and English." },
       { property: "og:title", content: "IBONA — African-First Video Streaming" },
       { property: "og:description", content: "Premium African video streaming. Music, film nyarwanda, agasobanuye, comedy and news shorts — free to stream." },
-      { property: "og:url", content: "https://rebalive.egreedtech.org/" },
+      { property: "og:url", content: "https://ibona.egreedtech.org/" },
     ],
-    links: [{ rel: "canonical", href: "https://rebalive.egreedtech.org/" }],
+    links: [{ rel: "canonical", href: "https://ibona.egreedtech.org/" }],
   }),
   component: Index,
 });
