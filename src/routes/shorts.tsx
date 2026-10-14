@@ -15,10 +15,10 @@ export const Route = createFileRoute("/shorts")({
       { name: "description", content: SHORTS_DESC },
       { property: "og:title", content: "Shorts — Vertical African Videos | IBONA" },
       { property: "og:description", content: SHORTS_DESC },
-      { property: "og:url", content: "https://rebalive.egreedtech.org/shorts" },
+      { property: "og:url", content: "https://ibona.egreedtech.org/shorts" },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "canonical", href: "https://rebalive.egreedtech.org/shorts" }],
+    links: [{ rel: "canonical", href: "https://ibona.egreedtech.org/shorts" }],
   }),
   component: ShortsPage,
 });
