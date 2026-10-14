@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { latestContentLastmod } from "@/lib/sitemap-freshness.server";
 
-const BASE_URL = "https://rebalive.egreedtech.org";
+const BASE_URL = "https://ibona.egreedtech.org";
 
 interface Entry {
   path: string;
