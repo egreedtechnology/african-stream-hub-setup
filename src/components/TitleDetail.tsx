@@ -231,6 +231,15 @@ export function TitleDetail({ video }: Props) {
         </aside>
       </div>
 
+      {byInterp.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight mb-4">Izindi za {video.interpreter}</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+            {byInterp.map((r) => <VideoCard key={r.id} video={r} />)}
+          </div>
+        </section>
+      )}
+
       {related.length > 0 && (
         <section aria-labelledby="related-heading" className="mb-12">
           <h2 id="related-heading" className="text-xl sm:text-2xl font-bold tracking-tight mb-4">Related titles</h2>
