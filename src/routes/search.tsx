@@ -1,5 +1,4 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { Loader2, Search as SearchIcon, Sparkles, EyeOff, SlidersHorizontal, X } from "lucide-react";
@@ -55,10 +54,10 @@ export const Route = createFileRoute("/search")({
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
-        { property: "og:url", content: "https://rebalive.egreedtech.org/search" },
+        { property: "og:url", content: "https://ibona.egreedtech.org/search" },
         { property: "og:type", content: "website" },
       ],
-      links: [{ rel: "canonical", href: "https://rebalive.egreedtech.org/search" }],
+      links: [{ rel: "canonical", href: "https://ibona.egreedtech.org/search" }],
     };
   },
   component: SearchPage,
@@ -365,7 +364,7 @@ function SearchPage() {
             {q && (
               <button
                 onClick={() => setPopularOnly((v) => !v)}
-                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold border transition ${popularOnly ? "text-primary-foreground border-transparent shadow-[var(--shadow-glow)]" : "border-border bg-surface hover:bg-surface-elevated"}`}
+                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold border transition ${popularOnly ? "text-primary-foreground border-transparent shadow-[var(--shadow-brand)]" : "border-border bg-surface hover:bg-surface-elevated"}`}
                 style={popularOnly ? { background: "var(--gradient-brand)" } : undefined}
               >
                 <Sparkles className="h-3.5 w-3.5" /> Popular Africa
@@ -449,7 +448,7 @@ function SearchPage() {
                 <span className="text-xs font-semibold text-muted-foreground">Subtitles</span>
                 <select className={fieldCls} value={search.subtitles} onChange={(e) => set("subtitles", e.target.value)}>
                   <option value="">Any subtitles</option>
-                  {SUBTITLE_LANGS.map((l) => <option key={l} value={l}>{l.toUpperCase()}</option>)}
+                  {SUBTITLE_LANGS.map((l) => <option key={l} value={l.toUpperCase()}>{l.toUpperCase()}</option>)}
                 </select>
               </label>
               <label className="space-y-1.5">
@@ -496,7 +495,7 @@ function SearchPage() {
             </div>
             <button
               onClick={() => set("agasobanuye", !search.agasobanuye)}
-              className={`mt-4 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold border transition ${search.agasobanuye ? "border-primary text-primary bg-primary/10" : "border-border bg-surface-elevated hover:bg-surface"}`}
+              className={`mt-4 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold border transition ${search.agasobanuye ? "border-primary text-primary bg-primary/10" : "border-border bg-surface hover:bg-surface-elevated"}`}
             >
               Agasobanuye only
             </button>
