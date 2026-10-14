@@ -14,10 +14,10 @@ export const Route = createFileRoute("/music")({
       { name: "description", content: MUSIC_DESC },
       { property: "og:title", content: "Music — Afrobeats, Gospel Nyarwanda & African Sound | IBONA" },
       { property: "og:description", content: MUSIC_DESC },
-      { property: "og:url", content: "https://rebalive.egreedtech.org/music" },
+      { property: "og:url", content: "https://ibona.egreedtech.org/music" },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "canonical", href: "https://rebalive.egreedtech.org/music" }],
+    links: [{ rel: "canonical", href: "https://ibona.egreedtech.org/music" }],
     scripts: [{
       type: "application/ld+json",
       children: JSON.stringify({
@@ -25,8 +25,8 @@ export const Route = createFileRoute("/music")({
         "@type": "CollectionPage",
         name: "Music on IBONA",
         description: MUSIC_DESC,
-        url: "https://rebalive.egreedtech.org/music",
-        isPartOf: { "@type": "WebSite", name: "IBONA", url: "https://rebalive.egreedtech.org" },
+        url: "https://ibona.egreedtech.org/music",
+        isPartOf: { "@type": "WebSite", name: "IBONA", url: "https://ibona.egreedtech.org" },
       }),
     }],
   }),
