@@ -1,4 +1,4 @@
-const BASE_URL = "https://rebalive.egreedtech.org";
+const BASE_URL = "https://ibona.egreedtech.org";
 export const SITEMAP_INDEX = `${BASE_URL}/sitemap.xml`;
 
 /** Nudge search engines to re-fetch the sitemap index. Non-fatal on failure. */
