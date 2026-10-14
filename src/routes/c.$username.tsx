@@ -53,7 +53,7 @@ async function loadCreatorForHead(username: string): Promise<{ profile: CreatorL
 export const Route = createFileRoute("/c/$username")({
   loader: ({ params }) => loadCreatorForHead(params.username),
   head: ({ params, loaderData }) => {
-    const url = `https://rebalive.egreedtech.org/c/${params.username}`;
+    const url = `https://ibona.egreedtech.org/c/${params.username}`;
     const profile = loaderData?.profile;
     const videos = loaderData?.videos ?? [];
     const name = profile?.display_name || `@${params.username}`;
@@ -80,7 +80,7 @@ export const Route = createFileRoute("/c/$username")({
       name: title,
       description: desc,
       mainEntity: person,
-      isPartOf: { "@type": "WebSite", name: "IBONA", url: "https://rebalive.egreedtech.org" },
+      isPartOf: { "@type": "WebSite", name: "IBONA", url: "https://ibona.egreedtech.org" },
     };
 
     const itemList = videos.length
@@ -98,14 +98,14 @@ export const Route = createFileRoute("/c/$username")({
               description: (v.description || v.title).slice(0, 300),
               thumbnailUrl: [v.ai_thumbnail_url || v.thumbnail_url].filter(Boolean),
               uploadDate: v.created_at || new Date().toISOString(),
-              contentUrl: `https://rebalive.egreedtech.org/watch/${v.id}`,
-              embedUrl: `https://rebalive.egreedtech.org/watch/${v.id}`,
+              contentUrl: `https://ibona.egreedtech.org/watch/${v.id}`,
+              embedUrl: `https://ibona.egreedtech.org/watch/${v.id}`,
               inLanguage: v.language || "rw",
               author: person,
               publisher: {
                 "@type": "Organization",
                 name: "IBONA",
-                url: "https://rebalive.egreedtech.org",
+                url: "https://ibona.egreedtech.org",
               },
               interactionStatistic: {
                 "@type": "InteractionCounter",
@@ -121,8 +121,8 @@ export const Route = createFileRoute("/c/$username")({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "IBONA", item: "https://rebalive.egreedtech.org" },
-        { "@type": "ListItem", position: 2, name: "Creators", item: "https://rebalive.egreedtech.org/search?q=creator" },
+        { "@type": "ListItem", position: 1, name: "IBONA", item: "https://ibona.egreedtech.org" },
+        { "@type": "ListItem", position: 2, name: "Creators", item: "https://ibona.egreedtech.org/search?q=creator" },
         { "@type": "ListItem", position: 3, name, item: url },
       ],
     };
