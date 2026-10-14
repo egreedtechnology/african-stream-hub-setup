@@ -21,7 +21,7 @@ import {
 import { AppLayout } from "@/components/AppLayout";
 import { VideoCard } from "@/components/VideoCard";
 import { getVideoById, type Language, type Video } from "@/data/videos";
-import { fetchVideoById, fetchAllFeed, incrementVideoView, getLikeState, likeVideo, unlikeVideo } from "@/lib/videos-api";
+import { fetchVideoById, fetchVideoParts, fetchAllFeed, incrementVideoView, getLikeState, likeVideo, unlikeVideo } from "@/lib/videos-api";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -188,6 +188,7 @@ function WatchPage() {
   const [video, setVideo] = useState<Video | null>(initialVideo);
   const [loadingVideo, setLoadingVideo] = useState(!initialVideo);
   const [suggestions, setSuggestions] = useState<Video[]>([]);
+  const [parts, setParts] = useState<Video[]>([]);
 
   // UI state
   const [liked, setLiked] = useState(false);
@@ -247,6 +248,8 @@ function WatchPage() {
         if (!cancelled && v) {
           setVideo(v);
           setLanguage(v.language);
+          if (v.seriesSlug) fetchVideoParts(v.seriesSlug).then((p) => { if (!cancelled) setParts(p); });
+          else setParts([]);
         } else if (!cancelled && !initialVideo) {
           throw notFound();
         }
@@ -963,7 +966,28 @@ function WatchPage() {
           </div>
         </div>
 
-        <aside className="hidden lg:block">
+        <aside className="lg:sticky lg:top-20 lg:self-start space-y-6">
+          {parts.length > 1 && (
+            <div className="rounded-2xl bg-surface p-3 ring-1 ring-border">
+              <h3 className="font-bold mb-3 px-1">Ibice ({parts.length}){video.interpreter ? ` · 🎤 ${video.interpreter}` : ""}</h3>
+              <div className="space-y-2 max-h-[60vh] overflow-y-auto">
+                {parts.map((p, i) => {
+                  const active = p.id === videoId;
+                  return (
+                    <Link key={p.id} to="/watch/$videoId" params={{ videoId: p.id }}
+                      className={`flex items-center gap-3 rounded-xl p-2 transition ${active ? "bg-primary/15 ring-1 ring-primary" : "hover:bg-surface-elevated"}`}>
+                      <img src={p.thumbnail} alt={p.title} loading="lazy" className="h-14 w-24 shrink-0 rounded-lg object-cover" />
+                      <div className="min-w-0">
+                        <div className={`text-sm font-semibold ${active ? "text-primary" : ""}`}>Igice cya {p.partNumber ?? i + 1} kuri {parts.length}</div>
+                        <div className="text-xs text-muted-foreground truncate">{active ? "Kirimo kurebwa" : p.title}</div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          <div className="hidden lg:block">
           <h3 className="font-bold mb-4">Up next</h3>
           <div className="space-y-4">
             {suggestions.map((v) => (
@@ -995,6 +1019,7 @@ function WatchPage() {
               </Link>
             ))}
           </div>
+        </div>
         </aside>
       </div>
 
