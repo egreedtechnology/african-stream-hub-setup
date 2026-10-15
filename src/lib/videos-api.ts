@@ -49,7 +49,7 @@ export interface DbVideo {
   profiles?: { display_name: string | null; username: string | null; avatar_url: string | null } | null;
 }
 
-const FALLBACK_THUMB = "/placeholder.svg";
+const FALLBACK_THUMB = fallbackCover;
 const SELECT_COLS = "*, profiles!videos_owner_profile_fk(display_name, username, avatar_url)";
 
 function relTime(iso: string): string {
