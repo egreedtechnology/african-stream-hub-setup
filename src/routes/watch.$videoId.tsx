@@ -654,6 +654,7 @@ function WatchPage() {
               </video>
             )}
 
+            {shouldRenderNativeVideo && (<>
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/70 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity" />
 
             <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition">
