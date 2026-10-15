@@ -6,7 +6,7 @@ import type { Video } from "@/data/videos";
 import { fetchVideosByGenre } from "@/lib/videos-api";
 import { genreFromSlug, genreSlug } from "@/lib/taxonomy";
 
-const BASE = "https://rebalive.egreedtech.org";
+const BASE = "https://ibona.egreedtech.org";
 
 export const Route = createFileRoute("/genre/$genre")({
   head: ({ params }) => {

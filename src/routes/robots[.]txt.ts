@@ -7,7 +7,7 @@ export const Route = createFileRoute("/robots.txt")({
       GET: async () => {
         const body = [
           "# IBONA (Rebalive) — African-first video streaming",
-          "# https://rebalive.egreedtech.org",
+          "# https://ibona.egreedtech.org",
           "",
           "User-agent: *",
           "Allow: /",
@@ -62,10 +62,10 @@ export const Route = createFileRoute("/robots.txt")({
           "User-agent: Google-Extended",
           "Allow: /",
           "",
-          "Sitemap: https://rebalive.egreedtech.org/sitemap.xml",
-          "Sitemap: https://rebalive.egreedtech.org/sitemap-pages.xml",
-          "Sitemap: https://rebalive.egreedtech.org/sitemap-videos.xml",
-          "Sitemap: https://rebalive.egreedtech.org/sitemap-creators.xml",
+          "Sitemap: https://ibona.egreedtech.org/sitemap.xml",
+          "Sitemap: https://ibona.egreedtech.org/sitemap-pages.xml",
+          "Sitemap: https://ibona.egreedtech.org/sitemap-videos.xml",
+          "Sitemap: https://ibona.egreedtech.org/sitemap-creators.xml",
           "",
         ].join("\n");
         return new Response(body, {

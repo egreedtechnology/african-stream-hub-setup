@@ -15,10 +15,10 @@ export const Route = createFileRoute("/trending")({
       { name: "description", content: TRENDING_DESC },
       { property: "og:title", content: "Trending — Most-Watched African Videos | IBONA" },
       { property: "og:description", content: TRENDING_DESC },
-      { property: "og:url", content: "https://rebalive.egreedtech.org/trending" },
+      { property: "og:url", content: "https://ibona.egreedtech.org/trending" },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "canonical", href: "https://rebalive.egreedtech.org/trending" }],
+    links: [{ rel: "canonical", href: "https://ibona.egreedtech.org/trending" }],
   }),
   component: TrendingPage,
 });

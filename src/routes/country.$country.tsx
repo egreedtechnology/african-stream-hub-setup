@@ -6,7 +6,7 @@ import type { Video } from "@/data/videos";
 import { fetchVideosByCountry } from "@/lib/videos-api";
 import { COUNTRIES } from "@/lib/taxonomy";
 
-const BASE = "https://rebalive.egreedtech.org";
+const BASE = "https://ibona.egreedtech.org";
 
 export const Route = createFileRoute("/country/$country")({
   head: ({ params }) => {

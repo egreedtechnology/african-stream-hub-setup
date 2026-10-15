@@ -1,6 +1,6 @@
 import type { Video } from "@/data/videos";
 
-const BASE = "https://rebalive.egreedtech.org";
+const BASE = "https://ibona.egreedtech.org";
 
 export function toISODuration(sec?: number): string | undefined {
   if (!sec) return undefined;

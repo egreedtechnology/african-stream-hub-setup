@@ -3,7 +3,7 @@ import type {} from "@tanstack/react-start";
 import { latestContentLastmod } from "@/lib/sitemap-freshness.server";
 import { recentYears } from "@/lib/taxonomy";
 
-const BASE_URL = "https://rebalive.egreedtech.org";
+const BASE_URL = "https://ibona.egreedtech.org";
 
 export const Route = createFileRoute("/sitemap-years.xml")({
   server: {

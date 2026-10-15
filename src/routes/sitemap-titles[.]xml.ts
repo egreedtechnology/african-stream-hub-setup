@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { MOVIE_TYPES } from "@/lib/taxonomy";
 
-const BASE_URL = "https://rebalive.egreedtech.org";
+const BASE_URL = "https://ibona.egreedtech.org";
 
 const esc = (s: string) =>
-  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&apos;");
 
 interface Row { slug: string | null; movie_type: string | null; updated_at: string | null; created_at: string | null; poster_url: string | null; thumbnail_url: string | null; title: string | null }
 
