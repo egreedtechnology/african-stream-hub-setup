@@ -654,6 +654,7 @@ function WatchPage() {
               </video>
             )}
 
+            {shouldRenderNativeVideo && (<>
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/70 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity" />
 
             <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition">
@@ -750,6 +751,8 @@ function WatchPage() {
                 <Maximize2 className="h-4 w-4" />
               </button>
             </div>
+            </>)}
+
 
             {showComments && (
               <div className="absolute inset-y-0 right-0 w-full sm:w-[360px] bg-background/95 backdrop-blur-xl border-l border-border flex flex-col animate-slide-in-right z-20">
