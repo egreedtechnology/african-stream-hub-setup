@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { fallbackCover } from "@/lib/cdn-image";
 import { GENRES } from "@/lib/taxonomy";
 import type { Video } from "@/data/videos";
 
