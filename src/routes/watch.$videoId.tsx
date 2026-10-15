@@ -29,6 +29,7 @@ import { loadPrefs, savePrefs } from "@/lib/playback-prefs";
 import { toast } from "sonner";
 import { classifyVideoSource } from "@/lib/video-embed";
 import { ExternalLink } from "lucide-react";
+import { fallbackCover } from "@/lib/cdn-image";
 
 export const Route = createFileRoute("/watch/$videoId")({
   loader: ({ params }) => {
@@ -979,7 +980,7 @@ function WatchPage() {
                   return (
                     <Link key={p.id} to="/watch/$videoId" params={{ videoId: p.id }}
                       className={`flex items-center gap-3 rounded-xl p-2 transition ${active ? "bg-primary/15 ring-1 ring-primary" : "hover:bg-surface-elevated"}`}>
-                      <img src={p.thumbnail} alt={p.title} loading="lazy" className="h-14 w-24 shrink-0 rounded-lg object-cover" />
+                      <img src={p.thumbnail} alt={p.title} loading="lazy" onError={(e) => { e.currentTarget.src = fallbackCover; }} className="h-14 w-24 shrink-0 rounded-lg object-cover" />
                       <div className="min-w-0">
                         <div className={`text-sm font-semibold ${active ? "text-primary" : ""}`}>Igice cya {p.partNumber ?? i + 1} kuri {parts.length}</div>
                         <div className="text-xs text-muted-foreground truncate">{active ? "Kirimo kurebwa" : p.title}</div>
@@ -1004,6 +1005,7 @@ function WatchPage() {
                   <img
                     src={v.thumbnail}
                     alt={v.title}
+                    onError={(e) => { e.currentTarget.src = fallbackCover; }}
                     loading="lazy"
                     decoding="async"
                     className="h-full w-full object-cover"

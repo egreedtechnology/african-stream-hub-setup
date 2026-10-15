@@ -499,7 +499,9 @@ function UploadPage() {
                 supabase, ownerId: user.id, videoId: row.id, frames: extracted,
               });
               if (uploaded.length === 0) return;
-              await generateThumbnails({ data: { videoId: row.id, frames: uploaded } });
+              // AI cover generation removed — use the first real video frame as the cover.
+              void generateThumbnails;
+              await supabase.from("videos").update({ thumbnail_url: uploaded[0].url }).eq("id", row.id).is("thumbnail_url", null);
               if (typeof window !== "undefined") window.dispatchEvent(new Event("ibona:video-updated"));
             } catch { /* thumbnail failures surface in ai_jobs */ }
           })();
