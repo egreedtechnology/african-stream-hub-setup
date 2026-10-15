@@ -1,4 +1,3 @@
-const MINI_PLAYER_ENABLED = false as boolean;
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -1024,7 +1023,7 @@ function WatchPage() {
         </aside>
       </div>
 
-      {MINI_PLAYER_ENABLED && video && showMini && !isIframe && !isUnsupported && !forceStreamtapeIframe && (
+      {showMini && !isIframe && !isUnsupported && !forceStreamtapeIframe && (
         <div className="fixed bottom-20 lg:bottom-6 right-4 z-40 w-72 animate-scale-in rounded-xl overflow-hidden ring-1 ring-border shadow-[var(--shadow-elegant)] bg-black">
           <div className="relative aspect-video group">
             <video

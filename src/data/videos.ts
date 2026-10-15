@@ -106,11 +106,7 @@ export const videos: Video[] = [
   },
 ];
 
-export const findMockCreator = (username: string) => {
-  const list = videos.filter((v) => v.creatorUsername === username);
-  if (!list.length) return null;
-  return { username, display_name: list[0].creator, videos: list };
-};
+export const findMockCreator = (username: string) => videos.find((v) => v.creatorUsername === username) ?? null;
 export const isPopularAfrica = (v: Video) => /Africa|Rwanda|Kenya|Nigeria|Uganda|Ghana|Kigali/i.test(v.title + " " + (v.description ?? ""));
 export const getVideoById = (id: string) => videos.find((v) => v.id === id);
 export const getTrending = () => videos.slice().sort((a, b) => parseFloat(b.views) - parseFloat(a.views));
