@@ -1,0 +1,961 @@
+import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Toaster } from "sonner";
+
+import appCss from "../styles.css?url";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { SettingsProvider } from "@/contexts/SettingsContext";
+import { IBONA_KEYWORDS } from "@/lib/ibona-keywords";
+
+function NotFoundComponent() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="max-w-md text-center">
+        <h1 className="text-7xl font-bold text-foreground">404</h1>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <div className="mt-6">
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Go home
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const SITE_ORIGIN = "https://ibona.egreedtech.org";
+
+export const Route = createRootRoute({
+  head: () => ({
+    meta: [
+      { charSet: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { title: "IBONA — Agasobanuye, Film Nyarwanda, Amakuru & African Music" },
+      { name: "description", content: "IBONA (formerly Rebalive) — the #1 African-first streaming platform for agasobanuye, film nyarwanda, news shorts, comedy, and African music. Watch in Kinyarwanda, English, Swahili, and French. Free to stream and upload." },
+      { name: "keywords", content: IBONA_KEYWORDS },
+      { name: "author", content: "IBONA" },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+      { name: "google-site-verification", content: "" },
+      { property: "og:site_name", content: "IBONA" },
+      { property: "og:title", content: "IBONA — Agasobanuye, Film Nyarwanda & African Music" },
+      { property: "og:description", content: "Stream agasobanuye, film nyarwanda, amakuru, comedy, and African music. The African-first streaming platform — IBONA (Rebalive)." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: SITE_ORIGIN },
+      { property: "og:locale", content: "rw_RW" },
+      { property: "og:locale:alternate", content: "en_US" },
+      { property: "og:locale:alternate", content: "sw_KE" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "IBONA — African-First Streaming" },
+      { name: "twitter:description", content: "Agasobanuye, film nyarwanda, comedy, music and news shorts in Kinyarwanda, Swahili & English." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/RZm7FI59fgbiqTq2M1TcARRKFye2/social-images/social-1777395773732-c3f0a703-0aac-47c4-9249-ebd4e1322db3.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/RZm7FI59fgbiqTq2M1TcARRKFye2/social-images/social-1777395773732-c3f0a703-0aac-47c4-9249-ebd4e1322db3.webp" },
+    ],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://buxlzcsvnrouezmsvald.supabase.co", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://buxlzcsvnrouezmsvald.supabase.co" },
+      { rel: "preconnect", href: "https://storage.googleapis.com", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://storage.googleapis.com" },
+      { rel: "alternate", hrefLang: "rw", href: SITE_ORIGIN },
+      { rel: "alternate", hrefLang: "en", href: SITE_ORIGIN },
+      { rel: "alternate", hrefLang: "sw", href: SITE_ORIGIN },
+      { rel: "alternate", hrefLang: "x-default", href: SITE_ORIGIN },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "IBONA",
+          alternateName: ["Rebalive", "Ibona Rwanda"],
+          url: SITE_ORIGIN,
+          inLanguage: ["rw", "en", "sw", "fr"],
+          potentialAction: {
+            "@type": "SearchAction",
+            target: `${SITE_ORIGIN}/search?q={search_term_string}`,
+            "query-input": "required name=search_term_string",
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "IBONA",
+          alternateName: "Rebalive",
+          url: SITE_ORIGIN,
+          logo: `${SITE_ORIGIN}/favicon.ico`,
+          sameAs: [],
+        }),
+      },
+    ],
+  }),
+  shellComponent: RootShell,
+  component: RootComponent,
+  notFoundComponent: NotFoundComponent,
+});
+
+function RootShell({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+function RootComponent() {
+  return (
+    <AuthProvider>
+      <SettingsProvider>
+        <Outlet />
+        <Toaster theme="dark" position="top-center" richColors closeButton />
+      </SettingsProvider>
+    </AuthProvider>
+  );
+}
+" ,"path":"src/routes/__root.tsx"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import { useCallback, useEffect, useState } from "react";
+import { AppLayout } from "@/components/AppLayout";
+import { VideoCard } from "@/components/VideoCard";
+import { fetchTrendingVideos, fetchTrendingComputedAt } from "@/lib/videos-api";
+import { supabase } from "@/integrations/supabase/client";
+import type { Video } from "@/data/videos";
+
+const TRENDING_DESC = "See what Africa is watching right now on IBONA — the most-viewed agasobanuye, film nyarwanda, music, comedy and news shorts trending across the continent this week.";
+
+export const Route = createFileRoute("/trending")({
+  head: () => ({
+    meta: [
+      { title: "Trending — Most-Watched African Videos | IBONA" },
+      { name: "description", content: TRENDING_DESC },
+      { property: "og:title", content: "Trending — Most-Watched African Videos | IBONA" },
+      { property: "og:description", content: TRENDING_DESC },
+      { property: "og:url", content: "https://ibona.egreedtech.org/trending" },
+      { property: "og:type", content: "website" },
+    ],
+    links: [{ rel: "canonical", href: "https://ibona.egreedtech.org/trending" }],
+  }),
+  component: TrendingPage,
+});
+
+function relTime(iso: string | null): string {
+  if (!iso) return "";
+  const mins = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins} min ago`;
+  const h = Math.round(mins / 60);
+  return h === 1 ? "1 hour ago" : `${h} hours ago`;
+}
+
+function TrendingPage() {
+  const [list, setList] = useState<Video[]>([]);
+  const [updatedAt, setUpdatedAt] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const load = useCallback(async () => {
+    const [videos, at] = await Promise.all([fetchTrendingVideos(60), fetchTrendingComputedAt()]);
+    setList(videos);
+    setUpdatedAt(at);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    const run = () => { if (!cancelled) load(); };
+    run();
+    const timer = setInterval(run, 5 * 60 * 1000);
+    const ch = supabase
+      .channel("trending-page")
+      .on("postgres_changes", { event: "*", schema: "public", table: "trending_scores" }, run)
+      .subscribe();
+    const onVisible = () => { if (document.visibilityState === "visible") run(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+      supabase.removeChannel(ch);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [load]);
+
+  return (
+    <AppLayout>
+      <header className="mb-8">
+        <div className="text-xs font-bold uppercase tracking-widest text-primary mb-1">🔥 Hot right now</div>
+        <h1 className="text-3xl sm:text-5xl font-black tracking-tight">Trending</h1>
+        <p className="text-muted-foreground mt-2">
+          Ranked by views, likes and comments from the last 48 hours.
+          {updatedAt && <span className="ml-1">Updated {relTime(updatedAt)}.</span>}
+        </p>
+      </header>
+      {!loading && list.length === 0 ? (
+        <p className="text-muted-foreground">No videos uploaded yet.</p>
+      ) : (
+        <section aria-labelledby="trending-grid-heading">
+          <h2 id="trending-grid-heading" className="sr-only">Trending videos</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 animate-fade-in">
+            {list.map((v) => <VideoCard key={v.id} video={v} />)}
+          </div>
+        </section>
+      )}
+    </AppLayout>
+  );
+}
+" ,"path":"src/routes/trending.tsx"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import type {} from "@tanstack/react-start";
+
+export const Route = createFileRoute("/robots.txt")({
+  server: {
+    handlers: {
+      GET: async () => {
+        const body = [
+          "# IBONA (Rebalive) — African-first video streaming",
+          "# https://ibona.egreedtech.org",
+          "",
+          "User-agent: *",
+          "Allow: /",
+          "Disallow: /auth",
+          "Disallow: /studio",
+          "Disallow: /upload",
+          "Disallow: /settings",
+          "Disallow: /profile",
+          "# Filtered search URLs are indexable so long-tail queries surface",
+          "",
+          "# Explicit allow for high-value crawlers",
+          "User-agent: Googlebot",
+          "Allow: /",
+          "",
+          "User-agent: Googlebot-Video",
+          "Allow: /",
+          "",
+          "User-agent: Googlebot-Image",
+          "Allow: /",
+          "",
+          "User-agent: Bingbot",
+          "Allow: /",
+          "",
+          "User-agent: DuckDuckBot",
+          "Allow: /",
+          "",
+          "User-agent: Applebot",
+          "Allow: /",
+          "",
+          "User-agent: Twitterbot",
+          "Allow: /",
+          "",
+          "User-agent: facebookexternalhit",
+          "Allow: /",
+          "",
+          "User-agent: LinkedInBot",
+          "Allow: /",
+          "",
+          "# AI / LLM crawlers — allow for discovery",
+          "User-agent: GPTBot",
+          "Allow: /",
+          "",
+          "User-agent: OAI-SearchBot",
+          "Allow: /",
+          "",
+          "User-agent: ChatGPT-User",
+          "Allow: /",
+          "",
+          "User-agent: PerplexityBot",
+          "Allow: /",
+          "",
+          "User-agent: Google-Extended",
+          "Allow: /",
+          "",
+          "Sitemap: https://ibona.egreedtech.org/sitemap.xml",
+          "Sitemap: https://ibona.egreedtech.org/sitemap-pages.xml",
+          "Sitemap: https://ibona.egreedtech.org/sitemap-videos.xml",
+          "Sitemap: https://ibona.egreedtech.org/sitemap-creators.xml",
+          "",
+        ].join("\n");
+        return new Response(body, {
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "Cache-Control": "public, max-age=3600",
+          },
+        });
+      },
+    },
+  },
+});
+" ,"path":"src/routes/robots[.]txt.ts"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import type {} from "@tanstack/react-start";
+import { latestContentLastmod } from "@/lib/sitemap-freshness.server";
+import { recentYears } from "@/lib/taxonomy";
+
+const BASE_URL = "https://ibona.egreedtech.org";
+
+export const Route = createFileRoute("/sitemap-years.xml")({
+  server: {
+    handlers: {
+      GET: async () => {
+        const now = await latestContentLastmod();
+        const urls = recentYears().map((y) => {
+          const loc = `${BASE_URL}/year/${y}`;
+          return `  <url>\n    <loc>${loc}</loc>\n${now ? `    <lastmod>${now}</lastmod>\n` : ""}    <changefreq>monthly</changefreq>\n    <priority>0.5</priority>\n  </url>`;
+        });
+        const xml = [
+          `<?xml version="1.0" encoding="UTF-8"?>`,
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+          ...urls,
+          `</urlset>`,
+        ].join("\n");
+        return new Response(xml, {
+          headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=120, stale-while-revalidate=600" },
+        });
+      },
+    },
+  },
+});
+" ,"path":"src/routes/sitemap-years[.]xml.ts"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { AppLayout } from "@/components/AppLayout";
+import { VideoCard } from "@/components/VideoCard";
+import type { Video } from "@/data/videos";
+import { fetchVideosByCountry } from "@/lib/videos-api";
+import { COUNTRIES } from "@/lib/taxonomy";
+
+const BASE = "https://ibona.egreedtech.org";
+
+export const Route = createFileRoute("/country/$country")({
+  head: ({ params }) => {
+    const c = COUNTRIES.find((x) => x.code === params.country.toLowerCase());
+    const label = c?.name || params.country.toUpperCase();
+    const url = `${BASE}/country/${params.country}`;
+    const desc = `Movies and shows from ${label} — stream ${label}n cinema, drama, documentaries, and music on IBONA. Watch in original languages with subtitles.`;
+    return {
+      meta: [
+        { title: `${label} Movies & Shows | IBONA` },
+        { name: "description", content: desc.slice(0, 160) },
+        { property: "og:title", content: `${label} Movies & Shows | IBONA` },
+        { property: "og:description", content: desc.slice(0, 160) },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "website" },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [{
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: `${label} on IBONA`,
+          description: desc,
+          url,
+        }),
+      }],
+    };
+  },
+  component: CountryPage,
+});
+
+function CountryPage() {
+  const { country } = Route.useParams();
+  const label = COUNTRIES.find((x) => x.code === country.toLowerCase())?.name || country.toUpperCase();
+  const [list, setList] = useState<Video[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    let cancelled = false;
+    fetchVideosByCountry(country.toLowerCase(), 120).then((v) => { if (!cancelled) { setList(v); setLoading(false); } });
+    return () => { cancelled = true; };
+  }, [country]);
+
+  return (
+    <AppLayout>
+      <header className="mb-8">
+        <div className="text-xs font-bold uppercase tracking-widest text-primary mb-1">Country</div>
+        <h1 className="text-3xl sm:text-5xl font-black tracking-tight">{label}</h1>
+        <p className="mt-2 text-muted-foreground max-w-2xl">Movies, series, and documentaries from {label} — streaming on IBONA.</p>
+      </header>
+      {!loading && list.length === 0 ? (
+        <p className="text-muted-foreground">No titles from {label} uploaded yet.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 animate-fade-in">
+          {list.map((v) => <VideoCard key={v.id} video={v} />)}
+        </div>
+      )}
+    </AppLayout>
+  );
+}
+" ,"path":"src/routes/country.$country.tsx"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { AppLayout } from "@/components/AppLayout";
+import { VideoCard } from "@/components/VideoCard";
+import type { Video } from "@/data/videos";
+import { fetchVideosByGenre } from "@/lib/videos-api";
+import { genreFromSlug, genreSlug } from "@/lib/taxonomy";
+
+const BASE = "https://ibona.egreedtech.org";
+
+export const Route = createFileRoute("/genre/$genre")({
+  head: ({ params }) => {
+    const g = genreFromSlug(params.genre) || params.genre;
+    const url = `${BASE}/genre/${params.genre}`;
+    const desc = `${g} on IBONA — stream the best ${g} movies and shows in Kinyarwanda, Swahili, English, and French. Agasobanuye, film nyarwanda, African and world cinema.`;
+    return {
+      meta: [
+        { title: `${g} — Movies & Shows | IBONA` },
+        { name: "description", content: desc.slice(0, 160) },
+        { property: "og:title", content: `${g} — Movies & Shows | IBONA` },
+        { property: "og:description", content: desc.slice(0, 160) },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "website" },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [{
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: `${g} on IBONA`,
+          description: desc,
+          url,
+          isPartOf: { "@type": "WebSite", name: "IBONA", url: BASE },
+        }),
+      }],
+    };
+  },
+  component: GenrePage,
+});
+
+function GenrePage() {
+  const { genre } = Route.useParams();
+  const label = genreFromSlug(genre) || genre;
+  const [list, setList] = useState<Video[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    let cancelled = false;
+    fetchVideosByGenre(label, 120).then((v) => { if (!cancelled) { setList(v); setLoading(false); } });
+    return () => { cancelled = true; };
+  }, [label]);
+
+  return (
+    <AppLayout>
+      <header className="mb-8">
+        <div className="text-xs font-bold uppercase tracking-widest text-primary mb-1">Genre</div>
+        <h1 className="text-3xl sm:text-5xl font-black tracking-tight">{label}</h1>
+        <p className="mt-2 text-muted-foreground max-w-2xl">Discover the best {label} titles on IBONA — curated across Africa and the world.</p>
+      </header>
+      {!loading && list.length === 0 ? (
+        <p className="text-muted-foreground">No {label} titles uploaded yet. Check back soon.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 animate-fade-in">
+          {list.map((v) => <VideoCard key={v.id} video={v} />)}
+        </div>
+      )}
+    </AppLayout>
+  );
+}
+
+// re-export helpers for consumers importing this file (currently just the sitemap)
+export { genreSlug };
+" ,"path":"src/routes/genre.$genre.tsx"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import type {} from "@tanstack/react-start";
+import { MOVIE_TYPES } from "@/lib/taxonomy";
+
+const BASE_URL = "https://ibona.egreedtech.org";
+
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&apos;");
+
+interface Row { slug: string | null; movie_type: string | null; updated_at: string | null; created_at: string | null; poster_url: string | null; thumbnail_url: string | null; title: string | null }
+
+// One sitemap per movie type family so we can list /movie/$slug, /series/$slug, /tv/$slug, /anime/$slug, /drama/$slug, /documentary/$slug.
+export const Route = createFileRoute("/sitemap-titles.xml")({
+  server: {
+    handlers: {
+      GET: async () => {
+        let rows: Row[] = [];
+        try {
+          const url = process.env.SUPABASE_URL;
+          const key = process.env.SUPABASE_PUBLISHABLE_KEY;
+          if (url && key) {
+            const res = await fetch(
+              `${url}/rest/v1/videos?select=slug,movie_type,updated_at,created_at,poster_url,thumbnail_url,title&visibility=eq.public&status=eq.ready&slug=not.is.null&movie_type=not.is.null&limit=10000`,
+              { headers: { apikey: key, Authorization: `Bearer ${key}` } },
+            );
+            if (res.ok) rows = (await res.json()) as Row[];
+          }
+        } catch { /* empty */ }
+
+        const urls = rows
+          .filter((r) => r.slug && r.movie_type && (MOVIE_TYPES as readonly string[]).includes(r.movie_type))
+          .map((r) => {
+            const loc = `${BASE_URL}/${r.movie_type}/${r.slug}`;
+            const lastmod = (r.updated_at || r.created_at || new Date().toISOString()).slice(0, 10);
+            const image = r.poster_url || r.thumbnail_url;
+            const imageBlock = image
+              ? `    <image:image>\n      <image:loc>${esc(image)}</image:loc>\n      <image:title>${esc(r.title || "IBONA")}</image:title>\n    </image:image>`
+              : "";
+            return [
+              `  <url>`,
+              `    <loc>${loc}</loc>`,
+              `    <lastmod>${lastmod}</lastmod>`,
+              `    <changefreq>weekly</changefreq>`,
+              `    <priority>0.8</priority>`,
+              imageBlock || null,
+              `  </url>`,
+            ].filter(Boolean).join("\n");
+          });
+
+        const xml = [
+          `<?xml version="1.0" encoding="UTF-8"?>`,
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"`,
+          `        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">`,
+          ...urls,
+          `</urlset>`,
+        ].join("\n");
+        return new Response(xml, {
+          headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=120, stale-while-revalidate=600" },
+        });
+      },
+    },
+  },
+});
+" ,"path":"src/routes/sitemap-titles[.]xml.ts"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import type {} from "@tanstack/react-start";
+import { latestContentLastmod } from "@/lib/sitemap-freshness.server";
+
+const BASE_URL = "https://ibona.egreedtech.org";
+
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&apos;");
+
+interface ProfileRow {
+  username: string | null;
+  avatar_url: string | null;
+  display_name: string | null;
+  updated_at?: string | null;
+}
+
+export const Route = createFileRoute("/sitemap-creators.xml")({
+  server: {
+    handlers: {
+      GET: async () => {
+        let rows: ProfileRow[] = [];
+        try {
+          const url = process.env.SUPABASE_URL;
+          const key = process.env.SUPABASE_PUBLISHABLE_KEY;
+          if (url && key) {
+            const res = await fetch(
+              `${url}/rest/v1/profiles?select=username,avatar_url,display_name&username=not.is.null&limit=5000`,
+              { headers: { apikey: key, Authorization: `Bearer ${key}` } },
+            );
+            if (res.ok) rows = (await res.json()) as ProfileRow[];
+          }
+        } catch { /* empty */ }
+
+        const now = await latestContentLastmod();
+        const urls = rows
+          .filter((p) => p.username)
+          .map((p) => {
+            const loc = `${BASE_URL}/c/${p.username}`;
+            const img = p.avatar_url ? `    <image:image>\n      <image:loc>${esc(p.avatar_url)}</image:loc>\n      <image:title>${esc(p.display_name || p.username!)}</image:title>\n    </image:image>` : "";
+            return [
+              `  <url>`,
+              `    <loc>${loc}</loc>`,
+              now ? `    <lastmod>${now}</lastmod>` : null,
+              `    <changefreq>weekly</changefreq>`,
+              `    <priority>0.6</priority>`,
+              img || null,
+              `  </url>`,
+            ].filter(Boolean).join("\n");
+          });
+
+        const xml = [
+          `<?xml version="1.0" encoding="UTF-8"?>`,
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"`,
+          `        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">`,
+          ...urls,
+          `</urlset>`,
+        ].join("\n");
+
+        return new Response(xml, {
+          headers: {
+            "Content-Type": "application/xml; charset=utf-8",
+            "Cache-Control": "public, max-age=120, stale-while-revalidate=600",
+          },
+        });
+      },
+    },
+  },
+});
+" ,"path":"src/routes/sitemap-creators[.]xml.ts"},{"content":"import type { Video } from "@/data/videos";
+
+const BASE = "https://ibona.egreedtech.org";
+
+export function toISODuration(sec?: number): string | undefined {
+  if (!sec) return undefined;
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = Math.floor(sec % 60);
+  return `PT${h ? h + "H" : ""}${m ? m + "M" : ""}${s ? s + "S" : "0S"}`;
+}
+
+/** Build the meta/links/scripts head object for a movie/series/tv/anime/drama/documentary page. */
+export function buildTitleHead(v: Video | null | undefined, kind: string, slug: string) {
+  const url = `${BASE}/${kind}/${slug}`;
+  if (!v) {
+    return {
+      meta: [
+        { title: `Not found — IBONA` },
+        { name: "robots", content: "noindex" },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  }
+  const desc = (v.description || `Watch ${v.title} on IBONA — ${kind}, ${v.category}, ${v.language}.`).slice(0, 300);
+  const image = v.posterUrl || v.backdropUrl || v.thumbnail;
+  const kwParts = [
+    v.title, v.originalTitle, kind, v.category, v.language,
+    ...(v.genres || []), ...(v.tags || []), ...(v.cast || []),
+    v.director, v.countryCode, v.releaseYear ? String(v.releaseYear) : undefined,
+    "agasobanuye", "film nyarwanda", "IBONA", "Rebalive",
+  ].filter(Boolean) as string[];
+
+  const schemaType = kind === "series" || kind === "tv" || kind === "anime" || kind === "drama"
+    ? "TVSeries"
+    : "Movie";
+
+  const jsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": schemaType,
+    name: v.title,
+    alternateName: v.originalTitle || undefined,
+    description: desc,
+    url,
+    image,
+    inLanguage: v.language,
+    genre: v.genres && v.genres.length ? v.genres : [v.category],
+    datePublished: v.releaseYear ? `${v.releaseYear}-01-01` : v.createdAt,
+    countryOfOrigin: v.countryCode ? { "@type": "Country", name: v.countryCode.toUpperCase() } : undefined,
+    director: v.director ? { "@type": "Person", name: v.director } : undefined,
+    actor: v.cast?.map((c) => ({ "@type": "Person", name: c })),
+    aggregateRating: v.imdbRating
+      ? { "@type": "AggregateRating", ratingValue: v.imdbRating, bestRating: 10, ratingCount: Math.max(1, v.viewsRaw || 1) }
+      : undefined,
+    trailer: v.trailerUrl ? { "@type": "VideoObject", name: `${v.title} — Trailer`, embedUrl: v.trailerUrl, thumbnailUrl: image } : undefined,
+    duration: toISODuration(v.durationSeconds),
+    publisher: { "@type": "Organization", name: "IBONA", url: BASE },
+  };
+
+  return {
+    meta: [
+      { title: `${v.title}${v.releaseYear ? ` (${v.releaseYear})` : ""} — Watch on IBONA` },
+      { name: "description", content: desc.slice(0, 160) },
+      { name: "keywords", content: kwParts.join(", ") },
+      { property: "og:type", content: schemaType === "Movie" ? "video.movie" : "video.tv_show" },
+      { property: "og:url", content: url },
+      { property: "og:title", content: v.title },
+      { property: "og:description", content: desc.slice(0, 160) },
+      { property: "og:image", content: image },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: v.title },
+      { name: "twitter:description", content: desc.slice(0, 160) },
+      { name: "twitter:image", content: image },
+    ],
+    links: [{ rel: "canonical", href: url }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(jsonLd) },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "IBONA", item: BASE },
+            { "@type": "ListItem", position: 2, name: kind.charAt(0).toUpperCase() + kind.slice(1) + "s", item: `${BASE}/${kind === "movie" ? "movies" : kind}` },
+            { "@type": "ListItem", position: 3, name: v.title, item: url },
+          ],
+        }),
+      },
+    ],
+  };
+}
+" ,"path":"src/lib/title-route.tsx"},{"content":"// Long-tail keyword list for IBONA (formerly Rebalive) — Kinyarwanda, Swahili,
+// English and French terms covering agasobanuye films, film nyarwanda,
+// amakuru, comedy, gospel, music and creator names. Emitted as the site-wide
+// <meta name="keywords"> and also exposed for JSON-LD "keywords" fields.
+
+const CORE = [
+  "ibona", "ibona rwanda", "ibona platform", "ibona app", "ibona streaming", "ibona tv",
+  "ibona video", "ibona movies", "ibona amafilime", "ibona music", "ibona news",
+  "rebalive", "rebalive rwanda", "rebalive app", "rebalive streaming", "rebalive tv",
+  "ibona.egreedtech.org", "egreedtech ibona",
+];
+
+const AGASOBANUYE = [
+  "agasobanuye", "agasobanuye now", "agasobanuye films", "agasobanuye film",
+  "agasobanuye movies", "agasobanuye 2024", "agasobanuye 2025", "agasobanuye 2026",
+  "agasobanuye action", "agasobanuye comedy", "agasobanuye romance", "agasobanuye horror",
+  "agasobanuye thriller", "agasobanuye kung fu", "agasobanuye chinese", "agasobanuye indian",
+  "agasobanuye nigerian", "agasobanuye kinyarwanda", "agasobanuye mp4", "agasobanuye HD",
+  "agasobanuye download", "agasobanuye online", "agasobanuye streaming", "agasobanuye free",
+  "agasobanuye youtube", "agasobanuye telegram", "agasobanuye net", "agasobanuye tv",
+  "agasobanuye app", "agasobanuye website", "agasobanuye site", "agasobanuye latest",
+  "agasobanuye new", "agasobanuye hot", "agasobanuye viral", "agasobanuye trending",
+  "agasobanuye best", "agasobanuye top", "agasobanuye popular", "agasobanuye classics",
+  "watch agasobanuye", "watch agasobanuye online", "watch agasobanuye free",
+  "agasobanuye ndetse", "agasobanuye reba", "reba agasobanuye", "reba agasobanuye kuri ibona",
+  "agasobanuye kinyarwanda kabuhariwe", "agasobanuye kabuhariwe", "agasobanuye kubuntu",
+  "agasobanuye ubuntu", "agasobanuye netflix", "netflix agasobanuye", "agasobanuye series",
+];
+
+const NARRATORS = [
+  "daddym films", "daddymfilms", "daddym", "junior giti", "junior giti agasobanuye",
+  "junior giti films", "sankara junior", "sankara junior agasobanuye",
+  "kigali films", "hero films", "epic films", "abakinnyi", "abasobanura",
+" ,"path":"src/lib/ibona-keywords.ts"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { AppLayout } from "@/components/AppLayout";
+import { VideoCard } from "@/components/VideoCard";
+import type { Video } from "@/data/videos";
+import { fetchVideosByYear } from "@/lib/videos-api";
+
+const BASE = "https://ibona.egreedtech.org";
+
+export const Route = createFileRoute("/year/$year")({
+  head: ({ params }) => {
+    const url = `${BASE}/year/${params.year}`;
+    const desc = `The best movies and shows from ${params.year} — streaming on IBONA. Watch ${params.year} releases across all genres and languages.`;
+    return {
+      meta: [
+        { title: `${params.year} Movies & Shows | IBONA` },
+        { name: "description", content: desc.slice(0, 160) },
+        { property: "og:title", content: `${params.year} Releases | IBONA` },
+        { property: "og:description", content: desc.slice(0, 160) },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
+  component: YearPage,
+});
+
+function YearPage() {
+  const { year } = Route.useParams();
+  const y = parseInt(year, 10);
+  const [list, setList] = useState<Video[]>([]);
+  useEffect(() => {
+    if (!Number.isFinite(y)) return;
+    fetchVideosByYear(y, 120).then(setList);
+  }, [y]);
+
+  return (
+    <AppLayout>
+      <header className="mb-8">
+        <div className="text-xs font-bold uppercase tracking-widest text-primary mb-1">Release year</div>
+        <h1 className="text-3xl sm:text-5xl font-black tracking-tight">{year}</h1>
+      </header>
+      {list.length === 0 ? (
+        <p className="text-muted-foreground">No titles from {year} yet.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 animate-fade-in">
+          {list.map((v) => <VideoCard key={v.id} video={v} />)}
+        </div>
+      )}
+    </AppLayout>
+  );
+}
+" ,"path":"src/routes/year.$year.tsx"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import type {} from "@tanstack/react-start";
+
+const BASE_URL = "https://ibona.egreedtech.org";
+
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&apos;");
+
+interface Row {
+  id: string;
+  title: string | null;
+  thumbnail_url: string | null;
+  poster_url: string | null;
+  backdrop_url: string | null;
+  ai_thumbnail_url: string | null;
+  description: string | null;
+}
+
+// Dedicated Google Image sitemap — poster, backdrop, AI thumbnail, uploader thumbnail.
+export const Route = createFileRoute("/sitemap-images.xml")({
+  server: {
+    handlers: {
+      GET: async () => {
+        let rows: Row[] = [];
+        try {
+          const url = process.env.SUPABASE_URL;
+          const key = process.env.SUPABASE_PUBLISHABLE_KEY;
+          if (url && key) {
+            const res = await fetch(
+              `${url}/rest/v1/videos?select=id,title,thumbnail_url,poster_url,backdrop_url,ai_thumbnail_url,description&visibility=eq.public&status=eq.ready&limit=5000`,
+              { headers: { apikey: key, Authorization: `Bearer ${key}` } },
+            );
+            if (res.ok) rows = (await res.json()) as Row[];
+          }
+        } catch { /* empty */ }
+
+        const urls = rows.map((v) => {
+          const loc = `${BASE_URL}/watch/${v.id}`;
+          const title = esc((v.title || "IBONA Video").slice(0, 100));
+          const caption = esc((v.description || v.title || "IBONA").slice(0, 300));
+          const images: string[] = [];
+          const push = (u: string | null) => { if (u) images.push(u); };
+          push(v.poster_url); push(v.backdrop_url); push(v.ai_thumbnail_url); push(v.thumbnail_url);
+          // de-duplicate
+          const uniq = [...new Set(images)];
+          const imageBlocks = uniq.map(
+            (u) => `    <image:image>\n      <image:loc>${esc(u)}</image:loc>\n      <image:title>${title}</image:title>\n      <image:caption>${caption}</image:caption>\n    </image:image>`,
+          ).join("\n");
+          return [`  <url>`, `    <loc>${loc}</loc>`, imageBlocks || null, `  </url>`].filter(Boolean).join("\n");
+        });
+
+        const xml = [
+          `<?xml version="1.0" encoding="UTF-8"?>`,
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"`,
+          `        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">`,
+          ...urls,
+          `</urlset>`,
+        ].join("\n");
+        return new Response(xml, {
+          headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=120, stale-while-revalidate=600" },
+        });
+      },
+    },
+  },
+});
+" ,"path":"src/routes/sitemap-images[.]xml.ts"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import type {} from "@tanstack/react-start";
+
+const BASE_URL = "https://ibona.egreedtech.org";
+
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&apos;");
+
+interface VideoRow {
+  id: string;
+  title: string | null;
+  description: string | null;
+  thumbnail_url: string | null;
+  ai_thumbnail_url: string | null;
+  video_url: string | null;
+  duration_seconds: number | null;
+  views: number | null;
+  language: string | null;
+  category: string | null;
+  tags: string[] | null;
+  country: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+// Google Video sitemap — https://developers.google.com/search/docs/crawling-indexing/sitemaps/video-sitemaps
+// Combines <video:video> (rich video info) + <image:image> (thumbnail) per URL.
+export const Route = createFileRoute("/sitemap-videos.xml")({
+  server: {
+    handlers: {
+      GET: async () => {
+        let rows: VideoRow[] = [];
+        try {
+          const url = process.env.SUPABASE_URL;
+          const key = process.env.SUPABASE_PUBLISHABLE_KEY;
+          if (url && key) {
+            const res = await fetch(
+              `${url}/rest/v1/videos?select=id,title,description,thumbnail_url,ai_thumbnail_url,video_url,duration_seconds,views,language,category,tags,country,created_at,updated_at&visibility=eq.public&status=eq.ready&order=created_at.desc&limit=5000`,
+              { headers: { apikey: key, Authorization: `Bearer ${key}` } },
+            );
+            if (res.ok) rows = (await res.json()) as VideoRow[];
+          }
+        } catch { /* return empty sitemap */ }
+
+        const urls = rows.map((v) => {
+          const loc = `${BASE_URL}/watch/${v.id}`;
+          const thumb = v.ai_thumbnail_url || v.thumbnail_url || "";
+          const title = esc((v.title || "IBONA Video").slice(0, 100));
+          const desc = esc((v.description || v.title || "African video streaming on IBONA").slice(0, 2048));
+          const lastmod = (v.updated_at || v.created_at || new Date().toISOString()).slice(0, 10);
+          const tagLines = (v.tags || []).slice(0, 32).map((t) => `      <video:tag>${esc(String(t))}</video:tag>`).join("\n");
+          const langMap: Record<string, string> = { Kinyarwanda: "rw", Swahili: "sw", English: "en", French: "fr" };
+          const lang = v.language ? (langMap[v.language] ?? "rw") : "rw";
+          const videoBlock = thumb
+            ? [
+                `    <video:video>`,
+                `      <video:thumbnail_loc>${esc(thumb)}</video:thumbnail_loc>`,
+                `      <video:title>${title}</video:title>`,
+                `      <video:description>${desc}</video:description>`,
+                v.video_url ? `      <video:content_loc>${esc(v.video_url)}</video:content_loc>` : null,
+                `      <video:player_loc allow_embed="yes">${esc(`${BASE_URL}/watch/${v.id}`)}</video:player_loc>`,
+                `      <video:view_count>${String(v.views ?? 0)}</video:view_count>`,
+                `      <video:publication_date>${lastmod}</video:publication_date>`,
+                `      <video:family_friendly>yes</video:family_friendly>`,
+                `      <video:requires_subscription>no</video:requires_subscription>`,
+                `      <video:category>${esc(v.category || "Entertainment")}</video:category>`,
+                `      <video:tag>${esc(v.title || "IBONA")}</video:tag>`,
+                tagLines,
+                `      <video:content_loc>${esc(v.video_url || "")}</video:content_loc>`,
+                `      <video:duration>${String(v.duration_seconds ?? 0)}</video:duration>`,
+                `      <video:language>${lang}</video:language>`,
+                `    </video:video>`,
+              ].filter(Boolean).join("\n")
+            : "";
+          return [`  <url>`, `    <loc>${loc}</loc>`, videoBlock || null, `  </url>`].filter(Boolean).join("\n");
+        });
+
+        const xml = [
+          `<?xml version="1.0" encoding="UTF-8"?>`,
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"`,
+          `        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">`,
+          ...urls,
+          `</urlset>`,
+        ].join("\n");
+
+        return new Response(xml, {
+          headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=120, stale-while-revalidate=600" },
+        });
+      },
+    },
+  },
+});
+" ,"path":"src/routes/sitemap-videos[.]xml.ts"},{"content":"import { createFileRoute } from "@tanstack/react-router";
+import type {} from "@tanstack/react-start";
+import { GENRES, genreSlug } from "@/lib/taxonomy";
+import { latestContentLastmod } from "@/lib/sitemap-freshness.server";
+
+const BASE_URL = "https://ibona.egreedtech.org";
+
+export const Route = createFileRoute("/sitemap-genres.xml")({
+  server: {
+    handlers: {
+      GET: async () => {
+        const now = await latestContentLastmod();
+        const urls = GENRES.map((g) => {
+          const loc = `${BASE_URL}/genre/${genreSlug(g)}`;
+          return `  <url>\n    <loc>${loc}</loc>\n${now ? `    <lastmod>${now}</lastmod>\n` : ""}    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>`;
+        });
+        const xml = [
+          `<?xml version="1.0" encoding="UTF-8"?>`,
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+          ...urls,
+          `</urlset>`,
+        ].join("\n");
+        return new Response(xml, {
+          headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=120, stale-while-revalidate=600" },
+        });
+      },
+    },
+  },
+});
+" ,"path":"src/routes/sitemap-genres[.]xml.ts"}],
