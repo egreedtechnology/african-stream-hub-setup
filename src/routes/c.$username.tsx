@@ -173,7 +173,7 @@ function CreatorPage() {
       if (cancelled) return;
       if (!p) {
         // Fallback: seeded mock creator from the Popular Africa catalog
-        const mock = findMockCreator(username);
+        const mock = findMockCreator(username) as any;
         if (mock) {
           setProfile({
             id: `mock:${mock.username}`,
