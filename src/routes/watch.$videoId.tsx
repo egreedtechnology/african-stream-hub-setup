@@ -751,6 +751,8 @@ function WatchPage() {
                 <Maximize2 className="h-4 w-4" />
               </button>
             </div>
+            </>)}
+
 
             {showComments && (
               <div className="absolute inset-y-0 right-0 w-full sm:w-[360px] bg-background/95 backdrop-blur-xl border-l border-border flex flex-col animate-slide-in-right z-20">
