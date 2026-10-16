@@ -59,7 +59,8 @@ async function fillOne(
   apiKey: string,
   video: { id: string; title: string; release_year?: number | null },
 ) {
-  const hit = await searchTmdb(apiKey, video.title, video.release_year ?? null);
+  const query = video.title.replace(/\s*[—-]\s*Part\s*\d+.*$/i, "").trim();
+  const hit = await searchTmdb(apiKey, query || video.title, video.release_year ?? null);
   if (!hit) return { id: video.id, title: video.title, found: false as const };
 
   const update: Record<string, unknown> = {
