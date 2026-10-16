@@ -31,3 +31,18 @@ const NARRATORS = [
   "daddym films", "daddymfilms", "daddym", "junior giti", "junior giti agasobanuye",
   "junior giti films", "sankara junior", "sankara junior agasobanuye",
   "kigali films", "hero films", "epic films", "abakinnyi", "abasobanura",
+  "rocky kirabiranya", "yanga", "gaheza", "savimbi",
+];
+
+const GENERAL = [
+  "film nyarwanda", "filime nyarwanda", "amafilime", "amakuru", "rwanda movies",
+  "rwandan films", "kinyarwanda movies", "kinyarwanda comedy", "rwanda gospel",
+  "rwanda music", "indirimbo nyarwanda", "swahili movies", "films rwandais",
+  "african movies", "african streaming",
+];
+
+export const IBONA_KEYWORD_LIST: string[] = Array.from(
+  new Set([...CORE, ...AGASOBANUYE, ...NARRATORS, ...GENERAL]),
+);
+
+export const IBONA_KEYWORDS: string = IBONA_KEYWORD_LIST.join(", ");
