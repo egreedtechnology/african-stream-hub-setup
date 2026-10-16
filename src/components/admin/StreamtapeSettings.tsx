@@ -1,4 +1,5 @@
 import { parseTitle } from "@/lib/title-parser";
+import { fetchMissingCovers } from "@/lib/movie-covers.functions";
 import { useEffect, useState } from "react";
 import { CheckCircle2, DownloadCloud, KeyRound, Loader2, Save, Server, XCircle } from "lucide-react";
 import { toast } from "sonner";
