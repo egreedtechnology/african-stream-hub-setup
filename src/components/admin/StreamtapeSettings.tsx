@@ -76,6 +76,22 @@ export function StreamtapeSettings() {
   };
 
   const [importing, setImporting] = useState(false);
+  const [fetchingCovers, setFetchingCovers] = useState(false);
+  const fetchCovers = async () => {
+    setFetchingCovers(true); setMessage(null);
+    try {
+      const res = await fetchMissingCovers();
+      const text = `Real covers updated: ${res.found} of ${res.total} films matched on TMDB.`;
+      setMessage({ ok: true, text });
+      toast.success(text);
+    } catch (e) {
+      const text = e instanceof Error ? e.message : "Could not fetch covers.";
+      setMessage({ ok: false, text });
+      toast.error("Cover fetch failed", { description: text });
+    } finally {
+      setFetchingCovers(false);
+    }
+  };
   const importAll = async () => {
     const l = login.trim(), k = key.trim();
     if (!l || !k) { setMessage({ ok: false, text: "Enter both credentials first." }); return; }
