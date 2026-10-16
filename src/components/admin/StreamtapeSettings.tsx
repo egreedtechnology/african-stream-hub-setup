@@ -1,7 +1,7 @@
 import { parseTitle } from "@/lib/title-parser";
 import { fetchMissingCovers } from "@/lib/movie-covers.functions";
 import { useEffect, useState } from "react";
-import { CheckCircle2, DownloadCloud, KeyRound, Loader2, Save, Server, XCircle } from "lucide-react";
+import { CheckCircle2, DownloadCloud, Image as ImageIcon, KeyRound, Loader2, Save, Server, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -211,6 +211,10 @@ export function StreamtapeSettings() {
         <button type="button" onClick={importAll} disabled={loading || testing || saving || importing} className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-background px-4 py-2.5 text-sm font-bold text-primary hover:bg-primary/10 disabled:opacity-50">
           {importing ? <Loader2 className="h-4 w-4 animate-spin" /> : <DownloadCloud className="h-4 w-4" />}
           {importing ? "Importing…" : "Import all Streamtape videos"}
+        </button>
+        <button type="button" onClick={fetchCovers} disabled={loading || testing || saving || importing || fetchingCovers} className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-background px-4 py-2.5 text-sm font-bold text-primary hover:bg-primary/10 disabled:opacity-50">
+          {fetchingCovers ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImageIcon className="h-4 w-4" />}
+          {fetchingCovers ? "Fetching covers…" : "Fetch real movie covers"}
         </button>
       </div>
     </section>
