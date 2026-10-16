@@ -10,6 +10,7 @@ const PROXY_HOSTS = new Set<string>([
   "storage.googleapis.com",
   "lh3.googleusercontent.com",
   "res.cloudinary.com",
+  "image.tmdb.org",
 ]);
 
 export function cdnImage(url: string | null | undefined): string {
