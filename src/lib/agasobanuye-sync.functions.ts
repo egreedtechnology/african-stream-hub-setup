@@ -4,6 +4,16 @@ import { parseTitle } from "@/lib/title-parser";
 
 const UA = { "User-Agent": "Mozilla/5.0 (IBONA sync)" };
 
+/** Sitemaps and pages escape characters like ' as &apos; / &#039;; decode before using URLs. */
+function decodeEntities(s: string) {
+  return s
+    .replace(/&#0*39;|&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+}
+
 async function getCreds(sb: any) {
   const { data: rows, error } = await sb.rpc("get_streamtape_credentials");
   if (error) throw new Error("Could not load Streamtape settings.");
@@ -92,13 +102,13 @@ export const scanAndSyncFilms = createServerFn({ method: "POST" })
     const onStreamtape = new Set(first.names.map((n) => n.toLowerCase()));
 
     const xml = await (await fetch("https://agasobanuyenow.com/sitemap-latest.xml", { headers: UA })).text();
-    const pages = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).filter((u) => u.includes("/movies/")).slice(0, data.limit);
+    const pages = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => decodeEntities(m[1].trim())).filter((u) => u.includes("/movies/")).slice(0, data.limit);
 
     const queued: string[] = [], skipped: string[] = [], failed: string[] = [];
     for (const page of pages) {
       try {
         const html = await (await fetch(page, { headers: UA })).text();
-        const file = html.match(/https:\/\/media\.agasobanuyenow\.com\/download\/[^"'\s<>]+\.mp4/)?.[0];
+        const file = decodeEntities(html).match(/https:\/\/media\.agasobanuyenow\.com\/download\/[^"<>\s]+\.mp4/i)?.[0];
         if (!file) { failed.push(`${page} (no video file found)`); continue; }
         const name = decodeURIComponent(file.split("/").pop()!);
         const { data: inDb } = await sb.from("videos").select("id").eq("original_title", name).limit(1);
