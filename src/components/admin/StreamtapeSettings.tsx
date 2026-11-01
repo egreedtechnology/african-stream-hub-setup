@@ -1,4 +1,5 @@
 import { parseTitle } from "@/lib/title-parser";
+import { AgasobanuyeSync } from "./AgasobanuyeSync";
 import { fetchMissingCovers } from "@/lib/movie-covers.functions";
 import { useEffect, useState } from "react";
 import { CheckCircle2, DownloadCloud, Image as ImageIcon, KeyRound, Loader2, Save, Server, XCircle } from "lucide-react";
@@ -217,6 +218,7 @@ export function StreamtapeSettings() {
           {fetchingCovers ? "Fetching covers…" : "Fetch real movie covers"}
         </button>
       </div>
+      <AgasobanuyeSync />
     </section>
   );
 }
