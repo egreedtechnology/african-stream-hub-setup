@@ -8,6 +8,7 @@ const ALLOWED_HOSTS = new Set<string>([
   "storage.googleapis.com",
   "lh3.googleusercontent.com",
   "res.cloudinary.com",
+  "image.tmdb.org",
 ]);
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
