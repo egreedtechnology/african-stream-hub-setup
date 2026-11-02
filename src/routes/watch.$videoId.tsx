@@ -603,14 +603,6 @@ function WatchPage() {
                     This video is hosted externally and can't be played inline on IBONA.
                   </p>
                 </div>
-                <a
-                  href={source.originalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-bold hover:scale-105 transition"
-                >
-                  <ExternalLink className="h-4 w-4" /> Open on {source.provider}
-                </a>
               </div>
             )}
             {shouldRenderNativeVideo && (
