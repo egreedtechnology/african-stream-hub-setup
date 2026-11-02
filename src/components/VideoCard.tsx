@@ -92,7 +92,7 @@ export function VideoCard({ video, size = "default" }: Props) {
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
-      <div className={`relative ${isPoster ? "aspect-[2/3]" : "aspect-video"} `}relative aspect-video overflow-hidden rounded-2xl bg-surface ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60 group-hover:scale-[1.03] group-hover:s[...]"
+      <div className={`relative ${isPoster ? "aspect-[2/3]" : "aspect-video"} overflow-hidden rounded-2xl bg-surface ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60 group-hover:scale-[1.03] group-hover:s[...]`}
       >
         {!loaded && <div className="absolute inset-0 animate-pulse bg-surface-elevated" />}
         <img
