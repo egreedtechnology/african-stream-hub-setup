@@ -591,16 +591,6 @@ function WatchPage() {
                   scrolling="no"
                   frameBorder={0}
                 />
-                {source.provider === "Streamtape" && (
-                  <a
-                    href={source.src.replace("/e/", "/v/")}
-                    target="_blank"
-                    rel="noopener"
-                    className="absolute right-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1.5 text-xs font-semibold text-foreground backdrop-blur hover:bg-background"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" /> Open on Streamtape
-                  </a>
-                )}
               </>
             )}
             {!isAudio && isUnsupported && (

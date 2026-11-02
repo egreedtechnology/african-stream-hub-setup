@@ -97,9 +97,11 @@ function Index() {
     };
   }, []);
 
-  const featured = feed[0];
+  // Only feature films with real artwork (backdrop or poster) in banners.
+  const withArt = useMemo(() => feed.filter((v) => v.backdropUrl || v.posterUrl), [feed]);
+  const featured = withArt[0];
   const recentlyAdded = useMemo(() => feed.slice(0, 12), [feed]);
-  const slides = useMemo(() => feed.slice(0, 6), [feed]);
+  const slides = useMemo(() => withArt.slice(1, 7), [withArt]);
   const filtered = useMemo(() => {
     if (category === "All") return feed;
     if (category === "Popular Africa") return feed.filter(isPopularAfrica);

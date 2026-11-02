@@ -13,7 +13,7 @@ export function Hero({ video }: { video: Video }) {
   return (
     <section className="relative h-[78vh] min-h-[520px] w-full overflow-hidden rounded-3xl">
       <img
-        src={cdnImage(video.thumbnail)}
+        src={cdnImage(video.backdropUrl || video.posterUrl || video.thumbnail)}
         alt={video.title}
         width={1920}
         height={1080}
