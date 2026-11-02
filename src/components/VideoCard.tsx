@@ -57,7 +57,11 @@ export function VideoCard({ video, size = "default" }: Props) {
     setHovered(false);
     if (!inView || shouldReducePreviews) vidRef.current?.pause();
   };
-  const showVideo = !shouldReducePreviews && (hovered || inView);
+  const showVideo = false;
+  const isPoster = size === "wide";
+  const imgSrc = isPoster
+    ? video.posterUrl || video.thumbnail
+    : video.backdropUrl || video.thumbnail || video.posterUrl;
   const mountVideo = !shouldReducePreviews && !!video.previewSrc && inView;
 
   // Route target: prefer typed detail page when we have a slug + movieType
@@ -84,15 +88,15 @@ export function VideoCard({ video, size = "default" }: Props) {
     <Link
       ref={containerRef}
       {...linkProps}
-      className={`group block ${size === "wide" ? "w-[340px] sm:w-[380px]" : "w-full"} shrink-0`}
+      className={`group block ${isPoster ? "w-[150px] sm:w-[190px]" : "w-full"} shrink-0`}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
-      <div className="relative aspect-video overflow-hidden rounded-2xl bg-surface ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60 group-hover:scale-[1.03] group-hover:s[...]"
+      <div className={`relative ${isPoster ? "aspect-[2/3]" : "aspect-video"} overflow-hidden rounded-2xl bg-surface ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60 group-hover:scale-[1.03] group-hover:s[...]`}
       >
         {!loaded && <div className="absolute inset-0 animate-pulse bg-surface-elevated" />}
         <img
-          src={cdnImage(video.thumbnail)}
+          src={cdnImage(imgSrc)}
           alt={video.title}
           loading="lazy"
           decoding="async"
@@ -173,7 +177,7 @@ export function VideoCard({ video, size = "default" }: Props) {
         </div>
 
         {video.interpreter && (
-          <div className="absolute bottom-3 right-3 max-w-[70%] truncate rounded-full bg-primary/90 px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow-sm">
+          <div className="absolute bottom-10 right-3 max-w-[80%] truncate rounded-full bg-primary/90 px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow-sm">
             🎤 {video.interpreter}
           </div>
         )}
