@@ -57,7 +57,11 @@ export function VideoCard({ video, size = "default" }: Props) {
     setHovered(false);
     if (!inView || shouldReducePreviews) vidRef.current?.pause();
   };
-  const showVideo = !shouldReducePreviews && (hovered || inView);
+  const showVideo = false;
+  const isPoster = size === "wide";
+  const imgSrc = isPoster
+    ? video.posterUrl || video.thumbnail
+    : video.backdropUrl || video.thumbnail || video.posterUrl;
   const mountVideo = !shouldReducePreviews && !!video.previewSrc && inView;
 
   // Route target: prefer typed detail page when we have a slug + movieType
