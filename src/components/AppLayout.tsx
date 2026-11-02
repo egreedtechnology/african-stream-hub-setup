@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { AppSidebar, MobileBottomNav } from "./Sidebar";
+import { MobileBottomNav, cinemaLinks } from "./Sidebar";
 import { Bell, Wifi, WifiOff, LogOut, User, LayoutDashboard, Upload as UploadIcon, Settings as SettingsIcon } from "lucide-react";
 import { IbonaLogo } from "./IbonaLogo";
 import { SearchAutocomplete } from "./SearchAutocomplete";
@@ -15,16 +15,29 @@ export function AppLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-screen w-full">
-      <AppSidebar />
       <div className="flex-1 min-w-0 flex flex-col">
-        {/* Top bar */}
-        <header className="sticky top-0 z-40 flex items-center gap-3 px-4 sm:px-6 h-14 border-b border-border bg-background/80 backdrop-blur-xl">
-          <Link to="/" className="lg:hidden">
+        {/* Cinema top bar */}
+        <header className="sticky top-0 z-40 flex items-center gap-3 px-4 sm:px-8 h-16 border-b border-border/60 bg-background/85 backdrop-blur-xl">
+          <Link to="/" className="shrink-0">
             <IbonaLogo />
           </Link>
-          <div className="flex flex-1 max-w-xl mx-auto">
+          <nav className="hidden lg:flex items-center gap-1 ml-6">
+            {cinemaLinks.filter((l) => l.to !== "/search").map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                activeOptions={{ exact: true }}
+                className="rounded-full px-4 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition"
+                activeProps={{ className: "text-foreground bg-surface" }}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+          <div className="hidden sm:flex flex-1 max-w-md ml-auto">
             <SearchAutocomplete />
           </div>
+          <div className="flex-1 sm:hidden" />
 
           {/* Low-data toggle */}
           <button
