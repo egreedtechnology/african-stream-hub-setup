@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Music2, Film, TrendingUp, Upload, User, Play, LayoutDashboard, Settings } from "lucide-react";
+import { Home, Music2, Film, TrendingUp, Upload, User, Play, LayoutDashboard, Settings, Search } from "lucide-react";
 import { IbonaLogo } from "./IbonaLogo";
 
 const items = [
@@ -51,44 +51,31 @@ export function AppSidebar() {
   );
 }
 
+export const cinemaLinks = [
+  { to: "/", label: "Ahabanza", icon: Home },
+  { to: "/movies", label: "Filime", icon: Film },
+  { to: "/trending", label: "Zikunzwe", icon: TrendingUp },
+  { to: "/search", label: "Shakisha", icon: Search },
+] as const;
+
 export function MobileBottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const mobileItems: { to: "/" | "/shorts" | "/upload" | "/studio" | "/profile"; label: string; icon: typeof Home; primary?: boolean }[] = [
-    { to: "/", label: "Home", icon: Home },
-    { to: "/shorts", label: "Shorts", icon: Play },
-    { to: "/upload", label: "Upload", icon: Upload, primary: true },
-    { to: "/studio", label: "Studio", icon: LayoutDashboard },
-    { to: "/profile", label: "Profile", icon: User },
-  ];
+  const mobileItems = [...cinemaLinks, { to: "/profile", label: "Konti", icon: User }] as const;
 
   return (
-    <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 border-t border-border bg-background/90 backdrop-blur-xl px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
-      <ul className="flex items-end justify-around">
-        {mobileItems.map(({ to, label, icon: Icon, primary }) => {
+    <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 border-t border-border bg-background/95 backdrop-blur-xl px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+      <ul className="flex items-center justify-around">
+        {mobileItems.map(({ to, label, icon: Icon }) => {
           const active = pathname === to;
-          if (primary) {
-            return (
-              <li key={to}>
-                <Link
-                  to={to}
-                  className="flex h-12 w-12 -mt-4 items-center justify-center rounded-2xl text-background shadow-[var(--shadow-glow)]"
-                  style={{ background: "var(--gradient-brand)" }}
-                  aria-label={label}
-                >
-                  <Icon className="h-6 w-6" />
-                </Link>
-              </li>
-            );
-          }
           return (
             <li key={to}>
               <Link
                 to={to}
-                className={`flex flex-col items-center gap-0.5 px-3 py-1.5 text-[10px] font-medium ${
-                  active ? "text-primary" : "text-muted-foreground"
+                className={`flex flex-col items-center gap-1 px-3 py-1 text-[11px] font-medium transition ${
+                  active ? "text-primary font-bold" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <Icon className="h-5 w-5" />
+                <Icon className={`h-5 w-5 ${active ? "text-primary" : ""}`} />
                 {label}
               </Link>
             </li>
