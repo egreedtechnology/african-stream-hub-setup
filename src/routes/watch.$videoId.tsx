@@ -591,16 +591,6 @@ function WatchPage() {
                   scrolling="no"
                   frameBorder={0}
                 />
-                {source.provider === "Streamtape" && (
-                  <a
-                    href={source.src.replace("/e/", "/v/")}
-                    target="_blank"
-                    rel="noopener"
-                    className="absolute right-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1.5 text-xs font-semibold text-foreground backdrop-blur hover:bg-background"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" /> Open on Streamtape
-                  </a>
-                )}
               </>
             )}
             {!isAudio && isUnsupported && (
@@ -613,14 +603,6 @@ function WatchPage() {
                     This video is hosted externally and can't be played inline on IBONA.
                   </p>
                 </div>
-                <a
-                  href={source.originalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-bold hover:scale-105 transition"
-                >
-                  <ExternalLink className="h-4 w-4" /> Open on {source.provider}
-                </a>
               </div>
             )}
             {shouldRenderNativeVideo && (
