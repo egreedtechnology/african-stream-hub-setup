@@ -27,8 +27,21 @@ export function slugify(s: string) {
   return s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
+/** True for real video files; Streamtape also lists its auto-made "Thumb_*.jpg" cover images. */
+export function isVideoFile(name: string) {
+  return /\.(mp4|mkv|avi|mov|webm|m4v|flv|wmv|ts)$/i.test(name) && !/^thumb_/i.test(name);
+}
+
 export function parseTitle(raw: string): ParsedTitle {
-  let s = ` ${raw.replace(/\.[a-z0-9]{2,4}$/i, "").replace(/[._\-\[\]()]+/g, " ")} `.replace(/\s+/g, " ");
+  const cleaned = raw
+    .replace(/^thumb_/i, "")
+    .replace(/(\.[a-z0-9]{2,4})+$/i, "")
+    .replace(/(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+\.(?:com|net|org|rw|co|tv)\b/gi, " ");
+  let s = ` ${cleaned.replace(/[._\-\[\]()]+/g, " ")} `.replace(/\s+/g, " ");
+  // Single trailing letter "A"/"B" = part 1/2 (common in Agasobanuye uploads)
+  const ab = s.match(/\s([AB])\s*$/);
+  let abPart: number | undefined;
+  if (ab) { abPart = ab[1] === "A" ? 1 : 2; s = s.slice(0, ab.index) + " "; }
 
   let quality: string | undefined;
   const q = s.match(/\b(2160p|4k|1080p|720p|480p|360p)\b/i);
