@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Music2, Film, TrendingUp, Upload, User, Play, LayoutDashboard, Settings, Search } from "lucide-react";
+import { Home, Music2, Film, TrendingUp, Upload, User, Play, LayoutDashboard, Settings, Search, Users } from "lucide-react";
 import { IbonaLogo } from "./IbonaLogo";
 
 const items = [
@@ -54,13 +54,14 @@ export function AppSidebar() {
 export const cinemaLinks = [
   { to: "/", label: "Ahabanza", icon: Home },
   { to: "/movies", label: "Filime", icon: Film },
+  { to: "/abasobanuzi", label: "Abasobanuzi", icon: Users },
   { to: "/trending", label: "Zikunzwe", icon: TrendingUp },
   { to: "/search", label: "Shakisha", icon: Search },
 ] as const;
 
 export function MobileBottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const mobileItems = [...cinemaLinks, { to: "/profile", label: "Konti", icon: User }] as const;
+  const mobileItems = [...cinemaLinks.filter((l) => l.to !== "/trending"), { to: "/profile", label: "Konti", icon: User }] as const;
 
   return (
     <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 border-t border-border bg-background/95 backdrop-blur-xl px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">

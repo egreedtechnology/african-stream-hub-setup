@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AbasobanuziRouteImport } from './routes/abasobanuzi'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MoviesRouteImport } from './routes/movies'
@@ -31,6 +32,8 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as TrendingRouteImport } from './routes/trending'
 import { Route as UploadRouteImport } from './routes/upload'
+import { Route as AbasobanuziIndexRouteImport } from './routes/abasobanuzi.index'
+import { Route as AbasobanuziInterpreterRouteImport } from './routes/abasobanuzi.$interpreter'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as CUsernameRouteImport } from './routes/c.$username'
 import { Route as CountryCountryRouteImport } from './routes/country.$country'
@@ -48,6 +51,11 @@ import { Route as ApiPublicSitemapPingRouteImport } from './routes/api/public/si
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AbasobanuziRoute = AbasobanuziRouteImport.update({
+  id: '/abasobanuzi',
+  path: '/abasobanuzi',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -155,6 +163,16 @@ const UploadRoute = UploadRouteImport.update({
   path: '/upload',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AbasobanuziIndexRoute = AbasobanuziIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AbasobanuziRoute,
+} as any)
+const AbasobanuziInterpreterRoute = AbasobanuziInterpreterRouteImport.update({
+  id: '/$interpreter',
+  path: '/$interpreter',
+  getParentRoute: () => AbasobanuziRoute,
+} as any)
 const AnimeSlugRoute = AnimeSlugRouteImport.update({
   id: '/anime/$slug',
   path: '/anime/$slug',
@@ -223,6 +241,7 @@ const ApiPublicSitemapPingRoute = ApiPublicSitemapPingRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/abasobanuzi': typeof AbasobanuziRouteWithChildren
   '/auth': typeof AuthRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/movies': typeof MoviesRoute
@@ -244,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/studio': typeof StudioRoute
   '/trending': typeof TrendingRoute
   '/upload': typeof UploadRoute
+  '/abasobanuzi/$interpreter': typeof AbasobanuziInterpreterRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/c/$username': typeof CUsernameRoute
   '/country/$country': typeof CountryCountryRoute
@@ -256,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/tv/$slug': typeof TvSlugRoute
   '/watch/$videoId': typeof WatchVideoIdRoute
   '/year/$year': typeof YearYearRoute
+  '/abasobanuzi/': typeof AbasobanuziIndexRoute
   '/api/public/sitemap-ping': typeof ApiPublicSitemapPingRoute
 }
 export interface FileRoutesByTo {
@@ -281,6 +302,7 @@ export interface FileRoutesByTo {
   '/studio': typeof StudioRoute
   '/trending': typeof TrendingRoute
   '/upload': typeof UploadRoute
+  '/abasobanuzi/$interpreter': typeof AbasobanuziInterpreterRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/c/$username': typeof CUsernameRoute
   '/country/$country': typeof CountryCountryRoute
@@ -293,11 +315,13 @@ export interface FileRoutesByTo {
   '/tv/$slug': typeof TvSlugRoute
   '/watch/$videoId': typeof WatchVideoIdRoute
   '/year/$year': typeof YearYearRoute
+  '/abasobanuzi': typeof AbasobanuziIndexRoute
   '/api/public/sitemap-ping': typeof ApiPublicSitemapPingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/abasobanuzi': typeof AbasobanuziRouteWithChildren
   '/auth': typeof AuthRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/movies': typeof MoviesRoute
@@ -319,6 +343,7 @@ export interface FileRoutesById {
   '/studio': typeof StudioRoute
   '/trending': typeof TrendingRoute
   '/upload': typeof UploadRoute
+  '/abasobanuzi/$interpreter': typeof AbasobanuziInterpreterRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/c/$username': typeof CUsernameRoute
   '/country/$country': typeof CountryCountryRoute
@@ -331,12 +356,14 @@ export interface FileRoutesById {
   '/tv/$slug': typeof TvSlugRoute
   '/watch/$videoId': typeof WatchVideoIdRoute
   '/year/$year': typeof YearYearRoute
+  '/abasobanuzi/': typeof AbasobanuziIndexRoute
   '/api/public/sitemap-ping': typeof ApiPublicSitemapPingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/abasobanuzi'
     | '/auth'
     | '/llms.txt'
     | '/movies'
@@ -358,6 +385,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/trending'
     | '/upload'
+    | '/abasobanuzi/$interpreter'
     | '/anime/$slug'
     | '/c/$username'
     | '/country/$country'
@@ -370,6 +398,7 @@ export interface FileRouteTypes {
     | '/tv/$slug'
     | '/watch/$videoId'
     | '/year/$year'
+    | '/abasobanuzi/'
     | '/api/public/sitemap-ping'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -395,6 +424,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/trending'
     | '/upload'
+    | '/abasobanuzi/$interpreter'
     | '/anime/$slug'
     | '/c/$username'
     | '/country/$country'
@@ -407,10 +437,12 @@ export interface FileRouteTypes {
     | '/tv/$slug'
     | '/watch/$videoId'
     | '/year/$year'
+    | '/abasobanuzi'
     | '/api/public/sitemap-ping'
   id:
     | '__root__'
     | '/'
+    | '/abasobanuzi'
     | '/auth'
     | '/llms.txt'
     | '/movies'
@@ -432,6 +464,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/trending'
     | '/upload'
+    | '/abasobanuzi/$interpreter'
     | '/anime/$slug'
     | '/c/$username'
     | '/country/$country'
@@ -444,11 +477,13 @@ export interface FileRouteTypes {
     | '/tv/$slug'
     | '/watch/$videoId'
     | '/year/$year'
+    | '/abasobanuzi/'
     | '/api/public/sitemap-ping'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AbasobanuziRoute: typeof AbasobanuziRouteWithChildren
   AuthRoute: typeof AuthRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   MoviesRoute: typeof MoviesRoute
@@ -492,6 +527,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/abasobanuzi': {
+      id: '/abasobanuzi'
+      path: '/abasobanuzi'
+      fullPath: '/abasobanuzi'
+      preLoaderRoute: typeof AbasobanuziRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -641,6 +683,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UploadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/abasobanuzi/': {
+      id: '/abasobanuzi/'
+      path: '/'
+      fullPath: '/abasobanuzi/'
+      preLoaderRoute: typeof AbasobanuziIndexRouteImport
+      parentRoute: typeof AbasobanuziRoute
+    }
+    '/abasobanuzi/$interpreter': {
+      id: '/abasobanuzi/$interpreter'
+      path: '/$interpreter'
+      fullPath: '/abasobanuzi/$interpreter'
+      preLoaderRoute: typeof AbasobanuziInterpreterRouteImport
+      parentRoute: typeof AbasobanuziRoute
+    }
     '/anime/$slug': {
       id: '/anime/$slug'
       path: '/anime/$slug'
@@ -735,8 +791,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AbasobanuziRouteChildren {
+  AbasobanuziInterpreterRoute: typeof AbasobanuziInterpreterRoute
+  AbasobanuziIndexRoute: typeof AbasobanuziIndexRoute
+}
+
+const AbasobanuziRouteChildren: AbasobanuziRouteChildren = {
+  AbasobanuziInterpreterRoute: AbasobanuziInterpreterRoute,
+  AbasobanuziIndexRoute: AbasobanuziIndexRoute,
+}
+
+const AbasobanuziRouteWithChildren = AbasobanuziRoute._addFileChildren(
+  AbasobanuziRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AbasobanuziRoute: AbasobanuziRouteWithChildren,
   AuthRoute: AuthRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   MoviesRoute: MoviesRoute,
