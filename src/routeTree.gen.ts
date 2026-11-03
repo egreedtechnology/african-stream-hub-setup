@@ -33,6 +33,7 @@ import { Route as StudioRouteImport } from './routes/studio'
 import { Route as TrendingRouteImport } from './routes/trending'
 import { Route as UploadRouteImport } from './routes/upload'
 import { Route as AbasobanuziIndexRouteImport } from './routes/abasobanuzi.index'
+import { Route as AbasobanuziInterpreterRouteImport } from './routes/abasobanuzi.$interpreter'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as CUsernameRouteImport } from './routes/c.$username'
 import { Route as CountryCountryRouteImport } from './routes/country.$country'
@@ -167,6 +168,11 @@ const AbasobanuziIndexRoute = AbasobanuziIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AbasobanuziRoute,
 } as any)
+const AbasobanuziInterpreterRoute = AbasobanuziInterpreterRouteImport.update({
+  id: '/$interpreter',
+  path: '/$interpreter',
+  getParentRoute: () => AbasobanuziRoute,
+} as any)
 const AnimeSlugRoute = AnimeSlugRouteImport.update({
   id: '/anime/$slug',
   path: '/anime/$slug',
@@ -257,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/studio': typeof StudioRoute
   '/trending': typeof TrendingRoute
   '/upload': typeof UploadRoute
+  '/abasobanuzi/$interpreter': typeof AbasobanuziInterpreterRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/c/$username': typeof CUsernameRoute
   '/country/$country': typeof CountryCountryRoute
@@ -295,6 +302,7 @@ export interface FileRoutesByTo {
   '/studio': typeof StudioRoute
   '/trending': typeof TrendingRoute
   '/upload': typeof UploadRoute
+  '/abasobanuzi/$interpreter': typeof AbasobanuziInterpreterRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/c/$username': typeof CUsernameRoute
   '/country/$country': typeof CountryCountryRoute
@@ -335,6 +343,7 @@ export interface FileRoutesById {
   '/studio': typeof StudioRoute
   '/trending': typeof TrendingRoute
   '/upload': typeof UploadRoute
+  '/abasobanuzi/$interpreter': typeof AbasobanuziInterpreterRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/c/$username': typeof CUsernameRoute
   '/country/$country': typeof CountryCountryRoute
@@ -376,6 +385,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/trending'
     | '/upload'
+    | '/abasobanuzi/$interpreter'
     | '/anime/$slug'
     | '/c/$username'
     | '/country/$country'
@@ -414,6 +424,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/trending'
     | '/upload'
+    | '/abasobanuzi/$interpreter'
     | '/anime/$slug'
     | '/c/$username'
     | '/country/$country'
@@ -453,6 +464,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/trending'
     | '/upload'
+    | '/abasobanuzi/$interpreter'
     | '/anime/$slug'
     | '/c/$username'
     | '/country/$country'
@@ -678,6 +690,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AbasobanuziIndexRouteImport
       parentRoute: typeof AbasobanuziRoute
     }
+    '/abasobanuzi/$interpreter': {
+      id: '/abasobanuzi/$interpreter'
+      path: '/$interpreter'
+      fullPath: '/abasobanuzi/$interpreter'
+      preLoaderRoute: typeof AbasobanuziInterpreterRouteImport
+      parentRoute: typeof AbasobanuziRoute
+    }
     '/anime/$slug': {
       id: '/anime/$slug'
       path: '/anime/$slug'
@@ -773,10 +792,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AbasobanuziRouteChildren {
+  AbasobanuziInterpreterRoute: typeof AbasobanuziInterpreterRoute
   AbasobanuziIndexRoute: typeof AbasobanuziIndexRoute
 }
 
 const AbasobanuziRouteChildren: AbasobanuziRouteChildren = {
+  AbasobanuziInterpreterRoute: AbasobanuziInterpreterRoute,
   AbasobanuziIndexRoute: AbasobanuziIndexRoute,
 }
 
