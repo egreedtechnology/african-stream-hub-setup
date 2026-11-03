@@ -151,18 +151,25 @@ export interface InterpreterEntry {
 
 /** Directory of agasobanuye interpreters, built from films that actually credit them. */
 export async function fetchInterpreterDirectory(): Promise<InterpreterEntry[]> {
-  const { data } = await supabase
-    .from("videos")
-    .select("interpreter, poster_url, thumbnail_url")
-    .eq("visibility", "public")
-    .eq("status", "ready")
-    .not("interpreter", "is", null)
-    .order("created_at", { ascending: false })
-    .limit(1000);
+  const rows: Array<{ interpreter?: string | null; poster_url?: string | null; thumbnail_url?: string | null }> = [];
+  const page = 1000;
+  for (let offset = 0; offset < 5000; offset += page) {
+    const { data } = await supabase
+      .from("videos")
+      .select("interpreter, poster_url, thumbnail_url")
+      .eq("visibility", "public")
+      .eq("status", "ready")
+      .not("interpreter", "is", null)
+      .order("created_at", { ascending: false })
+      .range(offset, offset + page - 1);
+    const batch = data ?? [];
+    rows.push(...batch);
+    if (batch.length < page) break;
+  }
 
   const map = new Map<string, InterpreterEntry>();
-  for (const row of data ?? []) {
-    const name = String((row as { interpreter?: string | null }).interpreter ?? "").trim();
+  for (const row of rows) {
+    const name = String(row.interpreter ?? "").trim();
     if (!name) continue;
     const key = name.toLowerCase();
     let entry = map.get(key);
@@ -171,8 +178,7 @@ export async function fetchInterpreterDirectory(): Promise<InterpreterEntry[]> {
       map.set(key, entry);
     }
     entry.count += 1;
-    const img = (row as { poster_url?: string | null }).poster_url
-      || (row as { thumbnail_url?: string | null }).thumbnail_url;
+    const img = row.poster_url || row.thumbnail_url;
     if (img && entry.posters.length < 4) entry.posters.push(img);
   }
 
