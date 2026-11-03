@@ -38,10 +38,6 @@ export function parseTitle(raw: string): ParsedTitle {
     .replace(/(\.[a-z0-9]{2,4})+$/i, "")
     .replace(/(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+\.(?:com|net|org|rw|co|tv)\b/gi, " ");
   let s = ` ${cleaned.replace(/[._\-\[\]()]+/g, " ")} `.replace(/\s+/g, " ");
-  // Single trailing letter "A"/"B" = part 1/2 (common in Agasobanuye uploads)
-  const ab = s.match(/\s([AB])\s*$/);
-  let abPart: number | undefined;
-  if (ab) { abPart = ab[1] === "A" ? 1 : 2; s = s.slice(0, ab.index) + " "; }
 
   let quality: string | undefined;
   const q = s.match(/\b(2160p|4k|1080p|720p|480p|360p)\b/i);
@@ -64,6 +60,11 @@ export function parseTitle(raw: string): ParsedTitle {
       if (re.test(lower)) { interpreter = it.name; s = s.replace(re, " "); break outer; }
     }
   }
+
+  s = s.replace(/\b(dj)\s*$/i, " ").replace(/\s+/g, " ");
+  // Trailing "A"/"B" means part 1/2 in many Agasobanuye uploads
+  const ab = s.match(/\s([AB])\s*$/);
+  if (ab && !partNumber) { partNumber = ab[1] === "A" ? 1 : 2; s = s.slice(0, ab.index) + " "; }
 
   const title = s.replace(NOISE, " ").replace(/\s+/g, " ").trim()
     .split(" ").map((w) => (/^[ivx]+$/i.test(w) ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())).join(" ")
