@@ -38,9 +38,9 @@ function MoviesPage() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     let cancelled = false;
-    fetchPublishedVideos(200).then((all) => {
+    fetchPublishedVideos(1000).then((all) => {
       if (cancelled) return;
-      setList(all.filter((v) => v.category === "Films"));
+      setList(all.filter((v) => v.category === "Films" || v.category === "Agasobanuye"));
       setLoading(false);
     });
     return () => { cancelled = true; };
