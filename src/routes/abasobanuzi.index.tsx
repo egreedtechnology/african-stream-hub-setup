@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Mic2 } from "lucide-react";
-import { Route as InterpretersRoute } from "./abasobanuzi";
 import { fetchInterpreterDirectory, type InterpreterEntry } from "@/lib/videos-api";
 import { cdnImage, fallbackCover } from "@/lib/cdn-image";
 
@@ -59,7 +58,7 @@ function InterpretersDirectory() {
                     {it.posters.map((p, i) => (
                       <img
                         key={i}
-                        src={cdnImage(p, 320)}
+                        src={cdnImage(p)}
                         alt=""
                         loading="lazy"
                         onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbackCover; }}
@@ -69,7 +68,7 @@ function InterpretersDirectory() {
                   </div>
                 ) : it.posters[0] ? (
                   <img
-                    src={cdnImage(it.posters[0], 480)}
+                    src={cdnImage(it.posters[0])}
                     alt=""
                     loading="lazy"
                     onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbackCover; }}
@@ -95,5 +94,3 @@ function InterpretersDirectory() {
     </>
   );
 }
-
-export { InterpretersRoute };
