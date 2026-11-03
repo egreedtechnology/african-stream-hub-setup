@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { parseTitle } from "@/lib/title-parser";
+import { parseTitle, isVideoFile } from "@/lib/title-parser";
 
 const UA = { "User-Agent": "Mozilla/5.0 (IBONA sync)" };
 
@@ -38,7 +38,7 @@ async function listStreamtapeFiles(login: string, key: string) {
     const b = (await (await fetch(`https://api.streamtape.com/file/listfolder?${p}`)).json()) as any;
     if (b.status !== 200) throw new Error(b.msg || "Streamtape list failed");
     for (const f of b.result?.folders ?? []) queue.push(f.id);
-    for (const f of b.result?.files ?? []) if (f.linkid) files.push(f);
+    for (const f of b.result?.files ?? []) if (f.linkid && isVideoFile(f.name)) files.push(f);
   }
   return files;
 }

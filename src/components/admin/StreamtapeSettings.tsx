@@ -1,4 +1,4 @@
-import { parseTitle } from "@/lib/title-parser";
+import { parseTitle, isVideoFile } from "@/lib/title-parser";
 import { AgasobanuyeSync } from "./AgasobanuyeSync";
 import { fetchMissingCovers } from "@/lib/movie-covers.functions";
 import { useEffect, useState } from "react";
@@ -111,7 +111,7 @@ export function StreamtapeSettings() {
         const b = await (await fetch(u)).json();
         if (b.status !== 200) throw new Error(b.msg || "Streamtape list failed");
         for (const f of b.result?.folders ?? []) queue.push(f.id);
-        for (const f of b.result?.files ?? []) if (f.linkid) files.push(f);
+        for (const f of b.result?.files ?? []) if (f.linkid && isVideoFile(f.name)) files.push(f);
       }
       const urls = files.map((f) => `https://streamtape.com/e/${f.linkid}/`);
       const { data: existing } = await supabase.from("videos").select("video_url").in("video_url", urls.length ? urls : ["-"]);
