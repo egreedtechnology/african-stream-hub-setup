@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { fallbackCover } from "@/lib/cdn-image";
+import { slugify } from "@/lib/title-parser";
 import { GENRES } from "@/lib/taxonomy";
 import type { Video } from "@/data/videos";
 
@@ -139,6 +140,43 @@ export async function fetchByInterpreter(interpreter: string, excludeSeries?: st
   const seen = new Set<string>(); const out: Video[] = [];
   for (const d of data ?? []) { const v = dbToVideo(d as unknown as DbVideo); const k = v.seriesSlug || v.id; if (seen.has(k)) continue; seen.add(k); out.push(v); if (out.length >= limit) break; }
   return out;
+}
+
+export interface InterpreterEntry {
+  name: string;
+  slug: string;
+  count: number;
+  posters: string[];
+}
+
+/** Directory of agasobanuye interpreters, built from films that actually credit them. */
+export async function fetchInterpreterDirectory(): Promise<InterpreterEntry[]> {
+  const { data } = await supabase
+    .from("videos")
+    .select("interpreter, poster_url, thumbnail_url")
+    .eq("visibility", "public")
+    .eq("status", "ready")
+    .not("interpreter", "is", null)
+    .order("created_at", { ascending: false })
+    .limit(1000);
+
+  const map = new Map<string, InterpreterEntry>();
+  for (const row of data ?? []) {
+    const name = String((row as { interpreter?: string | null }).interpreter ?? "").trim();
+    if (!name) continue;
+    const key = name.toLowerCase();
+    let entry = map.get(key);
+    if (!entry) {
+      entry = { name, slug: slugify(name), count: 0, posters: [] };
+      map.set(key, entry);
+    }
+    entry.count += 1;
+    const img = (row as { poster_url?: string | null }).poster_url
+      || (row as { thumbnail_url?: string | null }).thumbnail_url;
+    if (img && entry.posters.length < 4) entry.posters.push(img);
+  }
+
+  return [...map.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 }
 
 // ---- New filtered fetchers for category landing pages ----
