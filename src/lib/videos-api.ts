@@ -121,7 +121,7 @@ export function dbToVideo(v: DbVideo): Video {
     isTopRated: v.is_top_rated ?? undefined,
     isEditorsChoice: v.is_editors_choice ?? undefined,
     hasAgasobanuye: v.has_agasobanuye ?? undefined,
-    interpreter: v.interpreter ?? undefined,
+    interpreter: v.interpreter ?? parseTitle(v.original_title || v.title || "").interpreter ?? undefined,
     partNumber: v.part_number ?? undefined,
     totalParts: v.total_parts ?? undefined,
     kinyarwandaSynopsis: v.kinyarwanda_synopsis ?? undefined,

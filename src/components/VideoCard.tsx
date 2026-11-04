@@ -216,7 +216,9 @@ export function VideoCard({ video, size = "default" }: Props) {
           <h3 className="line-clamp-2 text-sm font-semibold text-foreground leading-snug group-hover:text-primary transition-colors">
             {video.title}
           </h3>
-          {video.creatorUsername ? (
+          {video.interpreter ? (
+            <p className="mt-1 text-xs text-muted-foreground truncate">🎤 {video.interpreter}</p>
+          ) : video.creatorUsername ? (
             <button
               type="button"
               onClick={(e) => {
