@@ -132,7 +132,7 @@ export function VideoCard({ video, size = "default" }: Props) {
           <span className="rounded-md bg-background/70 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-foreground">
             {video.category}
           </span>
-          {video.hasAgasobanuye && (
+          {video.hasAgasobanuye && video.category !== "Agasobanuye" && (
             <span className="rounded-md bg-emerald-500/90 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
               Agasobanuye
             </span>
