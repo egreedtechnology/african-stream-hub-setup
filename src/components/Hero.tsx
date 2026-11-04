@@ -60,7 +60,7 @@ export function Hero({ video }: { video: Video }) {
           {video.title}
         </h1>
         <p className="text-sm sm:text-base text-muted-foreground max-w-xl mb-2">
-          By <span className="text-foreground font-semibold">{video.creator}</span> · {video.views} views
+          {video.interpreter ? "Yasobanuwe na " : "By "}<span className="text-foreground font-semibold">{video.interpreter || video.creator}</span> · {video.views} views
         </p>
         <p className="hidden sm:block text-base text-foreground/80 max-w-2xl mb-6 line-clamp-2">
           {video.description}

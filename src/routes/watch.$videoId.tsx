@@ -884,8 +884,8 @@ function WatchPage() {
                   }
                 />
                 <div>
-                  <div className="font-semibold">{video.creator}</div>
-                  <div className="text-xs text-muted-foreground">Creator</div>
+                  <div className="font-semibold">{video.interpreter || video.creator}</div>
+                  <div className="text-xs text-muted-foreground">{video.interpreter ? "Umusemuzi" : "Creator"}</div>
                 </div>
                 <button
                   className="ml-2 rounded-full px-4 py-2 text-sm font-bold text-primary-foreground"
@@ -956,6 +956,16 @@ function WatchPage() {
           {parts.length > 1 && (
             <div className="rounded-2xl bg-surface p-3 ring-1 ring-border">
               <h3 className="font-bold mb-3 px-1">Ibice ({parts.length}){video.interpreter ? ` · 🎤 ${video.interpreter}` : ""}</h3>
+              {(() => {
+                const idx = parts.findIndex((p) => p.id === videoId);
+                const next = idx >= 0 ? parts[idx + 1] : undefined;
+                return next ? (
+                  <Link to="/watch/$videoId" params={{ videoId: next.id }}
+                    className="mb-3 flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground hover:brightness-110">
+                    ▶ Igice Gikurikira (Part {next.partNumber ?? idx + 2})
+                  </Link>
+                ) : null;
+              })()}
               <div className="space-y-2 max-h-[60vh] overflow-y-auto">
                 {parts.map((p, i) => {
                   const active = p.id === videoId;
