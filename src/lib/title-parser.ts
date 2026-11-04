@@ -9,6 +9,11 @@ export const KNOWN_INTERPRETERS: { name: string; aliases: string[] }[] = [
   { name: "Savimbi", aliases: ["savimbi"] },
   { name: "Didier", aliases: ["didier"] },
   { name: "Dylan Kabaka", aliases: ["dylan kabaka", "dylan"] },
+  { name: "Kimomo", aliases: ["kimomo"] },
+  { name: "Siniya", aliases: ["siniya"] },
+  { name: "Sikov", aliases: ["sikov"] },
+  { name: "Perfect", aliases: ["perfect"] },
+  { name: "Lee Creator", aliases: ["lee creator"] },
 ];
 
 export interface ParsedTitle {
@@ -34,9 +39,11 @@ export function isVideoFile(name: string) {
 
 export function parseTitle(raw: string): ParsedTitle {
   const cleaned = raw
-    .replace(/^thumb_/i, "")
+    .replace(/^\s*thumb[_\s]+/i, "")
     .replace(/(\.[a-z0-9]{2,4})+$/i, "")
-    .replace(/(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+\.(?:com|net|org|rw|co|tv)\b/gi, " ");
+    .replace(/(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+\.(?:com|net|org|rw|co|tv)\b/gi, " ")
+    .replace(/\b(?:www\s+)?agasobanuye\s*now\s+com\b/gi, " ")
+    .replace(/\bwww\b/gi, " ");
   let s = ` ${cleaned.replace(/[._\-\[\]()]+/g, " ")} `.replace(/\s+/g, " ");
 
   let quality: string | undefined;
