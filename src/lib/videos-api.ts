@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { fallbackCover } from "@/lib/cdn-image";
-import { slugify } from "@/lib/title-parser";
+import { slugify, parseTitle } from "@/lib/title-parser";
 import { GENRES } from "@/lib/taxonomy";
 import type { Video } from "@/data/videos";
 
@@ -80,7 +80,7 @@ export function dbToVideo(v: DbVideo): Video {
   const creator = v.profiles?.display_name || v.profiles?.username || "Creator";
   return {
     id: v.id,
-    title: v.title,
+    title: /thumb|www|\.(mp4|jpg|png)|kimomo|siniya|sikov|perfect/i.test(v.title) ? parseTitle(v.title).title || v.title : v.title,
     creator,
     creatorId: v.owner_id,
     creatorUsername: v.profiles?.username ?? undefined,
@@ -194,27 +194,27 @@ export async function fetchVideoBySlug(slug: string): Promise<Video | null> {
 
 export async function fetchVideosByGenre(genre: string, limit = 60): Promise<Video[]> {
   const { data } = await supabase.from("videos").select(SELECT_COLS).contains("genres", [genre]).eq("visibility", "public").eq("status", "ready").order("created_at", { ascending: false }).limit(limit);
-  return ((data as unknown as DbVideo[]) ?? []).map(dbToVideo);
+  return ((data as unknown as DbVideo[]) ?? []).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
 }
 
 export async function fetchVideosByCountry(code: string, limit = 60): Promise<Video[]> {
   const { data } = await supabase.from("videos").select(SELECT_COLS).eq("country_code", code).eq("visibility", "public").eq("status", "ready").order("created_at", { ascending: false }).limit(limit);
-  return ((data as unknown as DbVideo[]) ?? []).map(dbToVideo);
+  return ((data as unknown as DbVideo[]) ?? []).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
 }
 
 export async function fetchVideosByYear(year: number, limit = 60): Promise<Video[]> {
   const { data } = await supabase.from("videos").select(SELECT_COLS).eq("release_year", year).eq("visibility", "public").eq("status", "ready").order("created_at", { ascending: false }).limit(limit);
-  return ((data as unknown as DbVideo[]) ?? []).map(dbToVideo);
+  return ((data as unknown as DbVideo[]) ?? []).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
 }
 
 export async function fetchVideosByType(type: string, limit = 60): Promise<Video[]> {
   const { data } = await supabase.from("videos").select(SELECT_COLS).eq("movie_type", type).eq("visibility", "public").eq("status", "ready").order("created_at", { ascending: false }).limit(limit);
-  return ((data as unknown as DbVideo[]) ?? []).map(dbToVideo);
+  return ((data as unknown as DbVideo[]) ?? []).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
 }
 
 export async function fetchTopRatedVideos(limit = 12): Promise<Video[]> {
   const { data } = await supabase.from("videos").select(SELECT_COLS).eq("visibility", "public").eq("status", "ready").order("imdb_rating", { ascending: false, nullsFirst: false }).limit(limit);
-  return ((data as unknown as DbVideo[]) ?? []).map(dbToVideo);
+  return ((data as unknown as DbVideo[]) ?? []).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
 }
 
 /**
@@ -242,11 +242,11 @@ export async function fetchTrendingVideos(limit = 12): Promise<Video[]> {
     return rows
       .slice()
       .sort((a, b) => (order.get(a.id) ?? 999) - (order.get(b.id) ?? 999))
-      .map(dbToVideo);
+      .filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
   }
 
   const { data } = await supabase.from("videos").select(SELECT_COLS).eq("visibility", "public").eq("status", "ready").order("views", { ascending: false, nullsFirst: false }).limit(limit);
-  return ((data as unknown as DbVideo[]) ?? []).map(dbToVideo);
+  return ((data as unknown as DbVideo[]) ?? []).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
 }
 
 /** When the trending order was last recomputed. */
@@ -264,10 +264,10 @@ export async function fetchRelatedVideos(video: Video, limit = 12): Promise<Vide
   const q = supabase.from("videos").select(SELECT_COLS).eq("visibility", "public").eq("status", "ready").neq("id", video.id).limit(limit);
   if (video.genres && video.genres.length) {
     const { data } = await q.overlaps("genres", video.genres);
-    return ((data as unknown as DbVideo[]) ?? []).map(dbToVideo);
+    return ((data as unknown as DbVideo[]) ?? []).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
   }
   const { data } = await q.eq("category", video.category);
-  return ((data as unknown as DbVideo[]) ?? []).map(dbToVideo);
+  return ((data as unknown as DbVideo[]) ?? []).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
 }
 
 export async function fetchPublishedVideos(limit = 50): Promise<Video[]> {
@@ -279,7 +279,7 @@ export async function fetchPublishedVideos(limit = 50): Promise<Video[]> {
     .order("created_at", { ascending: false })
     .limit(limit);
   if (error || !data) return [];
-  return (data as unknown as DbVideo[]).map(dbToVideo);
+  return (data as unknown as DbVideo[]).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
 }
 
 export async function fetchAllFeed(): Promise<Video[]> {
@@ -473,8 +473,8 @@ export async function searchAll(
       .limit(40),
   ]);
   const dbVideos = [
-    ...(((dRes as { data: unknown }).data as DbVideo[] | null) ?? []).map(dbToVideo),
-    ...((vRes.data as unknown as DbVideo[]) ?? []).map(dbToVideo),
+    ...(((dRes as { data: unknown }).data as DbVideo[] | null) ?? []).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo),
+    ...((vRes.data as unknown as DbVideo[]) ?? []).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo),
   ];
   const dbCreators = (cRes.data as CreatorProfile[]) ?? [];
   return { videos: dbVideos, creators: dbCreators };
@@ -489,7 +489,7 @@ export async function fetchVideosByOwner(ownerId: string): Promise<Video[]> {
     .eq("status", "ready")
     .order("created_at", { ascending: false });
   if (error || !data) return [];
-  return (data as unknown as DbVideo[]).map(dbToVideo);
+  return (data as unknown as DbVideo[]).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
 }
 
 // ---- Advanced search (Netflix-style filters) ----
@@ -619,7 +619,7 @@ export async function fetchAdvancedSearchPage(
   const { data } = await query.range(offset, offset + pageSize).returns<DbVideo[]>();
   const rows = data ?? [];
   const hasMore = rows.length > pageSize;
-  const items = (hasMore ? rows.slice(0, pageSize) : rows).map(dbToVideo);
+  const items = (hasMore ? rows.slice(0, pageSize) : rows).filter((v: DbVideo) => !/^thumb/i.test(v.title ?? "")).map(dbToVideo);
   return { items, nextCursor: hasMore ? encodeCursor(offset + pageSize) : null };
 }
 
