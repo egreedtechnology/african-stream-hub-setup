@@ -44,7 +44,10 @@ export const syncDaddymFilms = createServerFn({ method: "POST" })
       for (const link of m.movieLinks ?? []) {
         const mf = [link.downloadLink, link.streamingLink].find((u) => u?.includes("mediafire.com/file/"));
         if (!mf) continue;
-        const name = decodeURIComponent((mf.split("/file/")[1] ?? "").split("/")[1] ?? "").replace(/\+/g, " ");
+        let name = (mf.split("/file/")[1] ?? "").split("/")[1] ?? "";
+        // Daddy M links are sometimes encoded twice (e.g. %2527 for an apostrophe).
+        for (let i = 0; i < 3 && /%[0-9a-f]{2}/i.test(name); i++) { try { name = decodeURIComponent(name); } catch { break; } }
+        name = name.replace(/\+/g, " ").replace(/_/g, " ").trim();
         if (!name) continue;
         const { data: inDb } = await sb.from("videos").select("id").eq("original_title", name).limit(1);
         if (inDb?.length) { skipped++; continue; }
