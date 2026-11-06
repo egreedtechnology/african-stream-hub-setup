@@ -448,7 +448,7 @@ export async function searchAll(
     .select("*, profiles!videos_owner_profile_fk(display_name, username, avatar_url)")
     .eq("visibility", "public")
     .eq("status", "ready")
-    .or(`title.ilike.${like},description.ilike.${like}`)
+    .or(`title.ilike.${like},description.ilike.${like},interpreter.ilike.${like},original_title.ilike.${like},clean_title.ilike.${like}`)
     .order("created_at", { ascending: false })
     .limit(100);
 
@@ -458,7 +458,7 @@ export async function searchAll(
         .select("*, profiles!videos_owner_profile_fk(display_name, username, avatar_url)")
         .eq("owner_id", opts.viewerId!)
         .neq("visibility", "public")
-        .or(`title.ilike.${like},description.ilike.${like}`)
+        .or(`title.ilike.${like},description.ilike.${like},interpreter.ilike.${like},original_title.ilike.${like},clean_title.ilike.${like}`)
         .order("created_at", { ascending: false })
         .limit(50)
     : Promise.resolve({ data: [] as unknown[] } as { data: unknown[] });
