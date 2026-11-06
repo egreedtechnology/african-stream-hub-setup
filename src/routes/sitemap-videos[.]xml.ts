@@ -11,6 +11,7 @@ interface VideoRow {
   title: string | null;
   description: string | null;
   thumbnail_url: string | null;
+  poster_url: string | null;
   ai_thumbnail_url: string | null;
   video_url: string | null;
   duration_seconds: number | null;
@@ -35,19 +36,19 @@ export const Route = createFileRoute("/sitemap-videos.xml")({
           const key = process.env.SUPABASE_PUBLISHABLE_KEY;
           if (url && key) {
             const res = await fetch(
-              `${url}/rest/v1/videos?select=id,title,description,thumbnail_url,ai_thumbnail_url,video_url,duration_seconds,views,language,category,tags,country,created_at,updated_at&visibility=eq.public&status=eq.ready&order=created_at.desc&limit=5000`,
+              `${url}/rest/v1/videos?select=id,poster_url,title,description,thumbnail_url,ai_thumbnail_url,video_url,duration_seconds,views,language,category,tags,country,created_at,updated_at&visibility=eq.public&status=eq.ready&order=created_at.desc&limit=5000`,
               { headers: { apikey: key, Authorization: `Bearer ${key}` } },
             );
             if (res.ok) rows = (await res.json()) as VideoRow[];
           }
         } catch { /* return empty sitemap */ }
 
-        const urls = rows.map((v) => {
+        const urls = rows.filter((v) => !/^thumb[_ ]/i.test(v.title || "") && !/\.(jpe?g|png)$/i.test(v.title || "")).map((v) => {
           const loc = `${BASE_URL}/watch/${v.id}`;
-          const thumb = v.ai_thumbnail_url || v.thumbnail_url || "";
+          const thumb = v.poster_url || v.thumbnail_url || v.ai_thumbnail_url || "";
           const title = esc((v.title || "IBONA Video").slice(0, 100));
           const desc = esc((v.description || v.title || "African video streaming on IBONA").slice(0, 2048));
-          const lastmod = (v.updated_at || v.created_at || new Date().toISOString()).slice(0, 10);
+          const lastmod = (v.updated_at || v.created_at || "").slice(0, 10);
           const tagLines = (v.tags || []).slice(0, 32).map((t) => `      <video:tag>${esc(String(t))}</video:tag>`).join("\n");
           const langMap: Record<string, string> = { Kinyarwanda: "rw", Swahili: "sw", English: "en", French: "fr" };
           const lang = v.language ? (langMap[v.language] ?? "rw") : "rw";
@@ -57,16 +58,15 @@ export const Route = createFileRoute("/sitemap-videos.xml")({
                 `      <video:thumbnail_loc>${esc(thumb)}</video:thumbnail_loc>`,
                 `      <video:title>${title}</video:title>`,
                 `      <video:description>${desc}</video:description>`,
-                v.video_url ? `      <video:content_loc>${esc(v.video_url)}</video:content_loc>` : null,
+                v.video_url && /\.(mp4|m3u8|webm)(\?|$)/i.test(v.video_url) ? `      <video:content_loc>${esc(v.video_url)}</video:content_loc>` : null,
                 `      <video:player_loc allow_embed="yes">${esc(`${BASE_URL}/watch/${v.id}`)}</video:player_loc>`,
                 `      <video:view_count>${String(v.views ?? 0)}</video:view_count>`,
-                `      <video:publication_date>${lastmod}</video:publication_date>`,
+                lastmod ? `      <video:publication_date>${lastmod}</video:publication_date>` : null,
                 `      <video:family_friendly>yes</video:family_friendly>`,
                 `      <video:requires_subscription>no</video:requires_subscription>`,
                 `      <video:category>${esc(v.category || "Entertainment")}</video:category>`,
                 `      <video:tag>${esc(v.title || "IBONA")}</video:tag>`,
                 tagLines,
-                `      <video:content_loc>${esc(v.video_url || "")}</video:content_loc>`,
                 `      <video:duration>${String(v.duration_seconds ?? 0)}</video:duration>`,
                 `      <video:language>${lang}</video:language>`,
                 `    </video:video>`,
