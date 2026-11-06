@@ -43,7 +43,8 @@ export function parseTitle(raw: string): ParsedTitle {
     .replace(/(\.[a-z0-9]{2,4})+$/i, "")
     .replace(/(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+\.(?:com|net|org|rw|co|tv)\b/gi, " ")
     .replace(/\b(?:www\s+)?agasobanuye\s*now\s+com\b/gi, " ")
-    .replace(/\bwww\b/gi, " ");
+    .replace(/\bwww\b/gi, " ")
+    .replace(/\b(?:dl|hd)\b/gi, " ");
   let s = ` ${cleaned.replace(/[._\-\[\]()]+/g, " ")} `.replace(/\s+/g, " ");
 
   let quality: string | undefined;
@@ -52,7 +53,7 @@ export function parseTitle(raw: string): ParsedTitle {
 
   let partNumber: number | undefined;
   let totalParts: number | undefined;
-  const p = s.match(/\b(?:part|pt|igice|episode|ep)\s*(\d{1,2})(?:\s*(?:of|kuri|\/)\s*(\d{1,2}))?\b/i);
+  const p = s.match(/\b(?:part|pt|igice|episode|ep|e(?=\d))\s*(\d{1,2})(?:\s*(?:of|kuri|\/)\s*(\d{1,2}))?\b/i);
   if (p) { partNumber = +p[1]; if (p[2]) totalParts = +p[2]; s = s.replace(p[0], " "); }
 
   let releaseYear: number | undefined;
