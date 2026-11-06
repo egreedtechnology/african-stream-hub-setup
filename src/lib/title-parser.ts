@@ -43,7 +43,8 @@ export function parseTitle(raw: string): ParsedTitle {
     .replace(/(\.[a-z0-9]{2,4})+$/i, "")
     .replace(/(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+\.(?:com|net|org|rw|co|tv)\b/gi, " ")
     .replace(/\b(?:www\s+)?agasobanuye\s*now\s+com\b/gi, " ")
-    .replace(/\bwww\b/gi, " ");
+    .replace(/\bwww\b/gi, " ")
+    .replace(/\b(?:dl|hd)\b/gi, " ");
   let s = ` ${cleaned.replace(/[._\-\[\]()]+/g, " ")} `.replace(/\s+/g, " ");
 
   let quality: string | undefined;
