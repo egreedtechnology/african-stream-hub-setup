@@ -53,7 +53,7 @@ export function parseTitle(raw: string): ParsedTitle {
 
   let partNumber: number | undefined;
   let totalParts: number | undefined;
-  const p = s.match(/\b(?:part|pt|igice|episode|ep)\s*(\d{1,2})(?:\s*(?:of|kuri|\/)\s*(\d{1,2}))?\b/i);
+  const p = s.match(/\b(?:part|pt|igice|episode|ep|e(?=\d))\s*(\d{1,2})(?:\s*(?:of|kuri|\/)\s*(\d{1,2}))?\b/i);
   if (p) { partNumber = +p[1]; if (p[2]) totalParts = +p[2]; s = s.replace(p[0], " "); }
 
   let releaseYear: number | undefined;
