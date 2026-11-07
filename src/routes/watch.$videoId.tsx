@@ -28,6 +28,7 @@ import { useSettings } from "@/contexts/SettingsContext";
 import { loadPrefs, savePrefs } from "@/lib/playback-prefs";
 import { toast } from "sonner";
 import { classifyVideoSource } from "@/lib/video-embed";
+import { MonetizedDownloadButton } from "@/components/MonetizedDownloadButton";
 import { ExternalLink } from "lucide-react";
 import { fallbackCover } from "@/lib/cdn-image";
 
@@ -911,6 +912,7 @@ function WatchPage() {
                 <button onClick={handleShare} className="inline-flex items-center gap-2 rounded-full border border-border bg-surface hover:bg-surface-elevated px-4 py-2 text-sm font-semibold transition">
                   <Share2 className="h-4 w-4" /> Share
                 </button>
+                <MonetizedDownloadButton src={video.previewSrc} />
               </div>
             </div>
 
