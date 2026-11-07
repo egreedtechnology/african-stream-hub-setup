@@ -54,13 +54,28 @@ async function searchTmdb(apiKey: string, title: string, year?: number | null): 
   return hit;
 }
 
+/** Strips season/episode/part markers so series like "S01 Lupin — Part 3" search as "Lupin". */
+function cleanTitleForSearch(raw: string): string {
+  return (raw || "")
+    .replace(/^\s*thumb[_\s]+/i, "")
+    .replace(/\b(?:season\s*\d+|s\d{1,2}(?:\s*e\d{1,2})?)\b/gi, " ")
+    .replace(/\b(?:episode|ep)\s*\d+\b/gi, " ")
+    .replace(/\s*[—-]?\s*(?:part|pt|igice)\s*\d+.*$/i, " ")
+    .replace(/\b(?:part|pt|igice)\s*\d+\b/gi, " ")
+    .replace(/\b(hd|fhd|uhd|mp4|mkv|agasobanuye|kinyarwanda)\b/gi, " ")
+    .replace(/\b[AB]\b/gi, " ")
+    .replace(/[—-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 async function fillOne(
   supabase: any,
   apiKey: string,
   video: { id: string; title: string; release_year?: number | null },
 ) {
-  const query = video.title.replace(/\s*[—-]\s*Part\s*\d+.*$/i, "").trim();
-  const hit = await searchTmdb(apiKey, query || video.title, video.release_year ?? null);
+  const query = cleanTitleForSearch(video.title) || video.title;
+  const hit = await searchTmdb(apiKey, query, video.release_year ?? null);
   if (!hit) return { id: video.id, title: video.title, found: false as const };
 
   const update: Record<string, unknown> = {
