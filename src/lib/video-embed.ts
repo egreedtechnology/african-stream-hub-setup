@@ -26,6 +26,14 @@ export function toEmbedUrl(url: string): { src: string; provider: string; allow?
   m = url.match(/(?:streamtape\.(?:com|to|net|xyz|cc)|streamta\.pe|strtape\.\w+|stape\.fun)\/(?:v|e)\/([A-Za-z0-9]+)/i);
   if (m) return { src: `https://streamtape.com/e/${m[1]}/`, provider: "Streamtape", allow: "autoplay; encrypted-media; fullscreen" };
 
+  // Other film hosts that only play inside their own player page
+  m = url.match(/hgcloud\.to\/(?:e\/|f\/|v\/)?([A-Za-z0-9]+)/i);
+  if (m) return { src: `https://hgcloud.to/e/${m[1]}`, provider: "HGCloud", allow: "autoplay; encrypted-media; fullscreen" };
+  if (/avcaption\.com\//i.test(url)) return { src: url, provider: "AVCaption", allow: "autoplay; encrypted-media; fullscreen" };
+  if (/strp2p\.com/i.test(url)) return { src: url, provider: "Daddy M Player", allow: "autoplay; encrypted-media; fullscreen" };
+  if (/uqload\.\w+\//i.test(url)) return { src: url, provider: "Uqload", allow: "autoplay; encrypted-media; fullscreen" };
+  if (/playmogo\.com\//i.test(url)) return { src: url, provider: "Playmogo", allow: "autoplay; encrypted-media; fullscreen" };
+
   // YouTube
   m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{6,})/);
   if (m) return { src: `https://www.youtube.com/embed/${m[1]}`, provider: "YouTube", allow: "autoplay; encrypted-media; picture-in-picture; fullscreen" };

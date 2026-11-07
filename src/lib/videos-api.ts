@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { fallbackCover } from "@/lib/cdn-image";
-import { slugify, parseTitle } from "@/lib/title-parser";
+import { slugify, parseTitle, cleanDisplayTitle, findInterpreter } from "@/lib/title-parser";
 import { GENRES } from "@/lib/taxonomy";
 import type { Video } from "@/data/videos";
 
@@ -80,7 +80,7 @@ export function dbToVideo(v: DbVideo): Video {
   const creator = v.profiles?.display_name || v.profiles?.username || "Creator";
   return {
     id: v.id,
-    title: /thumb|www|\.(mp4|jpg|png)|kimomo|siniya|sikov|perfect/i.test(v.title) ? parseTitle(v.title).title || v.title : v.title,
+    title: cleanDisplayTitle(v.title),
     creator,
     creatorId: v.owner_id,
     creatorUsername: v.profiles?.username ?? undefined,
@@ -121,7 +121,7 @@ export function dbToVideo(v: DbVideo): Video {
     isTopRated: v.is_top_rated ?? undefined,
     isEditorsChoice: v.is_editors_choice ?? undefined,
     hasAgasobanuye: v.has_agasobanuye ?? undefined,
-    interpreter: v.interpreter ?? parseTitle(v.original_title || v.title || "").interpreter ?? undefined,
+    interpreter: v.interpreter || findInterpreter(v.original_title || "") || findInterpreter(v.title || "") || undefined,
     partNumber: v.part_number ?? undefined,
     totalParts: v.total_parts ?? undefined,
     kinyarwandaSynopsis: v.kinyarwanda_synopsis ?? undefined,
