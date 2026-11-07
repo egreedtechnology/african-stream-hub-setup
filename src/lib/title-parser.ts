@@ -81,3 +81,32 @@ export function parseTitle(raw: string): ParsedTitle {
   const seriesSlug = slugify([title, interpreter].filter(Boolean).join(" "));
   return { title, interpreter, partNumber, totalParts, releaseYear, quality, seriesSlug };
 }
+
+/** Cleans a stored title for display without changing real film names. */
+export function cleanDisplayTitle(raw: string): string {
+  let s = (raw || "")
+    .replace(/^\s*thumb[_\s]+/i, "")
+    .replace(/\(\s*download\s+links?\s*\)/gi, " ")
+    .replace(/(\.(mp4|mkv|avi|jpg|png|crdownload))+$/i, "")
+    .replace(/\bcrdownload\b/gi, " ")
+    .replace(/(?:https?:\/\/)?(?:www\.)?agasobanuye\s*now\s*(?:\.|\s)com/gi, " ")
+    .replace(/\bwww\b/gi, " ")
+    .replace(/\b(?:hd|fhd|uhd)\b/gi, " ")
+    .replace(/_/g, " ");
+  for (const it of KNOWN_INTERPRETERS) {
+    for (const a of it.aliases) {
+      if (a.split(" ").length < 2 && ["junior", "rocky", "dylan", "perfect"].includes(a)) continue;
+      s = s.replace(new RegExp(`\\s(?:ya\\s+|by\\s+|dj\\s+)?${a.replace(/ /g, "\\s+")}\\s*$`, "i"), " ");
+    }
+  }
+  s = s.replace(/\s(?:ya|dj)\s+rocky\s*$/i, " ").replace(/\s+/g, " ").trim();
+  return s || raw;
+}
+
+/** Finds the translator from the title, including "ya Rocky" / "DJ Didier" styles. */
+export function findInterpreter(raw: string): string | undefined {
+  const p = parseTitle(raw).interpreter;
+  if (p) return p;
+  if (/\b(?:ya|dj)\s+rocky\b/i.test(raw)) return "Rocky Kirabiranya";
+  return undefined;
+}
