@@ -17,9 +17,9 @@ import { cdnImage } from "@/lib/cdn-image";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "IBONA — Agasobanuye, Film Nyarwanda & African Music Streaming" },
+      { title: "ibonafilms — Reba Agasobanuye Nshya 2026 Kubuntu | IBONA" },
       { name: "description", content: "IBONA is the #1 African-first streaming platform for agasobanuye, film nyarwanda, amakuru, news shorts, comedy and African music in Kinyarwanda, Swahili and English." },
-      { property: "og:title", content: "IBONA — African-First Video Streaming" },
+      { property: "og:title", content: "ibonafilms — Agasobanuye & Filime Nyarwanda" },
       { property: "og:description", content: "Premium African video streaming. Music, film nyarwanda, agasobanuye, comedy and news shorts — free to stream." },
       { property: "og:url", content: "https://ibona.egreedtech.org/" },
     ],

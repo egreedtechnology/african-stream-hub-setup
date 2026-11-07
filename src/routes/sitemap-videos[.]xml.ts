@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
+import { filmKeywords } from "@/lib/ibona-keywords";
+import { parseTitle } from "@/lib/title-parser";
 
 const BASE_URL = "https://ibona.egreedtech.org";
 
@@ -49,7 +51,10 @@ export const Route = createFileRoute("/sitemap-videos.xml")({
           const title = esc((v.title || "IBONA Video").slice(0, 100));
           const desc = esc((v.description || v.title || "African video streaming on IBONA").slice(0, 2048));
           const lastmod = (v.updated_at || v.created_at || "").slice(0, 10);
-          const tagLines = (v.tags || []).slice(0, 32).map((t) => `      <video:tag>${esc(String(t))}</video:tag>`).join("\n");
+          let interp: string | null = null;
+          try { interp = (parseTitle(v.title || "") as { interpreter?: string | null }).interpreter ?? null; } catch { /* ignore */ }
+          const allTags = Array.from(new Set([...filmKeywords(v.title || "", interp, v.category), ...(v.tags || []).map(String)]));
+          const tagLines = allTags.slice(0, 32).map((t) => `      <video:tag>${esc(String(t))}</video:tag>`).join("\n");
           const langMap: Record<string, string> = { Kinyarwanda: "rw", Swahili: "sw", English: "en", French: "fr" };
           const lang = v.language ? (langMap[v.language] ?? "rw") : "rw";
           const videoBlock = thumb
@@ -65,7 +70,6 @@ export const Route = createFileRoute("/sitemap-videos.xml")({
                 `      <video:family_friendly>yes</video:family_friendly>`,
                 `      <video:requires_subscription>no</video:requires_subscription>`,
                 `      <video:category>${esc(v.category || "Entertainment")}</video:category>`,
-                `      <video:tag>${esc(v.title || "IBONA")}</video:tag>`,
                 tagLines,
                 `      <video:duration>${String(v.duration_seconds ?? 0)}</video:duration>`,
                 `      <video:language>${lang}</video:language>`,
