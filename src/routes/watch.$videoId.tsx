@@ -31,6 +31,7 @@ import { classifyVideoSource } from "@/lib/video-embed";
 import { MonetizedDownloadButton } from "@/components/MonetizedDownloadButton";
 import { ExternalLink } from "lucide-react";
 import { fallbackCover } from "@/lib/cdn-image";
+import { filmKeywords } from "@/lib/ibona-keywords";
 
 export const Route = createFileRoute("/watch/$videoId")({
   loader: ({ params }) => {
@@ -44,8 +45,7 @@ export const Route = createFileRoute("/watch/$videoId")({
     if (!v) {
       return { meta: [{ title: "Watch — IBONA" }], links: [{ rel: "canonical", href: url }] };
     }
-    const kwList = [v.title, v.creator, v.category, v.language, "agasobanuye", "film nyarwanda", "amakuru", "IBONA", "Rebalive"]
-      .filter(Boolean).join(", ");
+    const kwList = [...filmKeywords(v.title, (v as { interpreter?: string }).interpreter ?? v.creator, v.category), "film nyarwanda", "IBONA"].join(", ");
     // Convert "mm:ss" or "hh:mm:ss" duration to ISO 8601 PTxxMxxS
     const toISODuration = (d?: string): string | undefined => {
       if (!d) return undefined;
@@ -61,7 +61,7 @@ export const Route = createFileRoute("/watch/$videoId")({
     const description = (v.description || `Watch ${v.title} by ${v.creator} on IBONA — agasobanuye, film nyarwanda and African content.`).slice(0, 300);
     return {
       meta: [
-        { title: `${v.title} — IBONA` },
+        { title: `${v.title} — Agasobanuye | ibonafilms` },
         { name: "description", content: description.slice(0, 160) },
         { name: "keywords", content: kwList },
         { property: "og:type", content: "video.other" },
