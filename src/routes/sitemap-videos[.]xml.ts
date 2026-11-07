@@ -38,7 +38,7 @@ export const Route = createFileRoute("/sitemap-videos.xml")({
           const key = process.env.SUPABASE_PUBLISHABLE_KEY;
           if (url && key) {
             const res = await fetch(
-              `${url}/rest/v1/videos?select=id,poster_url,title,description,thumbnail_url,ai_thumbnail_url,video_url,duration_seconds,views,language,category,tags,country,created_at,updated_at&visibility=eq.public&status=eq.ready&order=created_at.desc&limit=5000`,
+              `${url}/rest/v1/videos?select=id,poster_url,title,description,thumbnail_url,ai_thumbnail_url,video_url,duration_seconds,views,language,category,tags,country,created_at,updated_at&visibility=eq.public&order=views.desc&limit=2000`,
               { headers: { apikey: key, Authorization: `Bearer ${key}` } },
             );
             if (res.ok) rows = (await res.json()) as VideoRow[];
@@ -57,21 +57,28 @@ export const Route = createFileRoute("/sitemap-videos.xml")({
           const tagLines = allTags.slice(0, 32).map((t) => `      <video:tag>${esc(String(t))}</video:tag>`).join("\n");
           const langMap: Record<string, string> = { Kinyarwanda: "rw", Swahili: "sw", English: "en", French: "fr" };
           const lang = v.language ? (langMap[v.language] ?? "rw") : "rw";
+          const duration =
+            v.duration_seconds && v.duration_seconds > 0 && v.duration_seconds <= 28800
+              ? `      <video:duration>${Math.round(v.duration_seconds)}</video:duration>`
+              : null;
+
           const videoBlock = thumb
             ? [
                 `    <video:video>`,
                 `      <video:thumbnail_loc>${esc(thumb)}</video:thumbnail_loc>`,
                 `      <video:title>${title}</video:title>`,
                 `      <video:description>${desc}</video:description>`,
-                v.video_url && /\.(mp4|m3u8|webm)(\?|$)/i.test(v.video_url) ? `      <video:content_loc>${esc(v.video_url)}</video:content_loc>` : null,
-                `      <video:player_loc allow_embed="yes">${esc(`${BASE_URL}/watch/${v.id}`)}</video:player_loc>`,
+                v.video_url && /\.(mp4|m3u8|webm)(\?|$)/i.test(v.video_url)
+                  ? `      <video:content_loc>${esc(v.video_url)}</video:content_loc>`
+                  : null,
+                `      <video:player_loc allow_embed="yes">${esc(`${BASE_URL}/embed/${v.id}`)}</video:player_loc>`,
                 `      <video:view_count>${String(v.views ?? 0)}</video:view_count>`,
                 lastmod ? `      <video:publication_date>${lastmod}</video:publication_date>` : null,
                 `      <video:family_friendly>yes</video:family_friendly>`,
                 `      <video:requires_subscription>no</video:requires_subscription>`,
                 `      <video:category>${esc(v.category || "Entertainment")}</video:category>`,
                 tagLines,
-                `      <video:duration>${String(v.duration_seconds ?? 0)}</video:duration>`,
+                duration,
                 `      <video:language>${lang}</video:language>`,
                 `    </video:video>`,
               ].filter(Boolean).join("\n")
